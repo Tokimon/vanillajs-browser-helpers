@@ -1,0 +1,16 @@
+{
+  "name": "vanillajs-browser-helpers",
+  "version": "1.0.0",
+  "description": "Collection of convenience code snippets (helpers) that aims to make it a little easier to work with vanilla JS in the browser",
+  "author": "Toke Voltelen",
+  "license": "MIT",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://Tokimon@github.com/Tokimon/vanillajs-browser-helpers.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Tokimon/vanillajs-browser-helpers/issues"
+  },
+  "homepage": "https://github.com/Tokimon/vanillajs-browser-helpers#readme"
+}
