@@ -1,5 +1,5 @@
-import isString from './isString';
-import isArray from './isArray';
+import isString from 'vanillajs-helpers/isString';
+import isArray from 'vanillajs-helpers/isArray';
 
 export default function findById(ids) {
   // Is it is a string split by comma and/or space (convert to Array)

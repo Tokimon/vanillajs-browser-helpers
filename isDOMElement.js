@@ -1,4 +1,4 @@
-import isArray from './isArray';
+import isArray from 'vanillajs-helpers/isArray';
 
 export default function isDOMElement(elm, ...tags) {
   const isElm = !!elm && elm.nodeType === 1;

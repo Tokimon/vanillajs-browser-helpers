@@ -1,4 +1,4 @@
-import isString from './isString';
+import isString from 'vanillajs-helpers/isString';
 import isDOMNode from './isDOMNode';
 import isDOMChildNode from './isDOMChildNode';
 
@@ -9,6 +9,5 @@ import isDOMChildNode from './isDOMChildNode';
  */
 export default function before(elm, insertElm) {
   if(!isDOMChildNode(elm)) { return; }
-  if(isDOMNode(insertElm)) { elm.parentNode.insertBefore(insertElm, elm); }
-  else if(isString(insertElm)) { elm.insertAdjacentHTML('beforebegin', insertElm); }
+  if(isDOMNode(insertElm)) { elm.parentNode.insertBefore(insertElm, elm); } else if(isString(insertElm)) { elm.insertAdjacentHTML('beforebegin', insertElm); }
 }

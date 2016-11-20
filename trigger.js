@@ -1,6 +1,6 @@
-import words from './eachWord';
-import isString from './isString';
-import isFunction from './isFunction';
+import words from 'vanillajs-helpers/eachWord';
+import isString from 'vanillajs-helpers/isString';
+import isFunction from 'vanillajs-helpers/isFunction';
 
 // Determine the method to create the correct CustomEvent object
 // (IE 11 and below doesn't implement the object correctly)

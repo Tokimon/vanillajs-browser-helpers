@@ -1,6 +1,6 @@
 import _on from './on';
 import _off from './off';
-import isFunction from './isFunction';
+import isFunction from 'vanillajs-helpers/isFunction';
 
 
 

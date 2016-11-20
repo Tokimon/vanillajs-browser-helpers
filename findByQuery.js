@@ -1,6 +1,6 @@
-import isBoolean from './isBoolean';
-import isString from './isString';
-import isArray from './isArray';
+import isBoolean from 'vanillajs-helpers/isBoolean';
+import isString from 'vanillajs-helpers/isString';
+import isArray from 'vanillajs-helpers/isArray';
 
 export default function findByQuery(queries, elm = document, first = false) {
   // Correct variables if 'elm' is omitted but 'first' isn't

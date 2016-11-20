@@ -1,4 +1,4 @@
-import isString from './isString';
+import isString from 'vanillajs-helpers/isString';
 import isDOMNode from './isDOMNode';
 import isDOMChildNode from './isDOMChildNode';
 

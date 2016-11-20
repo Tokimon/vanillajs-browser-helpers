@@ -1,6 +1,6 @@
 import isDOMElement from './isDOMElement';
-import isString from './isString';
-import isArray from './isArray';
+import isString from 'vanillajs-helpers/isString';
+import isArray from 'vanillajs-helpers/isArray';
 
 /**
  * Remove one or multiple class names from a HTML Element

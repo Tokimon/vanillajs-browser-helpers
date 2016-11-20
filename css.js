@@ -1,5 +1,5 @@
 import isDOMElement from './isDOMElement';
-import type from './objectType';
+import type from 'vanillajs-helpers/objectType';
 
 /**
  * Get current styling of a HTML element and optionally set given style first

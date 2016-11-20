@@ -1,6 +1,6 @@
 import isDOMElement from './isDOMElement';
-import isString from './isString';
-import isArray from './isArray';
+import isString from 'vanillajs-helpers/isString';
+import isArray from 'vanillajs-helpers/isArray';
 
 /**
  * Does all listed class names exist in the elements list of class names

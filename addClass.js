@@ -1,6 +1,6 @@
 import isDOMElement from './isDOMElement';
-import isString from './isString';
-import isArray from './isArray';
+import isString from 'vanillajs-helpers/isString';
+import isArray from 'vanillajs-helpers/isArray';
 
 /**
  * Adds one or multiple class names to a HTML Element

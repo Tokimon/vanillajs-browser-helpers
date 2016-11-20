@@ -1,6 +1,5 @@
 import _once from './once';
-import isFunction from './isFunction';
-
+import isFunction from 'vanillajs-helpers/isFunction';
 
 
 
@@ -16,9 +15,8 @@ export function domReadyBuilder(once = _once) {
     if(!isFunction(cb)) { return; }
     if(document.readyState === 'complete') { return cb(); }
     once(document, 'DOMContentLoaded', () => cb());
-  }
+  };
 }
-
 
 
 

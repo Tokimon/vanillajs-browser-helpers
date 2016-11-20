@@ -1,6 +1,6 @@
-import words from './eachWord';
-import isArray from './isArray';
-import isFunction from './isFunction';
+import words from 'vanillajs-helpers/eachWord';
+import isArray from 'vanillajs-helpers/isArray';
+import isFunction from 'vanillajs-helpers/isFunction';
 
 /**
  * Bind event handler for one or more event names (seperated by space).

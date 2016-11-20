@@ -1,4 +1,4 @@
-import isString from './isString';
+import isString from 'vanillajs-helpers/isString';
 import isDOMNode from './isDOMNode';
 import isDOMContainer from './isDOMContainer';
 
@@ -9,6 +9,5 @@ import isDOMContainer from './isDOMContainer';
  */
 export default function append(elm, insertElm) {
   if(!isDOMContainer(elm)) { return; }
-  if(isDOMNode(insertElm)) { elm.appendChild(insertElm); }
-  else if(isString(insertElm)) { elm.insertAdjacentHTML('beforeend', insertElm); }
+  if(isDOMNode(insertElm)) { elm.appendChild(insertElm); } else if(isString(insertElm)) { elm.insertAdjacentHTML('beforeend', insertElm); }
 }

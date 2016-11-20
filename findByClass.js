@@ -1,6 +1,6 @@
-import isString from './isString';
-import isArray from './isArray';
-import iterate from './iterate';
+import isString from 'vanillajs-helpers/isString';
+import isArray from 'vanillajs-helpers/isArray';
+import iterate from 'vanillajs-helpers/iterate';
 
 export default function findByClass(classNames, elm) {
   // Is it is a string split by comma (convert to Array)

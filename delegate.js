@@ -1,8 +1,7 @@
 import _on from './on';
 import matches from './matches';
-import isString from './isString';
-import isFunction from './isFunction';
-
+import isString from 'vanillajs-helpers/isString';
+import isFunction from 'vanillajs-helpers/isFunction';
 
 
 
@@ -27,7 +26,6 @@ export function delegateHandler(delegation, handler) {
 
 
 
-
 export function delegateBuilder(on = _on) {
   if(!isFunction(on)) { return null; }
 
@@ -36,9 +34,8 @@ export function delegateBuilder(on = _on) {
     on(elm, eventNames, delhandler);
     // We return the delegation handler so you might unbind it again
     return delhandler;
-  }
+  };
 }
-
 
 
 

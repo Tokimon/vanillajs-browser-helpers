@@ -1,18 +1,20 @@
+import iterate from 'vanillajs-helpers/iterate';
+import words from 'vanillajs-helpers/eachWord';
+import randomId from 'vanillajs-helpers/randomId';
+import isFunction from 'vanillajs-helpers/isFunction';
+import isString from 'vanillajs-helpers/isString';
+import isArray from 'vanillajs-helpers/isArray';
+
 import _on from './on';
 import _off from './off';
 import { delegateHandler } from './delegate';
-import iterate from './iterate';
-import words from './eachWord';
-import randomId from './randomId';
 import data from './data';
-import isFunction from './isFunction';
-import isString from './isString';
-import isArray from './isArray';
+
+
 
 // The registry of bound events
 // (necessary for advanced event handling)
 const events = new Map();
-
 
 
 
@@ -22,7 +24,9 @@ const events = new Map();
  * @return {String} - The elements event binding ID
  */
 export function eventListId(elm) {
-  if(!elm || !isFunction(elm.addEventListener)) { return null; }
+  if(!elm || !isFunction(elm.addEventListener) || !isFunction(elm.removeEventListener)) {
+    return null;
+  }
 
   // On non HTML Elements (like window or document) we set a property instead of
   // using the data-eventlistid attribute
@@ -34,12 +38,14 @@ export function eventListId(elm) {
 
   id = randomId(10);
 
-  if(noData) { elm._eventlistid = id }
-  else { data(elm, 'eventlistid', id) }
+  if(noData) {
+    elm._eventlistid = id;
+  } else {
+    data(elm, 'eventlistid', id);
+  }
 
   return id;
 }
-
 
 
 
@@ -56,7 +62,6 @@ export function getEvents(elm) {
   if(!events.has(elmid)) { events.set(elmid, new Map()); }
   return events.get(elmid);
 }
-
 
 
 
@@ -79,6 +84,7 @@ function callback(e) {
   if(!evts) { return; }
 
   const { handlers, delegates } = evts;
+
   // Normal handlers use the 'currentTarget' as the element
   triggerHandlers(e, handlers, e.currentTarget);
   // Delegates look at the target of the event to determine whether the element
@@ -94,7 +100,6 @@ function eachEventNamespace(evtName, cb) {
     return evt;
   }, '');
 }
-
 
 
 
@@ -157,12 +162,14 @@ export default function on(elm, eventNames, delegation, handler) {
     });
   };
 
-  if(strEvts) { words(eventNames, itrCb); }
-  else { iterate(eventNames, itrCb); }
+  if(strEvts) {
+    words(eventNames, itrCb);
+  } else {
+    iterate(eventNames, itrCb);
+  }
 
   return elm;
 }
-
 
 
 
@@ -197,6 +204,7 @@ export function off(elm, eventNames, delegation, handler) {
 
   const removeAll = !isFunction(handler);
   const removeDelegate = isString(delegation);
+
   const itrCb = (evtName) => {
     // go through event and namespaces
     eachEventNamespace(evtName, (evtNS) => {
@@ -212,7 +220,7 @@ export function off(elm, eventNames, delegation, handler) {
         if(!delegate) { return; }
 
         // Remove all handers or a single specific handler from the delegation
-        delegate.handlers = removeAll? [] : delegate.handlers.filter((h) => h !== handler);
+        delegate.handlers = removeAll ? [] : delegate.handlers.filter((h) => h !== handler);
         // If there are no handlers left, remove the delegation cache.
         if(delegate.handlers.length === 0) { evt.delegates.delete(delegation); }
       }
@@ -225,8 +233,11 @@ export function off(elm, eventNames, delegation, handler) {
     });
   };
 
-  if(strEvts) { words(eventNames, itrCb); }
-  else { iterate(eventNames, itrCb); }
+  if(strEvts) {
+    words(eventNames, itrCb);
+  } else {
+    iterate(eventNames, itrCb);
+  }
 
   return elm;
 }

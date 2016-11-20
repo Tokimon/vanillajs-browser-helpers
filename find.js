@@ -1,11 +1,11 @@
 /* eslint no-cond-assign: "off" */
 
-import objectType from './objectType';
+import objectType from 'vanillajs-helpers/objectType';
 
-import iterate from './iterate';
-import isString from './isString';
-import isArray from './isArray';
-import isCollection from './isCollection';
+import iterate from 'vanillajs-helpers/iterate';
+import isString from 'vanillajs-helpers/isString';
+import isArray from 'vanillajs-helpers/isArray';
+import isCollection from 'vanillajs-helpers/isCollection';
 import isDOMNode from './isDOMNode';
 import isDOMDocument from './isDOMDocument';
 
