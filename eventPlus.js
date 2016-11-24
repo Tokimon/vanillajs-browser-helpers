@@ -89,7 +89,9 @@ function callback(e) {
   triggerHandlers(e, handlers, e.currentTarget);
   // Delegates look at the target of the event to determine whether the element
   // should trigger the event handler or not
-  if(delegates.size > 0) { triggerHandlers(e, [...delegates.values()].map((obj) => obj.cb)); }
+  if(delegates.size > 0) {
+    triggerHandlers(e, Array.from(delegates.values()).map((obj) => obj.cb));
+  }
 }
 
 // Internal helper function to iterate each part of a namespaced event name
@@ -145,7 +147,7 @@ export default function on(elm, eventNames, delegation, handler) {
         const delegate = evt.delegates.get(delegation) || {
           // CB is a delegation handler that triggers all the stored handlers
           // if the delegation selector is met
-          cb: delegateHandler(delegation, (e) => { triggerHandlers(e, delegate.handlers); }),
+          cb: delegateHandler(delegation, (e) => triggerHandlers(e, delegate.handlers)),
           handlers: []
         };
 
