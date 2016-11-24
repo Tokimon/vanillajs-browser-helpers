@@ -1,6 +1,8 @@
 'use strict';
 
-const rollupBabel = require('rollup-plugin-babel');
+const nPath = require('path');
+
+const rollupBuble = require('rollup-plugin-buble');
 const rollupNode = require('rollup-plugin-node-resolve');
 const rollupIstanbul = require('rollup-plugin-istanbul');
 const rollupCJS = require('rollup-plugin-commonjs');
@@ -16,7 +18,7 @@ if(Array.isArray(names)) {
   names = names.indexOf('*') > -1 ? '*' : `@(${args.tests.join('|')})`;
 }
 
-const testFiles = `./test/${names}.spec.js`;
+const testFiles = nPath.resolve(`test/${names}.spec.js`);
 
 console.log('Test files: ', testFiles);
 
@@ -35,32 +37,20 @@ module.exports = function(config) {
       testFiles
     ],
 
-    // list of files to exclude
-    exclude: [],
-
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
-      [testFiles]: ['rollup']
-    },
+    preprocessors: { [testFiles]: ['rollup'] },
 
     rollupPreprocessor: {
-      rollup: {
-        plugins: [
-          rollupNode({ jsnext: true, main: true }),
-          rollupCJS({ sourceMap: false }),
-          rollupBabel({
-            presets: [['es2015', { modules: false }]],
-            plugins: ['external-helpers']
-          }),
-          rollupIstanbul({ include: [`./${names}.js`] })
-        ]
-      },
-      bundle: {
-        format: 'iife',
-        exports: 'none',
-        sourceMap: false
-      }
+      plugins: [
+        rollupNode({ jsnext: true, main: true }),
+        rollupCJS({ sourceMap: false }),
+        rollupBuble(),
+        rollupIstanbul({ include: [`./${names}.js`] })
+      ],
+      format: 'iife',
+      exports: 'none',
+      sourceMap: false
     },
 
     // test results reporter to use
@@ -107,6 +97,6 @@ module.exports = function(config) {
 
     // Concurrency level
     // how many browser should be started simultanous
-    concurrency: Infinity
+    concurrency: 10
   });
 };

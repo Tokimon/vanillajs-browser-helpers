@@ -3,7 +3,7 @@ const nPath = require('path');
 const glob = require('glob-promise');
 
 const rollup = require('rollup');
-const rollupBabel = require('rollup-plugin-babel');
+const rollupBuble = require('rollup-plugin-buble');
 const rollupNode = require('rollup-plugin-node-resolve');
 const rollupCJS = require('rollup-plugin-commonjs');
 
@@ -17,13 +17,11 @@ glob(nPath.resolve('test/*.spec.js'))
       plugins: [
         rollupNode({ jsnext: true, main: true }),
         rollupCJS({ sourceMap: false }),
-        rollupBabel({
-          presets: [['es2015', { modules: false }]],
-          plugins: ['external-helpers']
-        })
+        rollupBuble()
       ]
     })
       .then((bundle) => {
+        process.stdout.write('.');
         const dest = nPath.join('specs', fileParse.base.replace('.spec', ''));
 
         return bundle.write({
@@ -32,5 +30,10 @@ glob(nPath.resolve('test/*.spec.js'))
         });
       });
   })))
-  .then(() => console.log('done'))
-  .catch((err) => console.error(err.message, err.stack));
+  .then(() => process.stdout.write('\ndone\n'))
+  .catch((err) => {
+    console.log('\n\n-----------');
+    console.error(err.message);
+    console.error(err.stack);
+    console.log('-----------\n');
+  });
