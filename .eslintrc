@@ -1,0 +1,40 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": ['eslint:recommended', 'standard', 'standard-react', 'standard-jsx'],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true,
+      "sourceType": module
+    }
+  },
+  "rules": {
+    "semi": [2, "always"],
+    "semi-spacing": [2, { "before": false, "after": true }],
+    "space-before-function-paren": [2, {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always"
+    }],
+    "keyword-spacing": ["error", {
+      "overrides": {
+        "if": { "after": false },
+        "for": { "after": false },
+        "while": { "after": false },
+        "function": { "after": false },
+        "super": { "after": false },
+        "catch": { "after": false },
+        "switch": { "after": false }
+      }
+    }],
+    "no-console": 1,
+    "no-multiple-empty-lines": [2, { max: 3, maxBOF: 0, maxEOF: 1 }],
+    "react/display-name": [1, { "ignoreTranspilerName": true }],
+    "curly": [2, "all"],
+    "no-case-declarations": 0
+  }
+}
