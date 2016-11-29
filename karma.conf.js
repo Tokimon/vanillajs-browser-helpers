@@ -7,20 +7,82 @@ const rollupNode = require('rollup-plugin-node-resolve');
 const rollupIstanbul = require('rollup-plugin-istanbul');
 const rollupCJS = require('rollup-plugin-commonjs');
 
-const args = require('args')
-  .option('tests', 'Testfiles to load (* for all))', '*')
-  .option('browsers', 'which browsers to test', ['Chrome', 'Firefox', 'IE', 'IE10', 'IE9'])
-  .parse(process.argv);
+const yargs = require('yargs');
 
-let names = args.tests;
+
+
+const browserTypes = {
+  chrome: 'Chrome',
+  firefox: 'Firefox',
+  ie: 'IE',
+  ie10: 'IE10',
+  ie9: 'IE9'
+};
+
+let browsers = Object.keys(browserTypes);
+
+
+
+const args = yargs
+  .option('test', {
+    alias: 't',
+    describe: 'Which test to load (* for all)',
+    type: 'array'
+  })
+  .option('browser', {
+    alias: 'b',
+    describe: 'Which browser to test',
+    type: 'array',
+    choices: browsers
+  })
+  .option('coverage', {
+    alias: 'c',
+    describe: 'Add coverage report',
+    type: 'boolean'
+  })
+  .option('simple', {
+    alias: 's',
+    describe: 'Use a simple repoter',
+    type: 'boolean'
+  })
+  .help()
+  .alias('help', 'h')
+  .argv;
+
+
+
+let names = args.test || [];
+const nameLen = names.length;
+
+if(names.indexOf('*') > -1 || !nameLen) { names = '*'; }
 
 if(Array.isArray(names)) {
-  names = names.indexOf('*') > -1 ? '*' : `@(${args.tests.join('|')})`;
+  names = nameLen > 1 ? `@(${names.join('|')})` : names[0];
+}
+
+if(args.browser && args.browser.length) {
+  browsers = args.browser.map((browser) => browserTypes[browser.toLowerCase()]);
 }
 
 const testFiles = nPath.resolve(`test/${names}.spec.js`);
 
-console.log('Test files: ', testFiles);
+const rollupPlugins = [
+  rollupNode({ jsnext: true, main: true }),
+  rollupCJS({ sourceMap: false }),
+  rollupBuble()
+];
+
+const reporters = [args.simple ? 'progress' : 'mocha'];
+
+if(args.coverage) {
+  rollupPlugins.push(rollupIstanbul({ include: [`./${names}.js`], embedSource: true }));
+  reporters.push('istanbul');
+}
+
+
+
+console.log('Browsers:', browsers.join(', '));
+console.log('Test files:', testFiles);
 
 module.exports = function(config) {
   config.set({
@@ -42,12 +104,7 @@ module.exports = function(config) {
     preprocessors: { [testFiles]: ['rollup'] },
 
     rollupPreprocessor: {
-      plugins: [
-        rollupNode({ jsnext: true, main: true }),
-        rollupCJS({ sourceMap: false }),
-        rollupBuble(),
-        rollupIstanbul({ include: [`./${names}.js`] })
-      ],
+      plugins: rollupPlugins,
       format: 'iife',
       exports: 'none',
       sourceMap: false
@@ -56,7 +113,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha', 'coverage'],
+    reporters,
 
     // enable / disable colors in the output (reporters and logs)
     colors: true,
@@ -67,7 +124,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: Array.isArray(args.browsers) ? args.browsers : [args.browsers],
+    browsers,
 
     customLaunchers: {
       IE10: {
@@ -81,13 +138,13 @@ module.exports = function(config) {
       }
     },
 
-    coverageReporter: {
+    istanbulReporter: {
       dir: './coverage',
 
       reporters: [
-        { type: 'text' }
-    //     { type: 'html', dir: 'coverage', subdir: 'reports' },
-    //     { type: 'cobertura', subdir: '.', file: 'cobertura.xml' }
+        { type: 'text' },
+        { type: 'text-summary' },
+        { type: 'lcovonly', dir: 'coverage', subdir: 'lcov' }
       ]
     },
 

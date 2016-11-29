@@ -1,5 +1,6 @@
 import isDOMChildNode from './isDOMChildNode';
 import inDOM from './inDOM';
+import hidden from './hidden';
 
 /**
  * Determines whether the element is in the area of the viewport or not.
@@ -12,7 +13,7 @@ import inDOM from './inDOM';
  *                            where the element is compared to the viewport area
  */
 export default function inView(elm, threshold = 0) {
-  if(!isDOMChildNode(elm) || !inDOM(elm)) { return false; }
+  if(!isDOMChildNode(elm) || hidden(elm)) { return false; }
 
   const rect = elm.getBoundingClientRect();
   const vpWidth = window.innerWidth;

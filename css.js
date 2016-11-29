@@ -1,5 +1,8 @@
+import isObject from 'vanillajs-helpers/isObject';
+import isString from 'vanillajs-helpers/isString';
+import dashed from 'vanillajs-helpers/dashed';
+
 import isDOMElement from './isDOMElement';
-import type from 'vanillajs-helpers/objectType';
 
 /**
  * Get current styling of a HTML element and optionally set given style first
@@ -11,28 +14,30 @@ import type from 'vanillajs-helpers/objectType';
 export default function css(elm, pseudo, style) {
   if(!isDOMElement(elm)) { return null; }
 
-  if(!/^[:]*(before|after)$/.test(pseudo)) {
+  // TODO: Find a way to return null when pseudo is defined but there is no pseudo element for the element
+  if(/^[:]{0,2}(before|after)$/.test(pseudo)) {
+    pseudo = pseudo.replace(/^[:]*/g, ':');
+    if(!isString(style)) { style = null; }
+  } else {
     style = pseudo;
     pseudo = null;
-  } else {
-    style = null;
   }
 
-  if(pseudo) { pseudo = `:${pseudo.replace(/^[:]+/g, '')}`; }
-
-  const styleType = type(style);
-
   // If styles are defined, then add them to the elments inline style
-  if(styleType === 'object') {
+  if(isObject(style)) {
     // Go through each style
     Object.keys(style).forEach((key) => {
       // Set the style
       const val = style[key].match(/(.*)(?:\s+[!](important))?$/);
-      elm.style.setProperty(key, val[1], val[2] || '');
+      elm.style.setProperty(dashed(key), val[1], val[2] || '');
     });
   }
 
-  // TODO: Find a way to return null when pseudo is defined but there is no pseudo element for the element
+
   const computed = window.getComputedStyle(elm, pseudo);
-  return styleType === 'string' ? computed[style] : computed;
+  if(!isString(style)) { return computed; }
+
+  const val = computed[style];
+  if(typeof val === 'undefined') { return null; }
+  return style === 'content' ? `${val}`.replace(/^"|"$/g, '') : val;
 }

@@ -19,8 +19,8 @@ function scrollY(y) {
 
 describe('"inView"', () => {
   let node;
-  let viewW = window.innerWidth;
-  let viewH = window.innerHeight;
+  const viewW = window.innerWidth;
+  const viewH = window.innerHeight;
 
   // Sizes
   const itemSize = 100;
@@ -41,9 +41,10 @@ describe('"inView"', () => {
   before(() => {
     $.html(`
       <div id="View">
+        <div id="hidden"></div>
         <div id="${testID}"></div>
         <style>
-          body { margin: 0; }
+          body { margin: 0; width: 800px; height: 800px; overflow: hidden; }
 
           #View {
             width: ${w}px;
@@ -55,6 +56,10 @@ describe('"inView"', () => {
             height: ${itemSize}px;
             margin: ${viewH + itemHalfSize}px auto 0;
           }
+
+          #hidden {
+            display: none;
+          }
         </style>
       </div>
     `);
@@ -64,7 +69,7 @@ describe('"inView"', () => {
 
   after(() => { $.remove('View'); });
 
-  it('Should return false if the given element is not an element in the DOM', () => {
+  it('Should return false if the given element is hidden or not an element in the DOM', () => {
     const div = $.create('div');
     div.innerHTML = '<p></p>';
 
@@ -73,14 +78,16 @@ describe('"inView"', () => {
     expect(inView({})).to.be.false;
     expect(inView(div)).to.be.false;
     expect(inView(div.firstChild)).to.be.false;
+    expect(inView($.id('hidden'))).to.be.false;
     expect(inView(node)).to.not.be.false;
   });
 
   it('Should return true if the element is inside the viewport area', () => {
-    expect(inView(node)).to.not.be.true;
+    scroll(0, 0);
+    expect(inView(node)).to.be.an('object');
 
     scrollX(w / 4);
-    expect(inView(node)).to.not.be.true;
+    expect(inView(node)).to.be.an('object');
 
     scrollY(h / 4);
     expect(inView(node)).to.be.true;
@@ -121,12 +128,18 @@ describe('"inView"', () => {
     });
 
     it('Should indicate that the element is above the viewport area to the right', () => {
+      // Scroll out of view top/right
       scroll(justRight, justAbove);
-      expect(inView(node)).to.have.property('above', true);
-      expect(inView(node)).to.have.property('right', true);
 
+      let shown = inView(node);
+      expect(shown.above).to.be.true;
+      expect(shown.right).to.be.true;
+
+      // Scroll just into view
       scroll(justRight + 1, justAbove - 1);
-      expect(inView(node)).to.be.true;
+
+      shown = inView(node);
+      expect(shown).to.be.true;
     });
 
     it('Should indicate that the element is below the viewport area', () => {
