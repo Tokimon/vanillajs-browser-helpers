@@ -5,5 +5,7 @@ coverage
 .travis.yml
 .coveralls.yml
 .eslintrc
+.eslintignore
 polyfills
 karma.conf.js
+specs
