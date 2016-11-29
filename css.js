@@ -37,7 +37,7 @@ export default function css(elm, pseudo, style) {
   const computed = window.getComputedStyle(elm, pseudo);
   if(!isString(style)) { return computed; }
 
-  const val = computed[style];
-  if(typeof val === 'undefined') { return null; }
+  const val = computed.getPropertyValue(dashed(style));
+  if(!val) { return null; }
   return style === 'content' ? `${val}`.replace(/^"|"$/g, '') : val;
 }

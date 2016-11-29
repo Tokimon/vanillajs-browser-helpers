@@ -28,7 +28,9 @@ describe('"css"', () => {
   it('Should get the value of the given property from the style', () => {
     const node = $.id(testID);
     node.style.lineHeight = '15px';
+    node.style.fontSize = '15px';
     expect(css(node, 'line-height')).to.equal('15px');
+    expect(css(node, 'fontSize')).to.equal('15px');
     expect(css(node, 'overflow')).to.equal('hidden');
     expect(css(node, 'not-a-css-prop')).to.be.null;
   });
