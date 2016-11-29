@@ -1,10 +1,10 @@
 'use strict';
 
-exports.default = isInDOM;
+exports.default = inDOM;
 
-var _isDOMnode = require('./isDOMnode');
+var _isDOMNode = require('./isDOMNode');
 
-var _isDOMnode2 = _interopRequireDefault(_isDOMnode);
+var _isDOMNode2 = _interopRequireDefault(_isDOMNode);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13,6 +13,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @param  {HTMLElement} elm - HTML element to test
  * @return {Boolean} - Is the element in the DOM tree
  */
-function isInDOM(elm) {
-  return (0, _isDOMnode2.default)(elm) && !!(elm.offsetParent || elm.offsetHeight || elm.offsetWidth);
+function inDOM(elm) {
+  return (0, _isDOMNode2.default)(elm) && !!(elm.offsetParent || elm.offsetHeight || elm.offsetWidth);
 }

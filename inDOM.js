@@ -1,10 +1,10 @@
-import isDOMnode from './isDOMnode';
+import isDOMNode from './isDOMNode';
 
 /**
  * Indicate if the element is in the DOM tree
  * @param  {HTMLElement} elm - HTML element to test
  * @return {Boolean} - Is the element in the DOM tree
  */
-export default function isInDOM(elm) {
-  return isDOMnode(elm) && !!(elm.offsetParent || elm.offsetHeight || elm.offsetWidth);
+export default function inDOM(elm) {
+  return isDOMNode(elm) && !!(elm.offsetParent || elm.offsetHeight || elm.offsetWidth);
 }
