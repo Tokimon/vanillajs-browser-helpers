@@ -1,4 +1,9 @@
-polyfills
 test
 tasks
+.babelrc
+coverage
+.travis.yml
+.coveralls.yml
+.eslintrc
+polyfills
 karma.conf.js

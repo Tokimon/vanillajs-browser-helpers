@@ -4,7 +4,7 @@
     "es6": true,
     "node": true
   },
-  "extends": ['eslint:recommended', 'standard', 'standard-react', 'standard-jsx'],
+  "extends": ['eslint:recommended', 'standard'],
   "parserOptions": {
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
@@ -33,7 +33,6 @@
     }],
     "no-console": 1,
     "no-multiple-empty-lines": [2, { max: 3, maxBOF: 0, maxEOF: 1 }],
-    "react/display-name": [1, { "ignoreTranspilerName": true }],
     "curly": [2, "all"],
     "no-case-declarations": 0
   }
