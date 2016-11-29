@@ -1,104 +1,131 @@
-# Still under development
-The package is still untested and fails on certain script. Working on improving it.
+# Vanilla JS Browser helpers
 
-# Vanilla JS helpers
+[![Build Status](https://travis-ci.org/Tokimon/vanillajs-browser-helpers.svg?branch=master)](https://travis-ci.org/Tokimon/vanillajs-browser-helpers)
+[![Coverage Status](https://coveralls.io/repos/github/Tokimon/vanillajs-browser-helpers/badge.svg?branch=master)](https://coveralls.io/github/Tokimon/vanillajs-browser-helpers?branch=master)
+[![bitHound Overall Score](https://www.bithound.io/github/Tokimon/vanillajs-browser-helpers/badges/score.svg)](https://www.bithound.io/github/Tokimon/vanillajs-browser-helpers)
+
 This is a collection of simple, no dependency, vanilla JS snippets with the aim
 of making it easier to work with vanilla JS.
 
-They is written in ES6 and the aim is to keep each snippet as simple as possible,
-thus giving less focus to cross browser compatibility. Most snippets should work
-in at least IE 9 (after conversion to ES5), but some use functionality, that might
-need to be polyfilled.
+They is written in ES6, since most of the major browsers support this syntax,
+all scripts have however been converted into the CommonJS syntax and stored in
+the `./cjs` folder if needed.
 
 Polyfills haven't been included as they exist in abundance on NPM, and since the
 need for polyfills are ever diminishing it is more future proof and clutter free
-when to leave them out.
+to leave them out.
+
+**GENERAL HELPERS**
+
+These helpers are browser specific, for more general helpers check out:
+[vanillajs-helpers](https://github.com/Tokimon/vanillajs-helpers)
 
 ## Documentation
 
-Documentation is written in the [Wiki](https://github.com/Tokimon/vanillajs-helpers/wiki)
-of the [GitHub repository](https://github.com/Tokimon/vanillajs-helpers), but here below is an overview of the helpers available.
+Documentation is written in the [Wiki](https://github.com/Tokimon/vanillajs-browser-helpers/wiki)
+of the [GitHub repository](https://github.com/Tokimon/vanillajs-browser-helpers), but here below
+is an overview of the helpers available.
 
 ### Helpers
 
-- [after](https://github.com/Tokimon/vanillajs-helpers/wiki/after):
-Inserts HTML Element or plain HTML after a given HTML Element
-- [append](https://github.com/Tokimon/vanillajs-helpers/wiki/append):
-Append HTML Element or plain HTML to the end of a given HTML Element
-- [attr](https://github.com/Tokimon/vanillajs-helpers/wiki/attr):
-Get/set the value of an attribute on a given HTML Element
-- [before](https://github.com/Tokimon/vanillajs-helpers/wiki/before):
-Inserts HTML Element or plain HTML before a given HTML Element
-- [camelCase](https://github.com/Tokimon/vanillajs-helpers/wiki/camelCase):
-Transform a phrase into a camelCased word
-- [children](https://github.com/Tokimon/vanillajs-helpers/wiki/children):
-Find the children of a given HTML Element
-- [className](https://github.com/Tokimon/vanillajs-helpers/wiki/className):
-Methods to manipulate class names on a HTML element.
-- [css](https://github.com/Tokimon/vanillajs-helpers/wiki/css):
-Get/set the styling of a HTML element
-- [currencyFormat](https://github.com/Tokimon/vanillajs-helpers/wiki/currencyFormat):
-Creates a function that formats a number to a given currency format
-- [data](https://github.com/Tokimon/vanillajs-helpers/wiki/data):
-Get/set the value of a 'data-' attribute on a given HTML Element
-- [elmIndex](https://github.com/Tokimon/vanillajs-helpers/wiki/elmIndex):
-Find the index of a HTML element amongst its siblings
-- [event](https://github.com/Tokimon/vanillajs-helpers/wiki/event):
-Collection of event handling methods (no caching).
-- [eventPlus](https://github.com/Tokimon/vanillajs-helpers/wiki/eventPlus):
-Collection of event handling methods (with caching).
-- [find](https://github.com/Tokimon/vanillajs-helpers/wiki/find):
-Find an element in the DOM
-- [formatNumber](https://github.com/Tokimon/vanillajs-helpers/wiki/formatNumber):
-Formats a number with defined thousand and decimal separator, and a decimal limit
-- [hidden](https://github.com/Tokimon/vanillajs-helpers/wiki/hidden):
-Test if a given HTML element is hidden
-- [htmlToDom](https://github.com/Tokimon/vanillajs-helpers/wiki/htmlToDom):
-Convert HTML into DOM node(s)
-- [inView](https://github.com/Tokimon/vanillajs-helpers/wiki/inView):
-Determines whether the element is in the area of the viewport or not
-- [isArray](https://github.com/Tokimon/vanillajs-helpers/wiki/isArray):
-Indicates whether the object is an Array or not
-- [isBoolean](https://github.com/Tokimon/vanillajs-helpers/wiki/isBoolean):
-Indicates whether the object is a Boolean or not
-- [isFunction](https://github.com/Tokimon/vanillajs-helpers/wiki/isFunction):
-Indicates whether the object is a Function or not
-- [isString](https://github.com/Tokimon/vanillajs-helpers/wiki/isString):
-Indicates whether the object is a String or not
-- [iterable](https://github.com/Tokimon/vanillajs-helpers/wiki/iterable):
-Transform an Array into an iterable object
-- [iterate](https://github.com/Tokimon/vanillajs-helpers/wiki/iterate):
-Iterate over an iteratable object
-- [limitDecimals](https://github.com/Tokimon/vanillajs-helpers/wiki/limitDecimals)
-Limit decimals of a floating number to specified length
-- [matches](https://github.com/Tokimon/vanillajs-helpers/wiki/matches)
-Determines whether or not a HTML Element matches a given CSS selector
-- [objectType](https://github.com/Tokimon/vanillajs-helpers/wiki/objectType):
-Returns the type of an object
-- [pascalCase](https://github.com/Tokimon/vanillajs-helpers/wiki/pascalCase):
-Transform a phrase into a PascalCased word
-- [position](https://github.com/Tokimon/vanillajs-helpers/wiki/position):
-Finds the current position of a HTML Element or window
-- [prefixed](https://github.com/Tokimon/vanillajs-helpers/wiki/prefixed):
-Adds vendor prefixes to a string
-- [prepend](https://github.com/Tokimon/vanillajs-helpers/wiki/prepend):
-Append HTML Element or plain HTML to the beginning of a given HTML Element
-- [randomId](https://github.com/Tokimon/vanillajs-helpers/wiki/randomId):
-Generate a random id of the desired length
-- [removeElm](https://github.com/Tokimon/vanillajs-helpers/wiki/removeElm):
-Remove a given HTML Element from the DOM
-- [replaceElm](https://github.com/Tokimon/vanillajs-helpers/wiki/replaceElm):
-Replace a given HTML Element with another HTML Element or plain HTML string
-- [scroll](https://github.com/Tokimon/vanillajs-helpers/wiki/scroll):
-Finds the current position of a HTML Element or window.
-- [siblings](https://github.com/Tokimon/vanillajs-helpers/wiki/siblings):
-Methods to find a HTML siblings
-- [size](https://github.com/Tokimon/vanillajs-helpers/wiki/size):
-Finds the size of a HTML Element or the window
-- [viewport](https://github.com/Tokimon/vanillajs-helpers/wiki/viewport):
-The HTML element determined as the viewport element
-- [visible](https://github.com/Tokimon/vanillajs-helpers/wiki/visible):
-Test if a given HTML element is visible (as in viewable) for the user.
+- [addClass](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/addClass):
+Add class to a DOM element
+- [after](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/after):
+Insert HTML or ad DOM element after a DOM element
+- [append](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/append):
+Insert HTML or ad DOM element into the end of a DOM element child list
+- [attr](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/attr):
+Get/set an attribute of a DOM element
+- [before](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/before):
+Insert HTML or ad DOM element before a DOM element
+- [children](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/children):
+Get the direct child DOM elements of a DOM element
+- [css](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/css):
+Get/set styling of a DOM element
+- [data](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/data):
+Get/set value of a data attribute on a DOM element
+- [delegate](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/delegate):
+Bind delegate event(s) to a DOM element  
+- [domReady](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/domReady):
+Bind a handler to the document ready event
+- [elmIndex](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/elmIndex):
+Get the index of a DOM node amongst its siblings
+- [eventPlus](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/eventPlus):
+Sophisticated on/off event bindings:
+  - Remove all event handler of one or all event bindings
+  - Bind name spaced events
+- [find](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/find):
+Find method that detect the most effecient find mothod dependeing on the query. Also includes certain wilcards.
+- [findByClass](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/findByClass):
+Find DOM elements by class name
+- [findById](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/findById):
+Find DOM element by ID
+- [findByName](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/findByName):
+Find DOM elements by name attribute
+- [findByQuery](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/findByQuery):
+Find DOM elements using CSS query
+- [findByTagName](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/findByTagName):
+Find DOM elements by tag name
+- [hasClass](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/hasClass):
+Detect if a DOM element has a given class
+- [hidden](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/hidden):
+Detect if a DOM element is hidden or not
+- [inDOM](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/inDOM):
+Detect if a DOM element is inserted into the DOM
+- [inView](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/inView):
+Detect if a DOM element is in view on the screen
+- [invisible](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/invisible):
+Detect if a DOM element is invisible or not
+- [isDOMChildNode](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/isDOMChildNode):
+Detect if a DOM element is a child node of another DOM element
+- [isDOMContainer](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/isDOMContainer):
+Detect if a DOM node is a cabable of having child nodes
+- [isDOMDocument](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/isDOMDocument):
+Detect if a DOM node is the document node
+- [isDOMElement](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/isDOMElement):
+Detect if a DOM node is a DOM element
+- [isDOMNode](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/isDOMNode):
+Detect if a DOM node is actually a DOM node
+- [isDOMRoot](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/isDOMRoot):
+Detect if a DOM node is the root element (body in HTML)
+- [isWindow](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/isWindow):
+Detect if an Object is a window object
+- [matches](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/matches):
+Detect if a DOM node match a given CSS selector
+- [off](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/off):
+Remove event handler from a DOM element
+- [on](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/on):
+Add event handler to a DOM element
+- [once](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/once):
+Add a single fire event handler to a DOM element
+- [position](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/position):
+Get the position of a DOM element
+- [prefixed](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/prefixed):
+Prefix a css attribute with vendor prefixes (webkit, moz, ms, o)
+- [prepend](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/prepend):
+Insert HTML or ad DOM element into the beginning of a DOM element child list
+- [removeClass](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/removeClass):
+Remove a given class name from a DOM element
+- [removeElm](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/removeElm):
+Remove a given DOM element from the DOM
+- [replaceElm](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/replaceElm):
+Replace a given DOM element with another
+- [scroll](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/scroll):
+Get/set the scroll position of a DOM element
+- [siblings](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/siblings):
+Get the siblings of a DOM element
+- [size](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/size):
+Get the size of a DOM element
+- [toDOM](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/toDOM):
+Convert a HTML string into DOM element(s)
+- [toggleClass](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/toggleClass):
+Toggle a class from a DOM element
+- [trigger](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/trigger):
+Trigger an event handler on a DOM element
+- [viewport](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/viewport):
+Get the current viewport area
+- [visible](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/visible):
+Detect if a DOM element is visible or not
 
 ## Something missing?
 
