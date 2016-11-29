@@ -9,8 +9,8 @@
     "build:spec": "node ./tasks/spec.js",
     "build:polyfills": "node ./tasks/polyfills.js",
     "cjs": "node ./tasks/cjs.js",
-    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
-    "coveralls:win": "type ./coverage/lcov.info | node node_modules/.bin/coveralls",
+    "coveralls": "cat ./coverage/lcov/lcov.info | node node_modules/.bin/coveralls",
+    "coveralls:win": "type ./coverage/lcov/lcov.info | node node_modules/.bin/coveralls",
     "lint": "eslint"
   },
   "repository": {
