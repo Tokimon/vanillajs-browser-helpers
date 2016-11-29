@@ -13,7 +13,7 @@ export default function invisible(elm) {
   while(elm) {
     if(!elm.offsetHeight || !elm.offsetWidth || !Number(getComputedStyle(elm).opacity)) { return true; }
     elm = elm.parentElement;
-  };
+  }
 
   return false;
 }

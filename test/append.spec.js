@@ -8,14 +8,14 @@ const insertHTML = '<div class="inserted"></div>';
 
 describe('"append"', () => {
   before(() => $.html(`<div id="${testID}"></div>`));
-  beforeEach(() => $.id(testID).innerHTML = `<span></span>`);
+  beforeEach(() => { $.id(testID).innerHTML = `<span></span>`; });
 
   after(() => $.remove(testID));
 
   it('Should append plain HTML to a DOM element', () => {
     const node = $.id(testID);
 
-    expect(node.lastChild).not.to.have.attribute('class', 'inserted')
+    expect(node.lastChild).not.to.have.attribute('class', 'inserted');
     append(node, insertHTML);
     expect(node.lastChild).to.have.attribute('class', 'inserted');
   });
@@ -25,7 +25,7 @@ describe('"append"', () => {
     const div = $.create('div');
     div.className = 'inserted';
 
-    expect(node.lastChild).not.to.have.attribute('class', 'inserted')
+    expect(node.lastChild).not.to.have.attribute('class', 'inserted');
     append(node, div);
     expect(node.lastChild).to.have.attribute('class', 'inserted');
   });
@@ -36,7 +36,7 @@ describe('"append"', () => {
     append(div, insertHTML);
 
     expect(div.lastChild).not.to.be.null;
-    expect(div.lastChild).to.have.attribute('class', 'inserted')
+    expect(div.lastChild).to.have.attribute('class', 'inserted');
   });
 
   it('Should move element from one DOM element to another', () => {

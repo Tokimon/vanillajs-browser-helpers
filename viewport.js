@@ -7,5 +7,5 @@ export default function viewport(doc) {
     if(!doc) { return null; }
   }
 
-  return doc.scrollingElement || (doc.compatMode === 'BackCompat' ? doc.body : doc.documentElement)
+  return doc.scrollingElement || (doc.compatMode === 'BackCompat' ? doc.body : doc.documentElement);
 }

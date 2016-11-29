@@ -22,7 +22,7 @@ export default function scroll(elm = window, scrollPos = null) {
     // For HTML and BODY we will use window, so we reference 'document' that in turn will reference window
     if(isDOMElement(elm, 'html', 'body')) { elm = elm.ownerDocument; }
     // If the element has a 'defaultView' (is the document node) we refer to the window element
-    if(typeof elm.defaultView !== 'undfined') { elm = elm.defaultView; }
+    if(typeof elm.defaultView !== 'undefined') { elm = elm.defaultView; }
 
     // After all checks have been performed, do we now have the window?
     isWin = isWindow(elm);
@@ -44,12 +44,10 @@ export default function scroll(elm = window, scrollPos = null) {
     const { byX, byY, x, y } = scrollPos;
 
     // X Values - x = absolute pixel value, byX = relative pixel value
-    if(isNumber(x)) { view.scrollTop = x; }
-    else if(isNumber(byX)) { view.scrollTop += byX; }
+    if(isNumber(x)) { view.scrollTop = x; } else if(isNumber(byX)) { view.scrollTop += byX; }
 
     // Y Values - y = absolute pixel value, byY = relative pixel value
-    if(isNumber(y)) { view.scrollTop = y; }
-    else if(isNumber(byY)) { view.scrollTop += byY; }
+    if(isNumber(y)) { view.scrollTop = y; } else if(isNumber(byY)) { view.scrollTop += byY; }
   }
 
   // We use the size method to determine height of the content and the view area,

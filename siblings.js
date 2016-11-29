@@ -13,7 +13,6 @@ export default function siblings(elm) {
 
 
 
-
 /**
  * Get the next sibling element of a HTML element
  * @param  {HTMLElement} elm - The HTMLElement to find the sibling of
@@ -22,7 +21,6 @@ export default function siblings(elm) {
 export function next(elm) {
   return isDOMChildNode(elm) ? elm.nextElementSibling : null;
 }
-
 
 
 

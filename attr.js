@@ -12,8 +12,12 @@ export default function attr(elm, attrName, value) {
 
   const oldVal = elm.getAttribute(attrName);
   if(value === true) { value = ''; }
-  if(value === false) { elm.removeAttribute(attrName); }
-  else if(typeof value !== 'undefined') { elm.setAttribute(attrName, value); }
+
+  if(value === false) {
+    elm.removeAttribute(attrName);
+  } else if(typeof value !== 'undefined') {
+    elm.setAttribute(attrName, value);
+  }
 
   return oldVal;
 }

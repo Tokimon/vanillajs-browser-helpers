@@ -1,8 +1,7 @@
 /* eslint-env node, mocha, browser */
-/* global expect, $ */
+/* global expect, $, sinon */
 
 import delegate, { delegateHandler, delegateBuilder } from '../delegate';
-import on from '../on';
 
 describe('"delegate" package', () => {
   describe('"delegateHandler"', () => {

@@ -62,7 +62,7 @@ describe('"findByTagName"', () => {
     });
 
     it('Should filter out bad values', () => {
-      const nodes = findByTagName([null, 123, , {}, 'div', ':bad-tag-name']);
+      const nodes = findByTagName([null, 123, undefined, {}, 'div', ':bad-tag-name']);
       expect(nodes)
         .to.be.a('array')
         .and.to.have.length(4);

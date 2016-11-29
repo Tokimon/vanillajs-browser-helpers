@@ -1,5 +1,5 @@
 /* eslint-env node, mocha, browser */
-/* global expect, $ */
+/* global expect */
 
 import viewport from '../viewport';
 

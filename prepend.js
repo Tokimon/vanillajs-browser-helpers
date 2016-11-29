@@ -9,6 +9,10 @@ import isDOMContainer from './isDOMContainer';
  */
 export default function prepend(elm, insertElm) {
   if(!isDOMContainer(elm)) { return; }
-  if(isDOMNode(insertElm)) { elm.insertBefore(insertElm, elm.firstChild); }
-  else if(isString(insertElm)) { elm.insertAdjacentHTML('afterbegin', insertElm); }
+
+  if(isDOMNode(insertElm)) {
+    elm.insertBefore(insertElm, elm.firstChild);
+  } else if(isString(insertElm)) {
+    elm.insertAdjacentHTML('afterbegin', insertElm);
+  }
 }

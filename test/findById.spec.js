@@ -55,7 +55,7 @@ describe('"findById"', () => {
     });
 
     it('Should filter out bad values', () => {
-      const nodes = findById([testID, 'NotFound', null, '', {}, 99, , 'Duplicate', ':bad-id']);
+      const nodes = findById([testID, 'NotFound', null, '', {}, 99, undefined, 'Duplicate', ':bad-id']);
       expect(nodes)
         .to.be.a('array')
         .and.to.have.length(2);

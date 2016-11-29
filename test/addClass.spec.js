@@ -7,7 +7,7 @@ const testID = 'TestNode';
 
 describe('"addClass"', () => {
   before(() => $.html(`<div id="${testID}"></div>`));
-  beforeEach(() => $.id(testID).className = '');
+  beforeEach(() => { $.id(testID).className = ''; });
 
   after(() => $.remove(testID));
 

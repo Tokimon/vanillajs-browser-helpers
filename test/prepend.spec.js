@@ -8,14 +8,14 @@ const insertHTML = '<div class="inserted"></div>';
 
 describe('"prepend"', () => {
   before(() => $.html(`<div id="${testID}"></div>`));
-  beforeEach(() => $.id(testID).innerHTML = `<span></span>`);
+  beforeEach(() => { $.id(testID).innerHTML = `<span></span>`; });
 
   after(() => $.remove(testID));
 
   it('Should prepend plain HTML to a DOM element', () => {
     const node = $.id(testID);
 
-    expect(node.firstChild).not.to.have.attribute('class', 'inserted')
+    expect(node.firstChild).not.to.have.attribute('class', 'inserted');
     prepend(node, insertHTML);
     expect(node.firstChild).to.have.attribute('class', 'inserted');
   });
@@ -25,7 +25,7 @@ describe('"prepend"', () => {
     const div = $.create('div');
     div.className = 'inserted';
 
-    expect(node.firstChild).not.to.have.attribute('class', 'inserted')
+    expect(node.firstChild).not.to.have.attribute('class', 'inserted');
     prepend(node, div);
     expect(node.firstChild).to.have.attribute('class', 'inserted');
   });
@@ -36,7 +36,7 @@ describe('"prepend"', () => {
     prepend(div, insertHTML);
 
     expect(div.firstChild).not.to.be.null;
-    expect(div.firstChild).to.have.attribute('class', 'inserted')
+    expect(div.firstChild).to.have.attribute('class', 'inserted');
   });
 
   it('Should move element from one DOM element to another', () => {

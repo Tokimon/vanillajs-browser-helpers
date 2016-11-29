@@ -21,14 +21,13 @@ export function onceBuilder(on, off) {
     const _one = function(e) {
       off(elm, e.type, _one);
       return handler.call(this, e);
-    }
+    };
 
     on(elm, eventNames, _one);
 
     return _one;
-  }
+  };
 }
-
 
 
 

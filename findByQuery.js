@@ -12,7 +12,7 @@ export default function findByQuery(queries, elm = document, first = false) {
 
   // 'elm' must be an object with the 'querySelector' implementation
   if(!elm || !elm.querySelector) { elm = document; }
-  
+
   try {
     return first ? elm.querySelector(queries) : Array.from(elm.querySelectorAll(queries));
   } catch(ex) { return first ? null : []; }

@@ -1,4 +1,3 @@
-import isDOMDocument from './isDOMDocument';
 import isDOMNode from './isDOMNode';
 
 export default function isDOMContainer(elm) {

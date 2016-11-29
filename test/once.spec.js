@@ -1,5 +1,5 @@
 /* eslint-env node, mocha, browser */
-/* global expect, $ */
+/* global expect, $, sinon */
 
 import once, { onceBuilder } from '../once';
 
@@ -161,5 +161,5 @@ describe('"once" package', () => {
       expect(strCb).not.to.have.been.called;
       expect(arrCb).not.to.have.been.called;
     });
-  })
+  });
 });

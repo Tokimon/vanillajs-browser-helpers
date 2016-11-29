@@ -89,4 +89,4 @@ describe('"hasClass" package', () => {
       });
     });
   });
-})
+});

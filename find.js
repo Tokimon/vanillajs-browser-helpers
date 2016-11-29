@@ -1,7 +1,3 @@
-/* eslint no-cond-assign: "off" */
-
-import objectType from 'vanillajs-helpers/objectType';
-
 import iterate from 'vanillajs-helpers/iterate';
 import isString from 'vanillajs-helpers/isString';
 import isArray from 'vanillajs-helpers/isArray';
@@ -30,10 +26,11 @@ function specialNodes(type) {
     // so the while loop is necessary
     const itr = document.createNodeIterator(elm, filter, () => NodeFilter.FILTER_ACCEPT, false);
 
-    let node;
-    while(node = itr.nextNode()) {
+    let node = itr.nextNode();
+    while(node) {
       nodes.push(node);
       if(first) { break; }
+      node = itr.nextNode();
     }
 
     return nodes;
@@ -64,7 +61,6 @@ function wildcard(elm, query, first) {
 
     // If there is a function as well on the wild card object we use that for mapping the elements
     return !wc.f ? nodes : (first ? wc.f(nodes) : Array.from(nodes).map(wc.f));
-
   }
 
   // If there is just a function, we use that to find the elements or return undefined
@@ -89,10 +85,10 @@ function getElm(elm, selector) {
   }
 
   // If the selector is a plain name selector without defined element and elm is document
-  if(isDOMDocument(elm) && selector.substr(0,6) === '[name=') {
+  if(isDOMDocument(elm) && selector.substr(0, 6) === '[name=') {
     // We do the regex here to save some time/resources
     // (first check is just to se if we need to do the regex parsing)
-    const m = selector.match(/^\[name=["']?([^"'\]]+)+["']?\]$/)
+    const m = selector.match(/^\[name=["']?([^"'\]]+)+["']?]$/);
     // If the selector is indeed a pure name selector find elements using 'getElementsByName'
     if(m) { return elm.getElementsByName(m[1]); }
   }
@@ -113,9 +109,10 @@ function _find(elm, queries, first) {
   nodes = getElm(elm, queries);
 
   // If all else fails we use the query selector
-  try { return typeof nodes !== 'undefined' ? nodes : q(elm, queries, first); }
-  // If it is bad query just retun null istead of raising an error
-  catch(ex) { return null; }
+  try {
+    return typeof nodes !== 'undefined' ? nodes : q(elm, queries, first);
+    // If it is bad query just retun null istead of raising an error
+  } catch(ex) { return null; }
 }
 
 function check(queries, elm) {
@@ -145,7 +142,6 @@ function check(queries, elm) {
 
 
 
-
 /**
  * Takes a selector and determines the correct method to find matching HTML elements in the DOM.
  * @param  {String} queries - CSS query selector to find elements from
@@ -167,10 +163,12 @@ export default function find(queries, elm) {
   }
 
   // We have a multiple queries, so first we just try the query selector
-  try { return Array.from(q(elm, array ? queries.join(',') : queries)); }
+  try {
+    return Array.from(q(elm, array ? queries.join(',') : queries));
+
   // If the querySelector fails, it could mean we have wildcards or bad selectors
   // in the list, so make sure the queries is an Array som may run through each item
-  catch(ex) { queries = array ? queries : queries.split(/\s*,\s*/); }
+  } catch(ex) { queries = array ? queries : queries.split(/\s*,\s*/); }
 
   // We need to create an unique array of the found nodes
   // (the Set objet will automatically filter out duplicates)
@@ -184,7 +182,6 @@ export default function find(queries, elm) {
     return set;
   }, new Set()));
 }
-
 
 
 
@@ -209,12 +206,16 @@ export function findOne(queries, elm) {
   }
 
   // We have a multiple queries, so first we just try the query selector
-  try { return q(elm, array ? queries.join(',') : queries, true); }
+  try {
+    return q(elm, array ? queries.join(',') : queries, true);
+
   // If the querySelector fails, it could mean we have wildcards or bad selectors
   // in the list, so make sure the queries is an Array som may run through each item
-  catch(ex) { queries = array ? queries : queries.split(/\s*,\s/); }
+  } catch(ex) { queries = array ? queries : queries.split(/\s*,\s/); }
 
-  let node = null, i = 0, max = queries.length;
+  let node = null;
+  let i = 0;
+  let max = queries.length;
 
   // Just return the first found non-null node (or null if none at all was found)
   while(!node && i < max) {

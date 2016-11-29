@@ -6,7 +6,7 @@ import inDOM from './inDOM';
  * @return {Boolean} - Is the element technically hidden or not
  */
 export default function hidden(elm) {
-  return !inDOM(elm)
-          || !(elm.offsetHeight || elm.offsetWidth)
-          || getComputedStyle(elm).visibility === 'hidden';
+  return !inDOM(elm) ||
+    !(elm.offsetHeight || elm.offsetWidth) ||
+    getComputedStyle(elm).visibility === 'hidden';
 }

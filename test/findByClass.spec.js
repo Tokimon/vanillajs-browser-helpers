@@ -68,7 +68,7 @@ describe('"findByClass"', () => {
     });
 
     it('Should filter out bad values', () => {
-      const nodes = findByClass([null, 123, , {}, 'item child', ':bad-class-name']);
+      const nodes = findByClass([null, 123, undefined, {}, 'item child', ':bad-class-name']);
       expect(nodes)
         .to.be.a('array')
         .and.to.have.length(2);

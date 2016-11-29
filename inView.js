@@ -1,5 +1,4 @@
 import isDOMChildNode from './isDOMChildNode';
-import inDOM from './inDOM';
 import hidden from './hidden';
 
 /**

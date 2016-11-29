@@ -4,7 +4,6 @@
 'use strict';
 
 import find, { findOne } from '../find';
-import byQuery from '../findByQuery';
 
 const testID = 'FindTest';
 
@@ -175,7 +174,7 @@ describe('"Find" package', () => {
         });
       });
 
-      describe('- From a given DOM element context', () => {let QuickRef;
+      describe('- From a given DOM element context', () => {
         let WildCards, Form;
 
         before(() => {
@@ -299,7 +298,6 @@ describe('"Find" package', () => {
           const options = find('option', $.id('Form'));
           expect(options).to.have.length(3);
           expect(options.every((elm) => elm.tagName === 'OPTION' && elm.parentNode.id === 'Select')).to.be.true;
-
         });
       });
     });
@@ -460,8 +458,7 @@ describe('"Find" package', () => {
 
         it('[:input-number] Should find all number inputs', () => {
           const node = findOne(':input-number');
-          if(numberSupport) { expect(node).to.have.class('number'); }
-          else { expect(node).to.be.null; }
+          if(numberSupport) { expect(node).to.have.class('number'); } else { expect(node).to.be.null; }
         });
 
         it('[:radio] Should find all radio buttons', () => {
@@ -490,7 +487,7 @@ describe('"Find" package', () => {
         });
       });
 
-      describe('- From a given DOM element context', () => {let QuickRef;
+      describe('- From a given DOM element context', () => {
         let WildCards, Form;
 
         before(() => {
@@ -520,8 +517,7 @@ describe('"Find" package', () => {
 
         it('[:input-number] Should find all number inputs', () => {
           const node = findOne(':input-number', Form);
-          if(numberSupport) { expect(node).to.have.class('number'); }
-          else { expect(node).to.be.null; }
+          if(numberSupport) { expect(node).to.have.class('number'); } else { expect(node).to.be.null; }
         });
 
         it('[:radio] Should find all radio buttons', () => {

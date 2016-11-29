@@ -9,7 +9,7 @@ const insertHTML = '<div class="inserted"></div>';
 
 describe('"before"', () => {
   before(() => $.html(`<div id="${testID}"></div>`));
-  beforeEach(() => $.id(testID).innerHTML = `<div id="${nodeID}"></div>`);
+  beforeEach(() => { $.id(testID).innerHTML = `<div id="${nodeID}"></div>`; });
 
   after(() => $.remove(testID));
 

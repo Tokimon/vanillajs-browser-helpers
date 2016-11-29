@@ -9,6 +9,10 @@ import isDOMChildNode from './isDOMChildNode';
  */
 export default function replaceElm(elm, replacement) {
   if(!isDOMChildNode(elm)) { return; }
-  if(isString(replacement)) { elm.outerHTML = replacement; }
-  else if(isDOMNode(replacement)) { elm.parentNode.replaceChild(replacement, elm); }
+
+  if(isString(replacement)) {
+    elm.outerHTML = replacement;
+  } else if(isDOMNode(replacement)) {
+    elm.parentNode.replaceChild(replacement, elm);
+  }
 }
