@@ -6,10 +6,6 @@ var _isDOMChildNode = require('./isDOMChildNode');
 
 var _isDOMChildNode2 = _interopRequireDefault(_isDOMChildNode);
 
-var _inDOM = require('./inDOM');
-
-var _inDOM2 = _interopRequireDefault(_inDOM);
-
 var _hidden = require('./hidden');
 
 var _hidden2 = _interopRequireDefault(_hidden);

@@ -58,8 +58,8 @@ function css(elm, pseudo, style) {
     return computed;
   }
 
-  const val = computed[style];
-  if (typeof val === 'undefined') {
+  const val = computed.getPropertyValue((0, _dashed2.default)(style));
+  if (!val) {
     return null;
   }
   return style === 'content' ? `${ val }`.replace(/^"|"$/g, '') : val;

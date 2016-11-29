@@ -2,10 +2,6 @@
 
 exports.default = isDOMContainer;
 
-var _isDOMDocument = require('./isDOMDocument');
-
-var _isDOMDocument2 = _interopRequireDefault(_isDOMDocument);
-
 var _isDOMNode = require('./isDOMNode');
 
 var _isDOMNode2 = _interopRequireDefault(_isDOMNode);

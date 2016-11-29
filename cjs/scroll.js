@@ -52,7 +52,7 @@ function scroll(elm = window, scrollPos = null) {
       elm = elm.ownerDocument;
     }
     // If the element has a 'defaultView' (is the document node) we refer to the window element
-    if (typeof elm.defaultView !== 'undfined') {
+    if (typeof elm.defaultView !== 'undefined') {
       elm = elm.defaultView;
     }
 

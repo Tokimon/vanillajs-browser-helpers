@@ -3,10 +3,6 @@
 exports.default = find;
 exports.findOne = findOne;
 
-var _objectType = require('vanillajs-helpers/objectType');
-
-var _objectType2 = _interopRequireDefault(_objectType);
-
 var _iterate = require('vanillajs-helpers/iterate');
 
 var _iterate2 = _interopRequireDefault(_iterate);
@@ -44,7 +40,7 @@ const wildcards = {
   ':button': { q: 'input[type=button], input[type=submit], input[type=reset], input[type=image], button' },
   ':comment': { f: specialNodes('COMMENT') },
   ':text': { f: specialNodes('TEXT') }
-}; /* eslint no-cond-assign: "off" */
+};
 
 function specialNodes(type) {
   return (elm, first) => {
@@ -54,12 +50,13 @@ function specialNodes(type) {
     // so the while loop is necessary
     const itr = document.createNodeIterator(elm, filter, () => NodeFilter.FILTER_ACCEPT, false);
 
-    let node;
-    while (node = itr.nextNode()) {
+    let node = itr.nextNode();
+    while (node) {
       nodes.push(node);
       if (first) {
         break;
       }
+      node = itr.nextNode();
     }
 
     return nodes;
@@ -121,7 +118,7 @@ function getElm(elm, selector) {
   if ((0, _isDOMDocument2.default)(elm) && selector.substr(0, 6) === '[name=') {
     // We do the regex here to save some time/resources
     // (first check is just to se if we need to do the regex parsing)
-    const m = selector.match(/^\[name=["']?([^"'\]]+)+["']?\]$/);
+    const m = selector.match(/^\[name=["']?([^"'\]]+)+["']?]$/);
     // If the selector is indeed a pure name selector find elements using 'getElementsByName'
     if (m) {
       return elm.getElementsByName(m[1]);
@@ -148,9 +145,8 @@ function _find(elm, queries, first) {
   // If all else fails we use the query selector
   try {
     return typeof nodes !== 'undefined' ? nodes : q(elm, queries, first);
-  }
-  // If it is bad query just retun null istead of raising an error
-  catch (ex) {
+    // If it is bad query just retun null istead of raising an error
+  } catch (ex) {
     return null;
   }
 }
@@ -209,10 +205,10 @@ function find(queries, elm) {
   // We have a multiple queries, so first we just try the query selector
   try {
     return Array.from(q(elm, array ? queries.join(',') : queries));
-  }
-  // If the querySelector fails, it could mean we have wildcards or bad selectors
-  // in the list, so make sure the queries is an Array som may run through each item
-  catch (ex) {
+
+    // If the querySelector fails, it could mean we have wildcards or bad selectors
+    // in the list, so make sure the queries is an Array som may run through each item
+  } catch (ex) {
     queries = array ? queries : queries.split(/\s*,\s*/);
   }
 
@@ -256,16 +252,16 @@ function findOne(queries, elm) {
   // We have a multiple queries, so first we just try the query selector
   try {
     return q(elm, array ? queries.join(',') : queries, true);
-  }
-  // If the querySelector fails, it could mean we have wildcards or bad selectors
-  // in the list, so make sure the queries is an Array som may run through each item
-  catch (ex) {
+
+    // If the querySelector fails, it could mean we have wildcards or bad selectors
+    // in the list, so make sure the queries is an Array som may run through each item
+  } catch (ex) {
     queries = array ? queries : queries.split(/\s*,\s/);
   }
 
-  let node = null,
-      i = 0,
-      max = queries.length;
+  let node = null;
+  let i = 0;
+  let max = queries.length;
 
   // Just return the first found non-null node (or null if none at all was found)
   while (!node && i < max) {

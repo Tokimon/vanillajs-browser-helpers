@@ -24,6 +24,7 @@ function attr(elm, attrName, value) {
   if (value === true) {
     value = '';
   }
+
   if (value === false) {
     elm.removeAttribute(attrName);
   } else if (typeof value !== 'undefined') {

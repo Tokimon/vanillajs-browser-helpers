@@ -25,6 +25,7 @@ function replaceElm(elm, replacement) {
   if (!(0, _isDOMChildNode2.default)(elm)) {
     return;
   }
+
   if ((0, _isString2.default)(replacement)) {
     elm.outerHTML = replacement;
   } else if ((0, _isDOMNode2.default)(replacement)) {

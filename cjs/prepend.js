@@ -25,6 +25,7 @@ function prepend(elm, insertElm) {
   if (!(0, _isDOMContainer2.default)(elm)) {
     return;
   }
+
   if ((0, _isDOMNode2.default)(insertElm)) {
     elm.insertBefore(insertElm, elm.firstChild);
   } else if ((0, _isString2.default)(insertElm)) {

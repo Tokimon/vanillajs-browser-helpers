@@ -25,7 +25,7 @@ function invisible(elm) {
       return true;
     }
     elm = elm.parentElement;
-  };
+  }
 
   return false;
 }
