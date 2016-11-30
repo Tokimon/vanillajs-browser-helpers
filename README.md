@@ -130,5 +130,6 @@ Detect if a DOM element is visible or not
 ## Something missing?
 
 If you find any bugs or missing functionality you would like to see included, feel
-free to add an issue in the [issue list](https://github.com/Tokimon/vanillajs-helpers/issues) or perhaps do a
-[PR](https://github.com/Tokimon/vanillajs-helpers/pulls) of a great snippet you created.
+free to add an issue in the [issue list](https://github.com/Tokimon/vanillajs-browser-helpers/issues)
+or perhaps do a [Pull Request](https://github.com/Tokimon/vanillajs-browser-helpers/pulls)
+of a great snippet you created.
