@@ -49,7 +49,7 @@
     "karma-chai-dom": "^1.1.0",
     "karma-chai-sinon": "^0.1.5",
     "karma-chrome-launcher": "^2.0.0",
-    "karma-coverage": "^1.1.1",
+    "karma-edge-launcher": "^0.1.1",
     "karma-firefox-launcher": "^1.0.0",
     "karma-ie-launcher": "^1.0.0",
     "karma-istanbul": "0.0.2",

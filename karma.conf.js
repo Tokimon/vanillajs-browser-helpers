@@ -14,6 +14,7 @@ const yargs = require('yargs');
 const browserTypes = {
   chrome: 'Chrome',
   firefox: 'Firefox',
+  edge: 'Edge',
   ie: 'IE',
   ie10: 'IE10',
   ie9: 'IE9'
@@ -61,8 +62,10 @@ if(Array.isArray(names)) {
 }
 
 if(args.browser && args.browser.length) {
-  browsers = args.browser.map((browser) => browserTypes[browser.toLowerCase()]);
+  browsers = args.browser;
 }
+
+browsers = browsers.map((browser) => browserTypes[browser.toLowerCase()]);
 
 const testFiles = nPath.resolve(`test/${names}.spec.js`);
 
