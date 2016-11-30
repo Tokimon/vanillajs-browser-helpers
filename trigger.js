@@ -1,5 +1,6 @@
 import words from 'vanillajs-helpers/eachWord';
 import isFunction from 'vanillajs-helpers/isFunction';
+import isArray from 'vanillajs-helpers/isArray';
 
 // Determine the method to create the correct CustomEvent object
 // (IE 11 and below doesn't implement the object correctly)
@@ -14,16 +15,17 @@ const customEvent = typeof CustomEvent === 'function'
 
 
 /**
- * Trigger event handlers for one or more event names (seperated by space)
- * @param  {HTMLElement} elm - HTML Element to trigger the event from
- * @param  {String} eventNames - Space seperated string of event names to trigger
- * @param  {Object} data - Extra data to add to the triggered event
- * @return {Number} - The number of event mentioned
+ * Trigger one or more events on a DOM element.
+ * @param  {HTMLElement} elm - DOM Element to trigger the event on
+ * @param  {String|Array<String>} eventNames - Event names to trigger
+ * @param  {Object} [data] - Extra data to add to the triggered event
+ * @return {HTMLElement|NULL} - The 'elm' or NULL
  */
 export default function trigger(elm, eventNames, data) {
   if(!elm) { return null; }
 
   if(isFunction(elm.dispatchEvent)) {
+    if(isArray(eventNames)) { eventNames = eventNames.join(' '); }
     words(eventNames, (name) => elm.dispatchEvent(customEvent(name, data)));
   }
 

@@ -15,7 +15,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * Convert HTML into DOM node(s)
  * @param  {String} html - HTML string to transform into nodes
- * @return {Array<HTMLElement>} - HTML Elements that the HTML represented
+ * @return {Array<HTMLElement>} - DOM Elements that the HTML represented
  */
 function toDOM(html) {
   if (!(0, _isString2.default)(html)) {

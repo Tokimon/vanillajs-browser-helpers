@@ -17,9 +17,9 @@ var _isDOMContainer2 = _interopRequireDefault(_isDOMContainer);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Prepend HTML Element or plain HTML into a given HTML Element
- * @param  {HTMLElement} elm - The HTML Element to prepend into
- * @param  {string|HTMLElement} insertElm - HTML Element or String to prepend to the {elm}
+ * Prepend DOM Element or plain HTML into a given DOM Element
+ * @param  {HTMLElement} elm - The DOM Element to prepend into
+ * @param  {string|HTMLElement} insertElm - DOM Element or String to prepend to the {elm}
  */
 function prepend(elm, insertElm) {
   if (!(0, _isDOMContainer2.default)(elm)) {

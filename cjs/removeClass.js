@@ -17,16 +17,18 @@ var _isArray2 = _interopRequireDefault(_isArray);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Remove one or multiple class names from a HTML Element
+ * Remove one or multiple class names from a DOM Element
  * @param {HTMLElement} elm - HTML ELement to remove class names from
  * @param {String|Array<String>} classNames - Class names to remove
+ * @return {HTMLElement} - Returns element given in 'elm'
  */
 function removeCLass(elm, classNames) {
   if ((0, _isString2.default)(classNames)) {
     classNames = classNames.split(/\s+/);
   }
   if (!(0, _isDOMElement2.default)(elm) || !(0, _isArray2.default)(classNames)) {
-    return false;
+    return elm;
   }
   classNames.forEach(cn => elm.classList.remove(cn));
+  return elm;
 }

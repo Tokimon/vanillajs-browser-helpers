@@ -17,9 +17,9 @@ var _isDOMContainer2 = _interopRequireDefault(_isDOMContainer);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Append HTML Element or plain HTML to the end of a given HTML Element
- * @param  {HTMLElement} elm - The HTML Element to append to
- * @param  {String|HTMLElement} insertElm - HTML Element or String to append to the {elm}
+ * Append DOM Element or plain HTML to the end of a given DOM Element
+ * @param  {HTMLElement} elm - The DOM Element to append to
+ * @param  {String|HTMLElement} insertElm - DOM Element or String to append to the {elm}
  */
 function append(elm, insertElm) {
   if (!(0, _isDOMContainer2.default)(elm)) {

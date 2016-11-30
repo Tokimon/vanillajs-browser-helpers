@@ -22,20 +22,21 @@ function domReadyBuilder(once = _once3.default) {
     return null;
   }
 
-  return cb => {
-    if (!(0, _isFunction2.default)(cb)) {
+  return handler => {
+    if (!(0, _isFunction2.default)(handler)) {
       return;
     }
     if (document.readyState === 'complete') {
-      return cb();
+      return handler();
     }
-    once(document, 'DOMContentLoaded', () => cb());
+    return once(document, 'DOMContentLoaded', () => handler());
   };
 }
 
 /**
  * Execute a given function once the document has finished loading
- * @param  {Function} cb - Function to execute once the document has finished loading
+ * @param {Function} handler - Function to execute once the document has finished loading
+ * @return {Function} - The 'once' event handler (so it may be removed again)
  */
 const domReady = domReadyBuilder();
 exports.default = domReady;

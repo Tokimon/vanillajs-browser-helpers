@@ -11,10 +11,10 @@ import isFunction from 'vanillajs-helpers/isFunction';
 export function domReadyBuilder(once = _once) {
   if(!isFunction(once)) { return null; }
 
-  return (cb) => {
-    if(!isFunction(cb)) { return; }
-    if(document.readyState === 'complete') { return cb(); }
-    once(document, 'DOMContentLoaded', () => cb());
+  return (handler) => {
+    if(!isFunction(handler)) { return; }
+    if(document.readyState === 'complete') { return handler(); }
+    return once(document, 'DOMContentLoaded', () => handler());
   };
 }
 
@@ -22,7 +22,8 @@ export function domReadyBuilder(once = _once) {
 
 /**
  * Execute a given function once the document has finished loading
- * @param  {Function} cb - Function to execute once the document has finished loading
+ * @param {Function} handler - Function to execute once the document has finished loading
+ * @return {Function} - The 'once' event handler (so it may be removed again)
  */
 const domReady = domReadyBuilder();
 export default domReady;

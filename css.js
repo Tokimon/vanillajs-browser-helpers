@@ -6,7 +6,7 @@ import isDOMElement from './isDOMElement';
 
 /**
  * Get current styling of a HTML element and optionally set given style first
- * @param  {HTMLElement} elm - HTML Element to get the style from
+ * @param  {HTMLElement} elm - DOM Element to get the style from
  * @param  {Object} [pseudo] - Pseudo element to get the styling from
  * @param  {Object} [style] - Styling to set on the element
  * @return {Object|null} - Current styling on the element

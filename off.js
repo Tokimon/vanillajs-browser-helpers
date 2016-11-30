@@ -3,11 +3,11 @@ import isArray from 'vanillajs-helpers/isArray';
 import isFunction from 'vanillajs-helpers/isFunction';
 
 /**
- * Unbinds events for the given element.
- * @param  {HTMLElement} elm - HTML Element to unbind the event from
- * @param  {String} eventNames - Space seperated string of event names to unbind the handler from
- * @param  {Function} handler - Handler to unbind from the event(s)
- * @return {HTMLElement} - The 'elm' or NULL
+ * Removed an event handler from one or more event names on a DOM element.
+ * @param  {HTMLElement} elm - DOM Element to unbind the event from
+ * @param  {String|Array<String>} eventNames - Event names to remove the handler from
+ * @param  {Function} handler - Handler to unbind from the event
+ * @return {HTMLElement|NULL} - The 'elm' or NULL
  */
 export default function off(elm, eventNames, handler) {
   if(!elm) { return null; }

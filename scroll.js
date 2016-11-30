@@ -7,7 +7,7 @@ import isDOMElement from './isDOMElement';
 import inDOM from './inDOM';
 
 /**
- * Find the current scroll position of a HTML Element
+ * Find the current scroll position of a DOM Element
  * @param  {HTMLElement|window} [elm = window] - The HTML element to find the scrolling position from
  * @return {Object} - The current scroll information
  */
@@ -37,7 +37,7 @@ export default function scroll(elm = window, scrollPos = null) {
   // NOTE: We could use the 'pageXoffset'/'scollX' (and Y equivalents) values, but we
   // need the max scroll height of the content and the 'scrollMaxX' (and Y) are
   // non standard properties. So for consitency we use the viewport, that uses the
-  // same methods as the normal HTML Elements.
+  // same methods as the normal DOM Elements.
 
   // Set the scroll position if the position object is defined
   if(scrollPos) {

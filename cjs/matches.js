@@ -17,8 +17,8 @@ const body = document.body;
 const _matchMethod = body.matches || body[(0, _prefixed2.default)('MatchesSelector').filter(method => !!body[method])[0]];
 
 /**
- * Determines whether or not a HTML Element matches a given CSS query selector
- * @param  {HTML Element} elm - HTML Element to test
+ * Determines whether or not a DOM Element matches a given CSS query selector
+ * @param  {DOM Element} elm - DOM Element to test
  * @param  {String} selector - CSS selector {elm} should match
  * @return {Boolean} - Whether or not {elm} matched the selector
  */

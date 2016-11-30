@@ -3,9 +3,9 @@ import isDOMNode from './isDOMNode';
 import isDOMContainer from './isDOMContainer';
 
 /**
- * Append HTML Element or plain HTML to the end of a given HTML Element
- * @param  {HTMLElement} elm - The HTML Element to append to
- * @param  {String|HTMLElement} insertElm - HTML Element or String to append to the {elm}
+ * Append DOM Element or plain HTML to the end of a given DOM Element
+ * @param  {HTMLElement} elm - The DOM Element to append to
+ * @param  {String|HTMLElement} insertElm - DOM Element or String to append to the {elm}
  */
 export default function append(elm, insertElm) {
   if(!isDOMContainer(elm)) { return; }

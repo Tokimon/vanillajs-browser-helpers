@@ -21,8 +21,8 @@ var _isDOMElement2 = _interopRequireDefault(_isDOMElement);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Toggles (add/remove) one or multiple class names on a HTML Element
- * @param {HTMLElement} elm - HTML Element to toggle class names from
+ * Toggles (add/remove) one or multiple class names on a DOM Element
+ * @param {HTMLElement} elm - DOM Element to toggle class names from
  * @param {String|Array<String>} classNames - Class names to toggle
  * @param {Boolean} force - Force to add or remove (true = add, false = remove)
  */
@@ -31,10 +31,12 @@ function toggle(elm, classNames, force) {
     classNames = classNames.split(/\s+/);
   }
   if (!(0, _isDOMElement2.default)(elm) || !(0, _isArray2.default)(classNames)) {
-    return false;
+    return elm;
   }
 
-  // PhantomJS requires the method to not be called with the force paramter if it is not a boolean
+  // Some Browsers requires the method to not be called with the force paramter if it is not a boolean
   force = (0, _isBoolean2.default)(force) ? [force] : [];
   classNames.forEach(cn => elm.classList.toggle(cn, ...force));
+
+  return elm;
 }

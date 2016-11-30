@@ -9,8 +9,8 @@ var _isDOMChildNode2 = _interopRequireDefault(_isDOMChildNode);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Remove a given HTML Element from the DOM
- * @param  {HTMLElement} elm - The HTML Element to remove
+ * Remove a given DOM Element from the DOM
+ * @param  {HTMLElement} elm - The DOM Element to remove
  */
 function removeElm(elm) {
   if ((0, _isDOMChildNode2.default)(elm)) {

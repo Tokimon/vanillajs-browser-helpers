@@ -51,7 +51,7 @@ const events = new Map();
 
 /**
  * Helper funciton to find the elements event binding id
- * @param  {HTMLElement} elm - HTML Element to get the ID from
+ * @param  {HTMLElement} elm - DOM Element to get the ID from
  * @return {String} - The elements event binding ID
  */
 function eventListId(elm) {
@@ -59,7 +59,7 @@ function eventListId(elm) {
     return null;
   }
 
-  // On non HTML Elements (like window or document) we set a property instead of
+  // On non DOM Elements (like window or document) we set a property instead of
   // using the data-eventlistid attribute
   let id = (0, _data2.default)(elm, 'eventlistid');
   const noData = id === false;
@@ -86,7 +86,7 @@ function eventListId(elm) {
  * Helper function to find all bound events on a HTML element
  * (found from custom cache that only works if the handlers have been bound via
  * the 'on' method)
- * @param  {HTMLElement} elm - HTML Element events are bound to
+ * @param  {HTMLElement} elm - DOM Element events are bound to
  * @return {Object} - Object containing all events bound to the element
  */
 function getEvents(elm) {
@@ -145,7 +145,7 @@ function eachEventNamespace(evtName, cb) {
  * (NOTE: in order to enable unbinding of delegates and all handlers for an event,
  * all events ar cached and an event caching id is set on the element via the
  * data-eventlistid or the _eventlistid property)
- * @param  {HTMLElement} elm - HTML Element to bind the event to
+ * @param  {HTMLElement} elm - DOM Element to bind the event to
  * @param  {String} eventNames - Space separated string of event names to bind the handler to
  * @param  {String} [delegation] - Optional delegation selector
  * @param  {Function} handler - Handler to bind
@@ -222,7 +222,7 @@ function on(elm, eventNames, delegation, handler) {
  * names has been defined it removes all events bound to the element.
  * (in order to remove all handlers on the element, all handlers must have been
  * bound via the 'on' method)
- * @param  {HTMLElement} elm - HTML Element to unbind the event from
+ * @param  {HTMLElement} elm - DOM Element to unbind the event from
  * @param  {String} [eventNames] - Space separated string of event names to unbind the handler from
  * @param  {String} [delegation] - Delegation selector to unbind
  * @param  {Function} [handler] - Handler to remove

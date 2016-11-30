@@ -21,7 +21,7 @@ var _isDOMDocument2 = _interopRequireDefault(_isDOMDocument);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Finds the size of a HTML Element or window.
+ * Finds the size of a DOM Element or window.
  * @param  {HTMLElement|window} [elm = viewport] - The HTML element (or window) to find the size of
  * @return {Object} - Object describing the various sizes of an element
  */

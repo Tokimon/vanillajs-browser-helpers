@@ -1,6 +1,7 @@
+import isFunction from 'vanillajs-helpers/isFunction';
+
 import _on from './on';
 import _off from './off';
-import isFunction from 'vanillajs-helpers/isFunction';
 
 
 
@@ -32,11 +33,11 @@ export function onceBuilder(on, off) {
 
 
 /**
- * Bind a single fire event handler for one or more event names (seperated by space).
+ * Bind a single fire event handler for one or more event names on a DOM element.
  *
- * @param  {HTMLElement} elm - HTML Element to unbind the event from
- * @param  {String} eventNames - Space seperated string of event names to bind the handler to
- * @param  {Function} handler - Handler to bind to the event(s)
+ * @param  {HTMLElement} elm - DOM Element to unbind the event from
+ * @param  {String|Array<String>} eventNames - Event names to bind the handler to
+ * @param  {Function} handler - Handler to bind to the event
  * @return {Function} - The single fire event handler (so it may be removed again)
  */
 const once = onceBuilder();

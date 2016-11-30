@@ -2,6 +2,10 @@
 
 exports.onceBuilder = onceBuilder;
 
+var _isFunction = require('vanillajs-helpers/isFunction');
+
+var _isFunction2 = _interopRequireDefault(_isFunction);
+
 var _on2 = require('./on');
 
 var _on3 = _interopRequireDefault(_on2);
@@ -9,10 +13,6 @@ var _on3 = _interopRequireDefault(_on2);
 var _off2 = require('./off');
 
 var _off3 = _interopRequireDefault(_off2);
-
-var _isFunction = require('vanillajs-helpers/isFunction');
-
-var _isFunction2 = _interopRequireDefault(_isFunction);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -48,11 +48,11 @@ function onceBuilder(on, off) {
 }
 
 /**
- * Bind a single fire event handler for one or more event names (seperated by space).
+ * Bind a single fire event handler for one or more event names on a DOM element.
  *
- * @param  {HTMLElement} elm - HTML Element to unbind the event from
- * @param  {String} eventNames - Space seperated string of event names to bind the handler to
- * @param  {Function} handler - Handler to bind to the event(s)
+ * @param  {HTMLElement} elm - DOM Element to unbind the event from
+ * @param  {String|Array<String>} eventNames - Event names to bind the handler to
+ * @param  {Function} handler - Handler to bind to the event
  * @return {Function} - The single fire event handler (so it may be removed again)
  */
 const once = onceBuilder();

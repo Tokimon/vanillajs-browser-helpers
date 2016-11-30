@@ -20,8 +20,12 @@ describe('"removeClass"', () => {
     expect(node.className).to.equal('');
   });
 
-  it('Should ignore non DOM elements', () => {
-    expect(removeClass(null, 'inserted')).to.not.fail;
+  it('Should always return given element', () => {
+    const div = $.create('div');
+    expect(removeClass(null, 'inserted')).to.be.null;
+    expect(removeClass({}, 'inserted')).to.be.an('object');
+    expect(removeClass(div)).to.equal(div);
+    expect(removeClass(div, 'inserted')).to.equal(div);
   });
 
   describe('- class names as Array', () => {

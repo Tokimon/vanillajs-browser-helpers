@@ -4,8 +4,8 @@ import camelCase from 'vanillajs-helpers/camelCase';
 import dashed from 'vanillajs-helpers/dashed';
 
 /**
- * Get/set the value of a 'data-' attribute on a given HTML Element
- * @param  {HTMLElement} elm - The HTML Element to fetch the data from
+ * Get/set the value of a 'data-' attribute on a given DOM Element
+ * @param  {HTMLElement} elm - The DOM Element to fetch the data from
  * @param  {String} dataName - Name of the 'data-' attribute to handle (eg. id -> data-id)
  * @param  {String|Number} [value] - Value to insert into the 'data-' attribute
  * @return {String|Boolean|null} - Data found in the 'data-' attribute - true (also empty values),

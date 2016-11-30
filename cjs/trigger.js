@@ -10,6 +10,10 @@ var _isFunction = require('vanillajs-helpers/isFunction');
 
 var _isFunction2 = _interopRequireDefault(_isFunction);
 
+var _isArray = require('vanillajs-helpers/isArray');
+
+var _isArray2 = _interopRequireDefault(_isArray);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Determine the method to create the correct CustomEvent object
@@ -21,11 +25,11 @@ const customEvent = typeof CustomEvent === 'function' ? (name, data) => new Cust
 };
 
 /**
- * Trigger event handlers for one or more event names (seperated by space)
- * @param  {HTMLElement} elm - HTML Element to trigger the event from
- * @param  {String} eventNames - Space seperated string of event names to trigger
- * @param  {Object} data - Extra data to add to the triggered event
- * @return {Number} - The number of event mentioned
+ * Trigger one or more events on a DOM element.
+ * @param  {HTMLElement} elm - DOM Element to trigger the event on
+ * @param  {String|Array<String>} eventNames - Event names to trigger
+ * @param  {Object} [data] - Extra data to add to the triggered event
+ * @return {HTMLElement|NULL} - The 'elm' or NULL
  */
 function trigger(elm, eventNames, data) {
   if (!elm) {
@@ -33,6 +37,9 @@ function trigger(elm, eventNames, data) {
   }
 
   if ((0, _isFunction2.default)(elm.dispatchEvent)) {
+    if ((0, _isArray2.default)(eventNames)) {
+      eventNames = eventNames.join(' ');
+    }
     (0, _eachWord2.default)(eventNames, name => elm.dispatchEvent(customEvent(name, data)));
   }
 

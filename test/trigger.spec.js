@@ -42,6 +42,24 @@ describe('"Trigger"', () => {
     b.removeEventListener('test', cb, false);
   });
 
+  it('Should trigger multiple event', () => {
+    const cb = sinon.spy();
+    const cb2 = sinon.spy();
+    const b = document.body;
+
+    b.addEventListener('test', cb, false);
+    b.addEventListener('test2', cb2, false);
+
+    trigger(b, 'test test2');
+    trigger(b, ['test', 'test2']);
+
+    expect(cb).to.have.been.calledTwice;
+    expect(cb2).to.have.been.calledTwice;
+
+    b.removeEventListener('test', cb, false);
+    b.removeEventListener('test2', cb2, false);
+  });
+
   it('Should trigger given event with extra data', () => {
     const cb = sinon.spy();
     const b = document.body;

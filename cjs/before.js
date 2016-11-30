@@ -17,9 +17,9 @@ var _isDOMChildNode2 = _interopRequireDefault(_isDOMChildNode);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Inserts HTML Element or plain HTML before a given HTML Element
- * @param  {HTMLElement} elm - The HTML Element to insert {insertElm} before
- * @param  {String|HTMLElement} insertElm - HTML Element or String to insert before the {elm}
+ * Inserts DOM Element or plain HTML before a given DOM Element
+ * @param  {HTMLElement} elm - The DOM Element to insert {insertElm} before
+ * @param  {String|HTMLElement} insertElm - DOM Element or String to insert before the {elm}
  */
 function before(elm, insertElm) {
   if (!(0, _isDOMChildNode2.default)(elm)) {

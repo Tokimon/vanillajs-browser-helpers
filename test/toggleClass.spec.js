@@ -43,8 +43,12 @@ describe('"toggleClass"', () => {
     expect(node.className).to.equal('');
   });
 
-  it('Should ignore non DOM elements', () => {
-    expect(toggleClass(null, 'inserted')).to.not.fail;
+  it('Should always return given element', () => {
+    const div = $.create('div');
+    expect(toggleClass(null, 'inserted')).to.be.null;
+    expect(toggleClass({}, 'inserted')).to.be.an('object');
+    expect(toggleClass(div)).to.equal(div);
+    expect(toggleClass(div, 'inserted')).to.equal(div);
   });
 
   describe('- class names as Array', () => {

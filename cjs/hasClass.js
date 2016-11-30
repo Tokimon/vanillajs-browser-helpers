@@ -18,10 +18,11 @@ var _isArray2 = _interopRequireDefault(_isArray);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Does all listed class names exist in the elements list of class names
- * @param  {HTML Element} elm - HTML Element to test
+ * Does all (or any) of the listed class names exist in the DOM elements list of class names
+ * @param  {DOM Element} elm - DOM Element to test
  * @param  {String|Array<String>} classNames - Class names to test
- * @return {Boolean} - All class name listed were found in the elements list of class names
+ * @param  {Boolean} [any] - Test if at least one class name exist
+ * @return {Boolean} - All/any class name listed were found in the elements list of class names
  */
 function hasClass(elm, classNames, any = false) {
   if ((0, _isString2.default)(classNames)) {
