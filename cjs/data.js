@@ -21,8 +21,8 @@ var _dashed2 = _interopRequireDefault(_dashed);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Get/set the value of a 'data-' attribute on a given DOM Element
- * @param  {HTMLElement} elm - The DOM Element to fetch the data from
+ * Get/set the value of a 'data-' attribute on a given DOM element
+ * @param  {HTMLElement} elm - The DOM element to fetch the data from
  * @param  {String} dataName - Name of the 'data-' attribute to handle (eg. id -> data-id)
  * @param  {String|Number} [value] - Value to insert into the 'data-' attribute
  * @return {String|Boolean|null} - Data found in the 'data-' attribute - true (also empty values),

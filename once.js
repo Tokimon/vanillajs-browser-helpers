@@ -35,7 +35,7 @@ export function onceBuilder(on, off) {
 /**
  * Bind a single fire event handler for one or more event names on a DOM element.
  *
- * @param  {HTMLElement} elm - DOM Element to unbind the event from
+ * @param  {HTMLElement} elm - DOM element to unbind the event from
  * @param  {String|Array<String>} eventNames - Event names to bind the handler to
  * @param  {Function} handler - Handler to bind to the event
  * @return {Function} - The single fire event handler (so it may be removed again)

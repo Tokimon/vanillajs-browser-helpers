@@ -21,8 +21,8 @@ var _isDOMElement2 = _interopRequireDefault(_isDOMElement);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Toggles (add/remove) one or multiple class names on a DOM Element
- * @param {HTMLElement} elm - DOM Element to toggle class names from
+ * Toggles (add/remove) one or multiple class names on a DOM element
+ * @param {HTMLElement} elm - DOM element to toggle class names from
  * @param {String|Array<String>} classNames - Class names to toggle
  * @param {Boolean} force - Force to add or remove (true = add, false = remove)
  */

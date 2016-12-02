@@ -80,7 +80,7 @@ function delegateBuilder(on = _on3.default) {
 /**
  * Bind a delegated event handler for one or more event names on a DOM element.
  *
- * @param  {HTMLElement} elm - DOM Element to unbind the event from
+ * @param  {HTMLElement} elm - DOM element to unbind the event from
  * @param  {String|Array<String>} eventNames - Event names to bind the handler to
  * @param  {String} delegation - CSS Selector that matches the element to delegate the event to
  * @param  {Function} handler - Handler to bind to the event

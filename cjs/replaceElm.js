@@ -17,9 +17,9 @@ var _isDOMChildNode2 = _interopRequireDefault(_isDOMChildNode);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Replace a given DOM Element with another DOM Element or plain HTML string
- * @param  {HTMLElement} elm - DOM Element to replace
- * @param  {HTMLElement|String} replacement - DOM Element or plain HTML string to replace {elm}
+ * Replace a given DOM element with another DOM element or plain HTML string
+ * @param  {HTMLElement} elm - DOM element to replace
+ * @param  {HTMLElement|String} replacement - DOM element or plain HTML string to replace {elm}
  */
 function replaceElm(elm, replacement) {
   if (!(0, _isDOMChildNode2.default)(elm)) {

@@ -9,8 +9,8 @@ var _hidden2 = _interopRequireDefault(_hidden);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Test if a given HTML element is invisibile.
- * @param  {HTMLElement} elm - HTML element to test
+ * Test if a given DOM element is invisibile.
+ * @param  {HTMLElement} elm - DOM element to test
  * @return {Boolean} - Is the element invisible
  */
 function invisible(elm) {

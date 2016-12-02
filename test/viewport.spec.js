@@ -8,7 +8,7 @@ describe('"viewport"', () => {
     expect(viewport({})).to.be.null;
   });
 
-  it('Should return either the Body or HTML element', () => {
+  it('Should return either the Body or DOM element', () => {
     const { body, documentElement: html } = document;
     const bodyOrHtml = (elm) => elm === body || elm === html;
     const fakeDocCompat = { nodeType: 9, compatMode: 'BackCompat', body };

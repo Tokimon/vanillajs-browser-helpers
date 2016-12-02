@@ -1,8 +1,8 @@
 import hidden from './hidden';
 
 /**
- * Test if a given HTML element is invisibile.
- * @param  {HTMLElement} elm - HTML element to test
+ * Test if a given DOM element is invisibile.
+ * @param  {HTMLElement} elm - DOM element to test
  * @return {Boolean} - Is the element invisible
  */
 export default function invisible(elm) {

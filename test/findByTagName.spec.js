@@ -23,7 +23,7 @@ describe('"findByTagName"', () => {
     expect(findByTagName('div')).to.be.an('array');
   });
 
-  it('Should find DOM Elements with a given tag name', () => {
+  it('Should find DOM elements with a given tag name', () => {
     const nodes = findByTagName('div');
     expect(nodes)
       .to.be.a('array')
@@ -45,7 +45,7 @@ describe('"findByTagName"', () => {
   });
 
   describe('- With multiple queries', () => {
-    it('Should find a unique DOM Element collection from a list of tag names', () => {
+    it('Should find a unique DOM element collection from a list of tag names', () => {
       let nodes = findByTagName('div, span');
       expect(nodes)
         .to.be.a('array')
@@ -72,7 +72,7 @@ describe('"findByTagName"', () => {
   });
 
   describe('- With defined context', () => {
-    it('Should find DOM Elements matching given tag name from a given DOM Element context', () => {
+    it('Should find DOM elements matching given tag name from a given DOM element context', () => {
       const nodes = findByTagName('div', $.id(testID));
       expect(nodes)
         .to.be.a('array')
@@ -81,7 +81,7 @@ describe('"findByTagName"', () => {
       expect(nodes.every((node) => node.nodeName === 'DIV')).to.be.true;
     });
 
-    it('Should fallback to document on non DOM Element values', () => {
+    it('Should fallback to document on non DOM element values', () => {
       let nodes = findByTagName('div', {});
       expect(nodes)
         .to.be.a('array')

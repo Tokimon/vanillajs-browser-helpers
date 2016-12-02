@@ -22,7 +22,7 @@ describe('"findByName"', () => {
     expect(findByName('meta')).to.be.an('array');
   });
 
-  it('Should find DOM Elements with a name attribute', () => {
+  it('Should find DOM elements with a name attribute', () => {
     let nodes = findByName('meta');
     expect(nodes)
       .to.be.a('array')

@@ -10,7 +10,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /**
  * Indicate if the element is in the DOM tree
- * @param  {HTMLElement} elm - HTML element to test
+ * @param  {HTMLElement} elm - DOM element to test
  * @return {Boolean} - Is the element in the DOM tree
  */
 function inDOM(elm) {

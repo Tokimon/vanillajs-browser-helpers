@@ -17,7 +17,7 @@ var _isArray2 = _interopRequireDefault(_isArray);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Adds one or multiple class names to a DOM Element
+ * Adds one or multiple class names to a DOM element
  * @param {HTMLElement} elm - HTML ELement to add class names to
  * @param {String|Array<String>} classNames - Class names to add
  */

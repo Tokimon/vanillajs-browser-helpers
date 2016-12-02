@@ -17,7 +17,7 @@ var _isArray2 = _interopRequireDefault(_isArray);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Remove one or multiple class names from a DOM Element
+ * Remove one or multiple class names from a DOM element
  * @param {HTMLElement} elm - HTML ELement to remove class names from
  * @param {String|Array<String>} classNames - Class names to remove
  * @return {HTMLElement} - Returns element given in 'elm'

@@ -20,7 +20,7 @@ describe('"findByClass"', () => {
     expect(findByClass('item')).to.be.an('array');
   });
 
-  it('Should find DOM Elements with a given classname', () => {
+  it('Should find DOM elements with a given classname', () => {
     const nodes = findByClass('item');
     expect(nodes)
       .to.be.a('array')
@@ -29,7 +29,7 @@ describe('"findByClass"', () => {
     expect(nodes[1]).to.have.id('Item2');
   });
 
-  it('Should find DOM Elements with all given classnames', () => {
+  it('Should find DOM elements with all given classnames', () => {
     const nodes = findByClass('item child');
     expect(nodes)
       .to.be.a('array')
@@ -51,7 +51,7 @@ describe('"findByClass"', () => {
   });
 
   describe('- With multiple queries', () => {
-    it('Should find a unique DOM Element collection from a list of classnames', () => {
+    it('Should find a unique DOM element collection from a list of classnames', () => {
       let nodes = findByClass('item, item child');
       expect(nodes)
         .to.be.a('array')
@@ -78,7 +78,7 @@ describe('"findByClass"', () => {
   });
 
   describe('- With defined context', () => {
-    it('Should find DOM Elements matching given classnames from a given DOM Element context', () => {
+    it('Should find DOM elements matching given classnames from a given DOM element context', () => {
       const nodes = findByClass(['item child', 'second-child'], $.id('Item2'));
       expect(nodes)
         .to.be.a('array')
@@ -87,7 +87,7 @@ describe('"findByClass"', () => {
       expect(nodes[1]).to.have.class('second-child');
     });
 
-    it('Should fallback to document on non DOM Element values', () => {
+    it('Should fallback to document on non DOM element values', () => {
       let nodes = findByClass('item', {});
       expect(nodes)
         .to.be.a('array')

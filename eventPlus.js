@@ -19,8 +19,8 @@ const events = new Map();
 
 
 /**
- * Helper funciton to find the elements event binding id
- * @param  {HTMLElement} elm - DOM Element to get the ID from
+ * Find the elements event binding id
+ * @param  {HTMLElement} elm - DOM element to get the ID from
  * @return {String} - The elements event binding ID
  */
 export function eventListId(elm) {
@@ -28,7 +28,7 @@ export function eventListId(elm) {
     return null;
   }
 
-  // On non DOM Elements (like window or document) we set a property instead of
+  // On non DOM elements (like window or document) we set a property instead of
   // using the data-eventlistid attribute
   let id = data(elm, 'eventlistid');
   const noData = id === false;
@@ -50,10 +50,10 @@ export function eventListId(elm) {
 
 
 /**
- * Helper function to find all bound events on a HTML element
+ * Find all bound events on a DOM element
  * (found from custom cache that only works if the handlers have been bound via
  * the 'on' method)
- * @param  {HTMLElement} elm - DOM Element events are bound to
+ * @param  {HTMLElement} elm - DOM element events are bound to
  * @return {Object} - Object containing all events bound to the element
  */
 export function getEvents(elm) {
@@ -110,11 +110,11 @@ function eachEventNamespace(evtName, cb) {
  * (NOTE: in order to enable unbinding of delegates and all handlers for an event,
  * all events ar cached and an event caching id is set on the element via the
  * data-eventlistid or the _eventlistid property)
- * @param  {HTMLElement} elm - DOM Element to bind the event to
- * @param  {String} eventNames - Space separated string of event names to bind the handler to
- * @param  {String} [delegation] - Optional delegation selector
- * @param  {Function} handler - Handler to bind
- * @return {HTMLElement} - the 'elm'
+ * @param  {HTMLElement} elm - DOM element to bind the event to
+ * @param  {String|Array<String>} eventNames - Event names to bind the handler to
+ * @param  {String} [delegation] - CSS Selector that matches the element(s) to delegate the event to
+ * @param  {Function} handler - Handler to bind to the event
+ * @return {HTMLElement} - The `elm` DOM element
  */
 export default function on(elm, eventNames, delegation, handler) {
   const evts = getEvents(elm);
@@ -176,15 +176,15 @@ export default function on(elm, eventNames, delegation, handler) {
 
 
 /**
- * Unbinds events (space separated string) for the given element. If no handler
- * function is defined it removes all handlers for the given events. If no event
- * names has been defined it removes all events bound to the element.
+ * Unbinds events for the given element. If no handler function is defined it
+ * removes all handlers for the given events. If no event names has been defined
+ * it removes all events bound to the element.
  * (in order to remove all handlers on the element, all handlers must have been
  * bound via the 'on' method)
- * @param  {HTMLElement} elm - DOM Element to unbind the event from
- * @param  {String} [eventNames] - Space separated string of event names to unbind the handler from
+ * @param  {HTMLElement} elm - DOM element to unbind the event from
+ * @param  {String|Array<String>} [eventNames] - Event names to unbind the handler from
  * @param  {String} [delegation] - Delegation selector to unbind
- * @param  {Function} [handler] - Handler to remove
+ * @param  {Function} [handler] - Handler to remove from the event
  * @return {HTMLElement} - the 'elm'
  */
 export function off(elm, eventNames, delegation, handler) {
@@ -208,7 +208,7 @@ export function off(elm, eventNames, delegation, handler) {
   const removeDelegate = isString(delegation);
 
   const itrCb = (evtName) => {
-    // go through event and namespaces
+    // Go through event and namespaces
     eachEventNamespace(evtName, (evtNS) => {
       const evt = evts.get(evtNS);
       if(!evt) { return; }

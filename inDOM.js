@@ -2,7 +2,7 @@ import isDOMNode from './isDOMNode';
 
 /**
  * Indicate if the element is in the DOM tree
- * @param  {HTMLElement} elm - HTML element to test
+ * @param  {HTMLElement} elm - DOM element to test
  * @return {Boolean} - Is the element in the DOM tree
  */
 export default function inDOM(elm) {

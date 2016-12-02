@@ -3,7 +3,7 @@ import isString from 'vanillajs-helpers/isString';
 import isArray from 'vanillajs-helpers/isArray';
 
 /**
- * Adds one or multiple class names to a DOM Element
+ * Adds one or multiple class names to a DOM element
  * @param {HTMLElement} elm - HTML ELement to add class names to
  * @param {String|Array<String>} classNames - Class names to add
  */

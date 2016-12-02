@@ -17,13 +17,13 @@ describe('"findById"', () => {
 
   after(() => [testID, 'Duplicate', 'Duplicate'].forEach((id) => $.remove(id)));
 
-  it('Should find a DOM Element with a given ID', () => {
+  it('Should find a DOM element with a given ID', () => {
     expect(findById(testID))
       .to.exist
       .and.to.have.id(testID);
   });
 
-  it('Should find only the first DOM Element with a given duplicate ID', () => {
+  it('Should find only the first DOM element with a given duplicate ID', () => {
     expect(findById('Duplicate'))
       .to.exist
       .and.to.have.id('Duplicate')

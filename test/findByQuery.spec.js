@@ -21,7 +21,7 @@ describe('"findByQuery"', () => {
       expect(findByQuery('#Item2.item')).to.be.an('array');
     });
 
-    it('Should find DOM Elements from a given CSS selector', () => {
+    it('Should find DOM elements from a given CSS selector', () => {
       let nodes = findByQuery('#Item2.item');
       expect(nodes)
         .to.be.a('array')
@@ -64,7 +64,7 @@ describe('"findByQuery"', () => {
     });
 
     describe('- With multiple queries', () => {
-      it('Should find a unique DOM Element collection from a list of CSS seletors', () => {
+      it('Should find a unique DOM element collection from a list of CSS seletors', () => {
         let nodes = findByQuery('.item, .item.child');
         expect(nodes)
           .to.be.a('array')
@@ -91,7 +91,7 @@ describe('"findByQuery"', () => {
     });
 
     describe('- With defined context', () => {
-      it('Should find DOM Elements matching given CSS selector from a given DOM Element context', () => {
+      it('Should find DOM elements matching given CSS selector from a given DOM element context', () => {
         const nodes = findByQuery(['.item.child', '.second-child'], $.id('Item2'));
         expect(nodes)
           .to.be.a('array')
@@ -100,7 +100,7 @@ describe('"findByQuery"', () => {
         expect(nodes[1]).to.have.class('second-child');
       });
 
-      it('Should fallback to document on non DOM Element values', () => {
+      it('Should fallback to document on non DOM element values', () => {
         let nodes = findByQuery('.item', {});
         expect(nodes)
           .to.be.a('array')
@@ -115,7 +115,7 @@ describe('"findByQuery"', () => {
   });
 
   describe('- find FIRST', () => {
-    it('Should find DOM Elements from a given CSS selector', () => {
+    it('Should find DOM elements from a given CSS selector', () => {
       let node = findByQuery('#Item2.item', true);
       expect(node).to.not.be.null;
       expect(node).to.have.id('Item2');
@@ -143,7 +143,7 @@ describe('"findByQuery"', () => {
     });
 
     describe('- With multiple queries', () => {
-      it('Should find a unique DOM Element collection from a list of CSS seletors', () => {
+      it('Should find a unique DOM element collection from a list of CSS seletors', () => {
         let node = findByQuery('.item, .item.child', true);
         expect(node).to.not.be.null;
         expect(node).to.have.id('Item1');
@@ -161,13 +161,13 @@ describe('"findByQuery"', () => {
     });
 
     describe('- With defined context', () => {
-      it('Should find DOM Elements matching given CSS selector from a given DOM Element context', () => {
+      it('Should find DOM elements matching given CSS selector from a given DOM element context', () => {
         const node = findByQuery(['.item.child', '.second-child'], $.id('Item2'), true);
         expect(node).to.not.be.null;
         expect(node.className).to.equal('item child');
       });
 
-      it('Should fallback to document on non DOM Element values', () => {
+      it('Should fallback to document on non DOM element values', () => {
         let node = findByQuery('.item', {}, true);
         expect(node).to.not.be.null;
         expect(node).to.have.id('Item1');

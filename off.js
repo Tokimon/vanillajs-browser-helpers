@@ -4,7 +4,7 @@ import isFunction from 'vanillajs-helpers/isFunction';
 
 /**
  * Removed an event handler from one or more event names on a DOM element.
- * @param  {HTMLElement} elm - DOM Element to unbind the event from
+ * @param  {HTMLElement} elm - DOM element to unbind the event from
  * @param  {String|Array<String>} eventNames - Event names to remove the handler from
  * @param  {Function} handler - Handler to unbind from the event
  * @return {HTMLElement|NULL} - The 'elm' or NULL

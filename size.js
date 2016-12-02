@@ -4,8 +4,8 @@ import isDOMRoot from './isDOMRoot';
 import isDOMDocument from './isDOMDocument';
 
 /**
- * Finds the size of a DOM Element or window.
- * @param  {HTMLElement|window} [elm = viewport] - The HTML element (or window) to find the size of
+ * Finds the size of a DOM element or window.
+ * @param  {HTMLElement|window} [elm = viewport] - The DOM element (or window) to find the size of
  * @return {Object} - Object describing the various sizes of an element
  */
 export default function size(elm) {

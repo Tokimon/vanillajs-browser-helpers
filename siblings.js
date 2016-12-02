@@ -2,8 +2,8 @@ import isDOMChildNode from './isDOMChildNode';
 import children from './children';
 
 /**
- * Get all sibling elements of a given HTML element
- * @param  {HTMLElement} elm - HTML element to find siblings of
+ * Get all sibling elements of a given DOM element
+ * @param  {HTMLElement} elm - DOM element to find siblings of
  * @return {Array<HTMLElement>} - Collection of sibling elements
  */
 export default function siblings(elm) {
@@ -14,7 +14,7 @@ export default function siblings(elm) {
 
 
 /**
- * Get the next sibling element of a HTML element
+ * Get the next sibling element of a DOM element
  * @param  {HTMLElement} elm - The HTMLElement to find the sibling of
  * @return {HTMLElement|null} - The next sibling element or null
  */
@@ -25,7 +25,7 @@ export function next(elm) {
 
 
 /**
- * Get the previous sibling element of a HTML element
+ * Get the previous sibling element of a DOM element
  * @param  {HTMLElement} elm - The HTMLElement to find the sibling of
  * @return {[type]} - The previous sibling element or null
  */

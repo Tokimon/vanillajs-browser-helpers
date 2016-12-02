@@ -3,9 +3,9 @@ import isDOMNode from './isDOMNode';
 import isDOMChildNode from './isDOMChildNode';
 
 /**
- * Inserts DOM Element or plain HTML after a given DOM Element
- * @param  {HTMLElement} elm - The DOM Element to insert after
- * @param  {String|HTMLElement} insertElm - DOM Element or HTML to insert
+ * Inserts DOM element or plain HTML after a given DOM element
+ * @param  {HTMLElement} elm - The DOM element to insert after
+ * @param  {String|HTMLElement} insertElm - DOM element or HTML to insert
  */
 export default function after(elm, insertElm) {
   if(!isDOMChildNode(elm)) { return; }
