@@ -5,7 +5,6 @@ import _after from '../after';
 
 const testID = 'AfterTest';
 const nodeID = 'AfterNode';
-const insertHTML = '<div class="inserted"></div>';
 
 describe('"after"', () => {
   before(() => $.html(`<div id="${testID}"></div>`));
@@ -18,41 +17,52 @@ describe('"after"', () => {
 
     expect(node.nextSibling).to.be.null;
 
-    _after(node, insertHTML);
+    _after(node, '<div class="inserted-html"></div>');
 
     expect(node.nextSibling).to.not.be.null;
-    expect(node.nextSibling).to.have.attribute('class', 'inserted');
+    expect(node.nextSibling).to.have.class('inserted-html');
   });
 
   it('Should insert DOM element after a DOM element', () => {
     const node = $.id(nodeID);
     const div = $.create('div');
-    div.className = 'inserted';
+    div.className = 'inserted-dom';
 
     expect(node.nextSibling).to.be.null;
 
     _after(node, div);
 
     expect(node.nextSibling).to.not.be.null;
-    expect(node.nextSibling).to.have.attribute('class', 'inserted');
+    expect(node.nextSibling).to.have.class('inserted-dom');
   });
 
-  it('Should ignore DOM element', () => {
+  it('Should always return the inserted DOM element', () => {
+    const node = $.id(nodeID);
+
+    const div = $.create('div');
+    div.className = 'inserted-always-dom';
+
+    expect(_after(node, div)).to.have.class('inserted-always-dom');
+    expect(_after(node, '<div class="inserted-always-html"></div>')).to.have.class('inserted-always-html');
+  });
+
+  it('Should ignore and return NULL for the <HTML> element', () => {
     const htmlNext = document.documentElement.nextSibling;
-    _after(document.documentElement, insertHTML);
+    expect(_after(document.documentElement, $.create('div'))).to.be.null;
     expect(document.documentElement.nextSibling).to.equal(htmlNext);
   });
 
-  it('Should ignore DOM elements not inserted into the DOM', () => {
+  it('Should ignore and return NULL for DOM elements not inserted into the DOM', () => {
     const div = $.create('div');
-    expect(_after.bind(null, div, insertHTML)).to.not.fail;
+    expect(_after(div, $.create('div'))).to.be.null;
     expect(div.nextSibling).to.be.null;
   });
 
-  it('Should ignore non DOM elements', () => {
+  it('Should ignore and return NULL for non DOM elements', () => {
+    const insert = $.create('div');
     // This test is in honor of FireFox where document.parentNode is 'HTMLDocument' (nodeType 9)
-    expect(_after(document.parentNode, insertHTML)).to.not.fail;
-    expect(_after(null, insertHTML)).to.not.fail;
-    expect(_after({}, insertHTML)).to.not.fail;
+    expect(_after(document.parentNode, insert)).to.be.null;
+    expect(_after(null, insert)).to.be.null;
+    expect(_after({}, insert)).to.be.null;
   });
 });
