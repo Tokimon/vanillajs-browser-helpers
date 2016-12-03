@@ -108,7 +108,7 @@ Insert HTML or ad DOM element into the beginning of a DOM element child list
 Remove a given class name from a DOM element
 - [removeElm](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/removeElm):
 Remove a given DOM element from the DOM
-- [replaceElm](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/replaceElm):
+- [replace](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/replace):
 Replace a given DOM element with another
 - [scroll](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/scroll):
 Get/set the scroll position of a DOM element

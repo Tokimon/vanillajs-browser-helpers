@@ -1,22 +1,24 @@
 /* eslint-env node, mocha, browser */
 /* global expect, $ */
 
-import replaceElm from '../replaceElm';
+import replace from '../replace';
 
 const testID = 'TestNode';
 
-describe('"replaceElm"', () => {
+describe('"replace"', () => {
   let testNode;
 
   before(() => {
     $.html(`
       <div id="${testID}">
-        <div class="moved"></div>
+        <div class="moved"><div id="child"></div></div>
         <div class="container">
           <div class="replaceMove"></div>
           <div class="replaceComment"></div>
           <div class="replaceNode"></div>
           <div class="replaceString"></div>
+          <div class="removeString"></div>
+          <div class="removeNull"></div>
         </div>
       </div>
     `);
@@ -27,31 +29,31 @@ describe('"replaceElm"', () => {
   after(() => $.remove(testID));
 
   it('Should ignore non DOM child elements', () => {
-    let moved = $.query('.moved', testNode)[0];
+    const moved = $.query('.moved', testNode)[0];
 
-    expect(replaceElm(null, moved)).to.not.fail;
-    expect(replaceElm(document, moved)).to.not.fail;
-    expect(replaceElm(window, moved)).to.not.fail;
+    expect(replace(null, moved)).to.not.fail;
+    expect(replace(document, moved)).to.not.fail;
+    expect(replace(document.documentElement, moved)).to.not.fail;
+    expect(replace(window, moved)).to.not.fail;
 
-    moved = $.query('.moved', testNode)[0];
-
-    expect(moved).not.to.be.null;
     expect(moved.parentNode).to.equal(testNode);
   });
 
-  it('Should ignore non DOM node or string replacements', () => {
-    let moved = $.query('.moved', testNode)[0];
+  it('Should always return the replaced element', () => {
+    const child = $.id('child', testNode)[0];
 
-    expect(moved).not.to.be.undefined;
+    expect(replace(null, child)).to.be.null;
+    expect(replace(document, child)).to.equal(document);
+    expect(replace(child, $.create('div'))).to.equal(child);
+  });
 
-    expect(replaceElm(moved)).to.not.fail;
-    expect(replaceElm(moved, null)).to.not.fail;
-    expect(replaceElm(moved, {})).to.not.fail;
-    expect(replaceElm(moved, 1234)).to.not.fail;
+  it('Should ignore replacements that are not DOM node, null or string', () => {
+    const moved = $.query('.moved', testNode)[0];
 
-    moved = $.query('.moved', testNode)[0];
+    expect(replace(moved)).to.equal(moved);
+    expect(replace(moved, {})).to.equal(moved);
+    expect(replace(moved, 1234)).to.equal(moved);
 
-    expect(moved).not.to.be.undefined;
     expect(moved.parentNode).to.equal(testNode);
   });
 
@@ -65,12 +67,12 @@ describe('"replaceElm"', () => {
 
     expect(replaceNode.parentNode).to.have.class('container');
 
-    replaceElm(replaceNode, replacement);
+    replace(replaceNode, replacement);
 
     replacement = $.query('.replacement', testNode)[0];
 
+    expect(replaceNode.parentNode).to.be.null;
     expect($.query('.replaceNode', testNode)[0]).to.be.undefined;
-    expect(replacement).not.to.be.undefined;
     expect(replacement.parentNode).to.have.class('container');
 
 
@@ -81,10 +83,10 @@ describe('"replaceElm"', () => {
 
     expect(replaceComment.parentNode).to.have.class('container');
 
-    replaceElm(replaceComment, comment);
+    replace(replaceComment, comment);
 
+    expect(replaceComment.parentNode).to.be.null;
     expect($.query('.replaceCommet', testNode)[0]).to.be.undefined;
-    expect(comment.parentNode).not.to.be.null;
     expect(comment.parentNode).to.have.class('container');
   });
 
@@ -95,7 +97,7 @@ describe('"replaceElm"', () => {
     expect(moved.parentNode).to.equal(testNode);
     expect(replaceMove.parentNode).to.have.class('container');
 
-    replaceElm(replaceMove, moved);
+    replace(replaceMove, moved);
 
     expect($.query('.replaceMove', testNode)[0]).to.be.undefined;
     expect(moved.parentNode).to.have.class('container');
@@ -105,12 +107,36 @@ describe('"replaceElm"', () => {
     const replaceString = $.query('.replaceString', testNode)[0];
     expect(replaceString.parentNode).to.have.class('container');
 
-    replaceElm(replaceString, '<div class="string-replacement"></div>');
+    replace(replaceString, '<div class="string-replacement"></div>');
 
     const replacement = $.query('.string-replacement', testNode)[0];
 
     expect($.query('.replaceString', testNode)[0]).to.be.undefined;
     expect(replacement).not.to.be.undefined;
     expect(replacement.parentNode).to.have.class('container');
+  });
+
+  it('Should remove given DOM node when null or empty string is given', () => {
+    // --- Empty string ---
+
+    const removeString = $.query('.removeString', testNode)[0];
+    expect(removeString).not.to.be.undefined;
+    expect(removeString.parentNode).to.have.class('container');
+
+    replace(removeString, '');
+
+    expect(removeString.parentNode).to.be.null;
+    expect($.query('.removeString', testNode)[0]).to.be.undefined;
+
+    // --- NULL ---
+
+    const removeNull = $.query('.removeNull', testNode)[0];
+    expect(removeNull).not.to.be.undefined;
+    expect(removeNull.parentNode).to.have.class('container');
+
+    replace(removeNull, null);
+
+    expect(removeNull.parentNode).to.be.null;
+    expect($.query('.removeNull', testNode)[0]).to.be.undefined;
   });
 });
