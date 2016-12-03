@@ -104,10 +104,10 @@ Get the position of a DOM element
 Prefix a css attribute with vendor prefixes (webkit, moz, ms, o)
 - [prepend](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/prepend):
 Insert HTML or ad DOM element into the beginning of a DOM element child list
+- [remove](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/remove):
+Remove a given DOM element from the DOM
 - [removeClass](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/removeClass):
 Remove a given class name from a DOM element
-- [removeElm](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/removeElm):
-Remove a given DOM element from the DOM
 - [replace](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/replace):
 Replace a given DOM element with another
 - [scroll](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/scroll):
