@@ -1,6 +1,11 @@
 import isString from 'vanillajs-helpers/isString';
 import isArray from 'vanillajs-helpers/isArray';
 
+/**
+ * Find a DOM element with the given ID
+ * @param  {String|Array<String>} ids - ID to find the element by
+ * @return {HTMLElement|Array<HTMLElement>} - The found element
+ */
 export default function findById(ids) {
   // Is it is a string split by comma and/or space (convert to Array)
   if(isString(ids)) { ids = ids.split(/[\s,]+/); }

@@ -4,9 +4,19 @@ import isDOMRoot from './isDOMRoot';
 import isDOMDocument from './isDOMDocument';
 
 /**
+ * @typedef {Object} SizeData
+ * @property {Number} width - The total width of the element (with border etc.)
+ * @property {Number} height - The total height of the element (with border etc.)
+ * @property {Number} innerWidth - The width of the elements view area (without border etc.)
+ * @property {Number} innerHeight - The height of the elements view area (without border etc.)
+ * @property {Number} contentWidth - The width of content of the element
+ * @property {Number} contentHeight - The height of content of the element
+ */
+
+/**
  * Finds the size of a DOM element or window.
  * @param  {HTMLElement|window} [elm = viewport] - The DOM element (or window) to find the size of
- * @return {Object} - Object describing the various sizes of an element
+ * @return {SizeData} - Object describing the various size information of an element
  */
 export default function size(elm) {
   if(isDOMDocument(elm)) { elm = elm.documentElement; }

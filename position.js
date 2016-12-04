@@ -4,13 +4,29 @@ import isWindow from './isWindow';
 import isDOMElement from './isDOMElement';
 import isDOMDocument from './isDOMDocument';
 
+
+/**
+ * @typedef {Object} Position
+ * @property {Number} top - The distance from the top.
+ * @property {Number} left - The distance from the left.
+ * @property {Number} right - The distance from the right.
+ * @property {Number} bottom - The distance from the bottom.
+ */
+
+/**
+ * @typedef {Object} PositionData
+ * @extends Position
+ * @property {Position} parent - Postion relative to the offset parent.
+ * @property {Position} viewport - Position relative to the viewport area.
+ */
+
 /**
  * Get the curernt position of a DOM element, either relative to the offsetParent
  * or relative to the document. If the element is the viewport or the window, the
  * position of the window is returned.
  * @param  {HTMLElement|window} [elm = window] - The DOM element to find the position of
  * @param  {Boolean} relative = false - Find the position relative to the offsetParent rather than the document
- * @return {Object} - the position information of the element
+ * @return {PositionData} - the position information of the element
  */
 export default function position(elm) {
   if(!elm) { elm = window; }
@@ -39,7 +55,7 @@ export default function position(elm) {
     right: vpSize.width - rect.right - vpScroll.left,
     bottom: vpSize.height - rect.bottom - vpScroll.top,
 
-    relative: {
+    parent: {
       top: elm.offsetTop,
       left: elm.offsetLeft,
       right: parentSize.innerWidth - elm.offsetLeft - elmSize.width,

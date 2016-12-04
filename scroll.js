@@ -1,15 +1,24 @@
-import viewport from './viewport';
-import size from './size';
 import isObject from 'vanillajs-helpers/isObject';
 import isNumber from 'vanillajs-helpers/isNumber';
+
+import viewport from './viewport';
 import isWindow from './isWindow';
 import isDOMElement from './isDOMElement';
 import inDOM from './inDOM';
+import size from './size';
+
+/**
+ * @typedef {Object} ScrollData
+ * @property {Number} x - The distance scrolled from the top.
+ * @property {Number} xMax - Max distance to scroll from the top.
+ * @property {Number} y - The distance scrolled from the left.
+ * @property {Number} yMax - Max distance to scroll from the left.
+ */
 
 /**
  * Find the current scroll position of a DOM element
  * @param  {HTMLElement|window} [elm = window] - The DOM element to find the scrolling position from
- * @return {Object} - The current scroll information
+ * @return {ScrollData} - The scroll information
  */
 export default function scroll(elm = window, scrollPos = null) {
   let isWin = isWindow(elm);
