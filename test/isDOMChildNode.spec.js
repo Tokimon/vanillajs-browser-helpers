@@ -31,6 +31,7 @@ describe('"isDOMChildNode"', () => {
   it('Should return false for non DOM elements', () => {
     expect(isDOMChildNode(null)).to.be.false;
     expect(isDOMChildNode({})).to.be.false;
+    expect(isDOMChildNode({ parentNode: { nodeType: 1 } })).to.be.false;
     expect(isDOMChildNode()).to.be.false;
   });
 });
