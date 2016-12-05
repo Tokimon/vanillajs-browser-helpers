@@ -20,13 +20,16 @@ describe('"isDOMElement"', () => {
 
   it('Should return true if DOM element matches one of the given html tag names', () => {
     expect(isDOMElement(document.documentElement, 'html')).to.be.true;
-    expect(isDOMElement(document.documentElement, 'body', 'html')).to.be.true;
+    expect(isDOMElement(document.documentElement, ['body', 'html'])).to.be.true;
+    expect(isDOMElement(document.documentElement, 'body, html')).to.be.true;
+    expect(isDOMElement(document.documentElement, 'body html')).to.be.true;
     expect(isDOMElement(document.documentElement, 'body')).to.be.false;
   });
 
   it('Should return false for non DOM elements', () => {
     expect(isDOMElement(null)).to.be.false;
     expect(isDOMElement({})).to.be.false;
+    expect(isDOMElement({ nodeType: 1 })).to.be.false;
     expect(isDOMElement()).to.be.false;
   });
 });
