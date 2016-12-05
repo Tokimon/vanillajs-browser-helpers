@@ -5,9 +5,15 @@ import inDOM from '../inDOM';
 
 describe('"inDOM"', () => {
   it('Should return true for DOM elements actually in the DOM tree', () => {
+    const hidden = $.create('p');
+    hidden.style.cssText = 'width: 0; height: 0; position: absolute; margin: 0; padding: 0; opacity: 0; oveflow: hidden;';
+
+    document.body.appendChild(hidden);
+
     // True statements
     expect(inDOM(document.documentElement)).to.be.true;
     expect(inDOM(document.body)).to.be.true;
+    expect(inDOM(hidden)).to.be.true;
 
     // False statements
     expect(inDOM(document)).to.be.false;
