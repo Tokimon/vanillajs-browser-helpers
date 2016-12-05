@@ -56,11 +56,8 @@ describe('"findByQuery"', () => {
         .and.to.have.length(0);
     });
 
-    it('Should fail silently on bad queries', () => {
-      let nodes = findByQuery(':badquery');
-      expect(nodes)
-        .to.be.a('array')
-        .and.to.have.length(0);
+    it('Should fail on bad queries', () => {
+      expect(() => findByQuery(':badquery')).to.throw(Error, /^Query search contains bad queries/);
     });
 
     describe('- With multiple queries', () => {
@@ -137,9 +134,8 @@ describe('"findByQuery"', () => {
       expect(node).to.be.null;
     });
 
-    it('Should fail silently on bad queries', () => {
-      let nodes = findByQuery(':badquery', true);
-      expect(nodes).to.be.null;
+    it('Should fail on bad queries', () => {
+      expect(() => findByQuery(':badquery', true)).to.throw(Error, /^Query search contains bad queries/);
     });
 
     describe('- With multiple queries', () => {

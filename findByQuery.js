@@ -2,7 +2,14 @@ import isBoolean from 'vanillajs-helpers/isBoolean';
 import isString from 'vanillajs-helpers/isString';
 import isArray from 'vanillajs-helpers/isArray';
 
-export default function findByQuery(queries, elm = document, first = false) {
+/**
+ * Find elements by given CSS selector
+ * @param  {String|Array<String>} queries - CSS selector to find elements by
+ * @param  {HTMLElement} [elm=document] - The DOM element to start the search from
+ * @param  {Boolean} [first=false] - Return only the first found element
+ * @return {HTMLElement|Array<HTMLElement>} - List of found DOM elements
+ */
+export default function findByQuery(queries, elm, first = false) {
   // Correct variables if 'elm' is omitted but 'first' isn't
   if(isBoolean(elm)) { [elm, first] = [document, elm]; }
   // If we got an array, filter out bad queries and convert to a string
@@ -15,5 +22,7 @@ export default function findByQuery(queries, elm = document, first = false) {
 
   try {
     return first ? elm.querySelector(queries) : Array.from(elm.querySelectorAll(queries));
-  } catch(ex) { return first ? null : []; }
+  } catch(ex) {
+    throw new Error(`Query search contains bad queries: "${queries}"`);
+  }
 }
