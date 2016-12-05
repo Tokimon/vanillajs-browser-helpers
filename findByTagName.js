@@ -1,6 +1,12 @@
 import isString from 'vanillajs-helpers/isString';
 import isArray from 'vanillajs-helpers/isArray';
 
+/**
+ * Find elements by given tag name
+ * @param  {String|Array<String>} tags - Tag name to find the elements by
+ * @param  {HTMLElement} [elm=document] - The DOM element to start the search from
+ * @return {Array<HTMLElement>} - List of found DOM elements
+ */
 export default function findByTagName(tags, elm) {
   // Is it is a string split by comma (convert to Array)
   if(isString(tags)) { tags = tags.split(/[\s,]+/); }
@@ -11,11 +17,11 @@ export default function findByTagName(tags, elm) {
   // 'elm' must be an object with the 'getElementsByTagName' implementation
   if(!elm || !elm.getElementsByTagName) { elm = document; }
 
-  try {
-    if(tags.length < 2) { return Array.from(elm.getElementsByTagName(tags[0])); }
-
-    return tags.reduce((arr, tag) => {
-      return !isString(tag) ? arr : arr.concat(Array.from(elm.getElementsByTagName(tag)));
-    }, []);
-  } catch(ex) { return []; }
+  // Find results for each tag
+  return tags.reduce((arr, tag) => {
+    // The [...elm.getElementsByTagName(tag)] seems to filter out identical tags,
+    // so Array.from is preferred
+    if(!isString(tag)) { return arr; }
+    return arr.concat(Array.from(elm.getElementsByTagName(tag)));
+  }, []);
 }
