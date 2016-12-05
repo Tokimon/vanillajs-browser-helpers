@@ -56,10 +56,20 @@ describe('"prepend"', () => {
     expect(newCont.firstChild).to.have.id('Moved');
   });
 
-  it('Should ignore non DOM elements', () => {
+  it('Should always return the inserted DOM element', () => {
+    const node = $.id(testID);
+
+    const div = $.create('div');
+    div.className = 'inserted-always-dom';
+
+    expect(prepend(node, div)).to.have.class('inserted-always-dom');
+    expect(prepend(node, '<div class="inserted-always-html"></div>')).to.have.class('inserted-always-html');
+  });
+
+  it('Should return null when ister fails DOM elements', () => {
     // This test is in honor of FireFox where document.parentNode is 'HTMLDocument' (nodeType 9)
-    expect(prepend(document.parentNode, insertHTML)).to.not.fail;
-    expect(prepend(null, insertHTML)).to.not.fail;
-    expect(prepend({}, insertHTML)).to.not.fail;
+    expect(prepend(document.parentNode, insertHTML)).to.be.null;
+    expect(prepend(null, insertHTML)).to.be.null;
+    expect(prepend({}, insertHTML)).to.be.null;
   });
 });

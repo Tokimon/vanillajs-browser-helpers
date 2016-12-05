@@ -8,11 +8,15 @@ import isDOMContainer from './isDOMContainer';
  * @param  {string|HTMLElement} insertElm - DOM element or String to prepend to the {elm}
  */
 export default function prepend(elm, insertElm) {
-  if(!isDOMContainer(elm)) { return; }
+  if(!isDOMContainer(elm)) { return null; }
 
   if(isDOMNode(insertElm)) {
     elm.insertBefore(insertElm, elm.firstChild);
   } else if(isString(insertElm)) {
     elm.insertAdjacentHTML('afterbegin', insertElm);
+  } else {
+    return null;
   }
+
+  return elm.firstChild;
 }
