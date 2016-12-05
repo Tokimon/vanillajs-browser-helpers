@@ -18,6 +18,7 @@ describe('"isDOMRoot"', () => {
   it('Should return false for non DOM elements', () => {
     expect(isDOMRoot(null)).to.be.false;
     expect(isDOMRoot({})).to.be.false;
+    expect(isDOMRoot({ parentNode: { nodeType: 9 } })).to.be.false;
     expect(isDOMRoot()).to.be.false;
   });
 });
