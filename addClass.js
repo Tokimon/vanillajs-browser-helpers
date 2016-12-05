@@ -8,7 +8,7 @@ import isArray from 'vanillajs-helpers/isArray';
  * @param {String|Array<String>} classNames - Class names to add
  */
 export default function addClass(elm, classNames) {
-  if(isString(classNames)) { classNames = classNames.split(/\s+/); }
+  if(isString(classNames)) { classNames = classNames.split(/[ ,]+/); }
   if(!isDOMElement(elm) || !isArray(classNames)) { return elm; }
   classNames.forEach(cn => elm.classList.add(cn));
   return elm;

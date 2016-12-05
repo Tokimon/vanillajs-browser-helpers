@@ -38,31 +38,22 @@ describe('"addClass"', () => {
     expect(addClass(node)).to.equal(node);
   });
 
-  describe('- class names as Array', () => {
-    it('Should add several CSS classes to a DOM element', () => {
-      const node = $.id(testID);
-
-      expect(node.className).to.equal('');
-      addClass(node, ['inserted', 'added', 'class3']);
-      expect(node.className).to.equal('inserted added class3');
-    });
-
-    it('Should only add unset CSS classes to a DOM element', () => {
-      const node = $.id(testID);
-      node.className = 'inserted class3';
-
-      expect(node.className).to.equal('inserted class3');
-      addClass(node, ['inserted', 'added', 'class3']);
-      expect(node.className).to.equal('inserted class3 added');
-    });
-  });
-
-  describe('- class names as space separated String', () => {
+  describe('- Multiple class names', () => {
     it('Should add several CSS classes to a DOM element', () => {
       const node = $.id(testID);
 
       expect(node.className).to.equal('');
       addClass(node, 'inserted added class3');
+      expect(node.className).to.equal('inserted added class3');
+
+      node.className = '';
+
+      addClass(node, 'inserted, added, class3');
+      expect(node.className).to.equal('inserted added class3');
+
+      node.className = '';
+
+      addClass(node, ['inserted', 'added', 'class3']);
       expect(node.className).to.equal('inserted added class3');
     });
 
