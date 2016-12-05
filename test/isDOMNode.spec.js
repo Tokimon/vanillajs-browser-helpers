@@ -21,6 +21,7 @@ describe('"isDOMNode"', () => {
   it('Should return false for non HTML nodes', () => {
     expect(isDOMNode(null)).to.be.false;
     expect(isDOMNode({})).to.be.false;
+    expect(isDOMNode({ nodeType: 1 })).to.be.false;
     expect(isDOMNode()).to.be.false;
   });
 });
