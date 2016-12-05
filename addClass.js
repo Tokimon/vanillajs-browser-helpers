@@ -9,6 +9,7 @@ import isArray from 'vanillajs-helpers/isArray';
  */
 export default function addClass(elm, classNames) {
   if(isString(classNames)) { classNames = classNames.split(/\s+/); }
-  if(!isDOMElement(elm) || !isArray(classNames)) { return false; }
+  if(!isDOMElement(elm) || !isArray(classNames)) { return elm; }
   classNames.forEach(cn => elm.classList.add(cn));
+  return elm;
 }

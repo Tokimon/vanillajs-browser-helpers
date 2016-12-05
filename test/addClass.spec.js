@@ -28,8 +28,14 @@ describe('"addClass"', () => {
     expect(node.className).to.equal('inserted');
   });
 
-  it('Should ignore non DOM elements', () => {
-    expect(addClass(null, 'inserted')).to.not.fail;
+  it('Should always return the given element', () => {
+    const node = $.id(testID);
+
+    expect(addClass(null, 'always')).to.be.null;
+    expect(addClass(node, 'always')).to.equal(node);
+
+    expect(addClass(null)).to.be.null;
+    expect(addClass(node)).to.equal(node);
   });
 
   describe('- class names as Array', () => {
