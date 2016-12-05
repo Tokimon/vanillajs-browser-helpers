@@ -49,6 +49,7 @@ describe('"append"', () => {
     expect(node.lastChild).to.have.id('Moved');
     expect(newCont.lastChild).to.be.null;
 
+    // Append the "move div" to the "new container"
     append(newCont, moveDiv);
 
     expect(node.lastChild).to.have.id('NewContainer');
@@ -56,13 +57,20 @@ describe('"append"', () => {
     expect(newCont.lastChild).to.have.id('Moved');
   });
 
-  // This test is in honor of FireFox where document.parentNode is 'HTMLDocument' (nodeType 9)
-  it('Should ignore the HTML document', () => {
-    expect(append(document.parentNode, insertHTML)).to.not.fail;
+  it('Should always return the inserted DOM element', () => {
+    const node = $.id(testID);
+
+    const div = $.create('div');
+    div.className = 'inserted-always-dom';
+
+    expect(append(node, div)).to.have.class('inserted-always-dom');
+    expect(append(node, '<div class="inserted-always-html"></div>')).to.have.class('inserted-always-html');
   });
 
-  it('Should ignore non DOM elements', () => {
-    expect(append(null, insertHTML)).to.not.fail;
-    expect(append({}, insertHTML)).to.not.fail;
+  it('Should return null when ister fails DOM elements', () => {
+    // This test is in honor of FireFox where document.parentNode is 'HTMLDocument' (nodeType 9)
+    expect(append(document.parentNode, insertHTML)).to.be.null;
+    expect(append(null, insertHTML)).to.be.null;
+    expect(append({}, insertHTML)).to.be.null;
   });
 });

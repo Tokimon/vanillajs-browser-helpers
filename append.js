@@ -8,6 +8,15 @@ import isDOMContainer from './isDOMContainer';
  * @param  {String|HTMLElement} insertElm - DOM element or String to append to the {elm}
  */
 export default function append(elm, insertElm) {
-  if(!isDOMContainer(elm)) { return; }
-  if(isDOMNode(insertElm)) { elm.appendChild(insertElm); } else if(isString(insertElm)) { elm.insertAdjacentHTML('beforeend', insertElm); }
+  if(!isDOMContainer(elm)) { return null; }
+
+  if(isDOMNode(insertElm)) {
+    elm.appendChild(insertElm);
+  } else if(isString(insertElm)) {
+    elm.insertAdjacentHTML('beforeend', insertElm);
+  } else {
+    return null;
+  }
+
+  return elm.lastChild;
 }
