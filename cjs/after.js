@@ -18,16 +18,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /**
  * Inserts DOM element or plain HTML after a given DOM element
- * @param  {HTMLElement} elm - The DOM element to insert after
- * @param  {String|HTMLElement} insertElm - DOM element or HTML to insert
+ * @param {HTMLElement} elm - The DOM element to insert after
+ * @param {String|HTMLElement} insertElm - DOM element or HTML to insert
+ * @return {HTMLElement} - The inserted element
  */
 function after(elm, insertElm) {
   if (!(0, _isDOMChildNode2.default)(elm)) {
-    return;
+    return null;
   }
+
   if ((0, _isDOMNode2.default)(insertElm)) {
     elm.parentNode.insertBefore(insertElm, elm.nextSibling);
   } else if ((0, _isString2.default)(insertElm)) {
     elm.insertAdjacentHTML('afterend', insertElm);
+  } else {
+    return null;
   }
+
+  return elm.nextSibling;
 }

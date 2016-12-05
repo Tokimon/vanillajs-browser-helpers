@@ -16,6 +16,11 @@ var _iterate2 = _interopRequireDefault(_iterate);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Find DOM elements with the given name
+ * @param  {String|Array<String>} names - Value of name attribute to find the elements by
+ * @return {Array<HTMLElement>} - List of found DOM elements
+ */
 function findByName(names) {
   // Is it is a string split by comma (convert to Array)
   if ((0, _isString2.default)(names)) {

@@ -13,12 +13,20 @@ var _hidden2 = _interopRequireDefault(_hidden);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
+ * @typedef {Object} PositionIndicator
+ * @property {Boolean} above - Is the element above the viewport area
+ * @property {Boolean} below - Is the element below the viewport area
+ * @property {Boolean} left - Is the element to the left of the viewport area
+ * @property {Boolean} right- Is the element to the right of the viewport area
+ */
+
+/**
  * Determines whether the element is in the area of the viewport or not.
  * @param  {HTMLElement} elm - DOM element to test
  * @param  {Number} [threshold = 0] - The distance to the edge of the viwport before
  *                                    the element is no longer visible in the viewport area
  *
- * @return {Boolean|Object} - If the element is in the viewport area it returns true,
+ * @return {Boolean|PositionIndicator} - If the element is in the viewport area it returns true,
  *                            otherwise it returns an object with indications of
  *                            where the element is compared to the viewport area
  */

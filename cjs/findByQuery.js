@@ -16,7 +16,14 @@ var _isArray2 = _interopRequireDefault(_isArray);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function findByQuery(queries, elm = document, first = false) {
+/**
+ * Find elements by given CSS selector
+ * @param  {String|Array<String>} queries - CSS selector to find elements by
+ * @param  {HTMLElement} [elm=document] - The DOM element to start the search from
+ * @param  {Boolean} [first=false] - Return only the first found element
+ * @return {HTMLElement|Array<HTMLElement>} - List of found DOM elements
+ */
+function findByQuery(queries, elm, first = false) {
   // Correct variables if 'elm' is omitted but 'first' isn't
   if ((0, _isBoolean2.default)(elm)) {
     [elm, first] = [document, elm];
@@ -38,6 +45,6 @@ function findByQuery(queries, elm = document, first = false) {
   try {
     return first ? elm.querySelector(queries) : Array.from(elm.querySelectorAll(queries));
   } catch (ex) {
-    return first ? null : [];
+    throw new Error(`"findByQuery" failed, bad query given: "${ queries }"`);
   }
 }

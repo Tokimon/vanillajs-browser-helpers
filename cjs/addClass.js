@@ -23,10 +23,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 function addClass(elm, classNames) {
   if ((0, _isString2.default)(classNames)) {
-    classNames = classNames.split(/\s+/);
+    classNames = classNames.split(/[ ,]+/);
   }
   if (!(0, _isDOMElement2.default)(elm) || !(0, _isArray2.default)(classNames)) {
-    return false;
+    return elm;
   }
   classNames.forEach(cn => elm.classList.add(cn));
+  return elm;
 }

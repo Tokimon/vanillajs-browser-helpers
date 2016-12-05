@@ -23,11 +23,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 function before(elm, insertElm) {
   if (!(0, _isDOMChildNode2.default)(elm)) {
-    return;
+    return null;
   }
+
   if ((0, _isDOMNode2.default)(insertElm)) {
     elm.parentNode.insertBefore(insertElm, elm);
   } else if ((0, _isString2.default)(insertElm)) {
     elm.insertAdjacentHTML('beforebegin', insertElm);
+  } else {
+    return null;
   }
+
+  return elm.previousSibling;
 }

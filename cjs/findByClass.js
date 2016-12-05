@@ -16,14 +16,19 @@ var _iterate2 = _interopRequireDefault(_iterate);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Finds DOM elements with a given class name
+ * @param  {String|Array<String>} classNames - Class name to find elements by
+ * @param  {HTMLElement} [elm=document] - The DOM element to start the search from
+ * @return {Array<HTMLElement>} - List of found DOM elements
+ */
 function findByClass(classNames, elm) {
   // Is it is a string split by comma (convert to Array)
   if ((0, _isString2.default)(classNames)) {
     classNames = classNames.replace(/\./g, ' ').split(/\s*[,]\s*/);
   }
 
-  // 'elm' has have the 'getElementsByClassName' implementation
-  // and 'clasNames' has to be an Array
+  // 'clasNames' has to be an Array
   if (!(0, _isArray2.default)(classNames)) {
     return [];
   }

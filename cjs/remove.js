@@ -1,6 +1,6 @@
 'use strict';
 
-exports.default = removeElm;
+exports.default = remove;
 
 var _isDOMChildNode = require('./isDOMChildNode');
 
@@ -10,10 +10,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /**
  * Remove a given DOM element from the DOM
- * @param  {HTMLElement} elm - The DOM element to remove
+ * @param {HTMLElement} elm - The DOM element to remove
+ * @return {HTMLElement} - The given `elm` value
  */
-function removeElm(elm) {
+function remove(elm) {
   if ((0, _isDOMChildNode2.default)(elm)) {
-    elm.parentNode.removeChild(elm);
+    return elm.parentNode.removeChild(elm);
   }
+  return elm;
 }

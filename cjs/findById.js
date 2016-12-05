@@ -12,6 +12,11 @@ var _isArray2 = _interopRequireDefault(_isArray);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Find a DOM element with the given ID
+ * @param  {String|Array<String>} ids - ID to find the element by
+ * @return {HTMLElement|Array<HTMLElement>} - The found element
+ */
 function findById(ids) {
   // Is it is a string split by comma and/or space (convert to Array)
   if ((0, _isString2.default)(ids)) {

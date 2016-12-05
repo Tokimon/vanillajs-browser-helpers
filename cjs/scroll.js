@@ -2,14 +2,6 @@
 
 exports.default = scroll;
 
-var _viewport = require('./viewport');
-
-var _viewport2 = _interopRequireDefault(_viewport);
-
-var _size = require('./size');
-
-var _size2 = _interopRequireDefault(_size);
-
 var _isObject = require('vanillajs-helpers/isObject');
 
 var _isObject2 = _interopRequireDefault(_isObject);
@@ -17,6 +9,10 @@ var _isObject2 = _interopRequireDefault(_isObject);
 var _isNumber = require('vanillajs-helpers/isNumber');
 
 var _isNumber2 = _interopRequireDefault(_isNumber);
+
+var _viewport = require('./viewport');
+
+var _viewport2 = _interopRequireDefault(_viewport);
 
 var _isWindow = require('./isWindow');
 
@@ -30,12 +26,24 @@ var _inDOM = require('./inDOM');
 
 var _inDOM2 = _interopRequireDefault(_inDOM);
 
+var _size = require('./size');
+
+var _size2 = _interopRequireDefault(_size);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * @typedef {Object} ScrollData
+ * @property {Number} x - The distance scrolled from the top.
+ * @property {Number} xMax - Max distance to scroll from the top.
+ * @property {Number} y - The distance scrolled from the left.
+ * @property {Number} yMax - Max distance to scroll from the left.
+ */
 
 /**
  * Find the current scroll position of a DOM element
  * @param  {HTMLElement|window} [elm = window] - The DOM element to find the scrolling position from
- * @return {Object} - The current scroll information
+ * @return {ScrollData} - The scroll information
  */
 function scroll(elm = window, scrollPos = null) {
   let isWin = (0, _isWindow2.default)(elm);
