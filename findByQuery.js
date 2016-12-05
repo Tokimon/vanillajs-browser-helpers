@@ -23,6 +23,6 @@ export default function findByQuery(queries, elm, first = false) {
   try {
     return first ? elm.querySelector(queries) : Array.from(elm.querySelectorAll(queries));
   } catch(ex) {
-    throw new Error(`Query search contains bad queries: "${queries}"`);
+    throw new Error(`"findByQuery" failed, bad query given: "${queries}"`);
   }
 }

@@ -57,7 +57,7 @@ describe('"findByQuery"', () => {
     });
 
     it('Should fail on bad queries', () => {
-      expect(() => findByQuery(':badquery')).to.throw(Error, /^Query search contains bad queries/);
+      expect(() => findByQuery(':badquery')).to.throw(Error, /^bad query given/);
     });
 
     describe('- With multiple queries', () => {
@@ -135,7 +135,7 @@ describe('"findByQuery"', () => {
     });
 
     it('Should fail on bad queries', () => {
-      expect(() => findByQuery(':badquery', true)).to.throw(Error, /^Query search contains bad queries/);
+      expect(() => findByQuery(':badquery', true)).to.throw(Error, /^bad query given/);
     });
 
     describe('- With multiple queries', () => {
