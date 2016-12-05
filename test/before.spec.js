@@ -37,10 +37,20 @@ describe('"before"', () => {
     expect(node.previousSibling).to.have.attribute('class', 'inserted');
   });
 
-  it('Should ignore DOM element', () => {
-    const htmlNext = document.documentElement.previousSibling;
-    _before(document.documentElement, insertHTML);
-    expect(document.documentElement.previousSibling).to.equal(htmlNext);
+  it('Should always return the inserted DOM element', () => {
+    const node = $.id(nodeID);
+
+    const div = $.create('div');
+    div.className = 'inserted-always-dom';
+
+    expect(_before(node, div)).to.have.class('inserted-always-dom');
+    expect(_before(node, '<div class="inserted-always-html"></div>')).to.have.class('inserted-always-html');
+  });
+
+  it('Should ignore and return NULL for the <HTML> element', () => {
+    const htmlPrev = document.documentElement.previousSibling;
+    expect(_before(document.documentElement, $.create('div'))).to.be.null;
+    expect(document.documentElement.previousSibling).to.equal(htmlPrev);
   });
 
   it('Should ignore DOM elements not inserted into the DOM', () => {
