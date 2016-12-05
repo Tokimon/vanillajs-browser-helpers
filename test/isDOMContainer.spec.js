@@ -21,6 +21,7 @@ describe('"isDOMContainer"', () => {
   it('Should return false for non DOM nodes', () => {
     expect(isDOMContainer(null)).to.be.false;
     expect(isDOMContainer({})).to.be.false;
+    expect(isDOMContainer({ nodeType: 1, parentNode: { nodeType: 1 } })).to.be.false;
     expect(isDOMContainer()).to.be.false;
   });
 });

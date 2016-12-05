@@ -1,5 +1,11 @@
-import isDOMNode from './isDOMNode';
+import isDOMElement from './isDOMElement';
+import isDOMFragment from './isDOMFragment';
 
-export default function isDOMContainer(elm) {
-  return isDOMNode(elm) && (elm.nodeType === 1 || elm.nodeType === 11);
+/**
+ * Is the given object a DOM node that can contain child DOM nodes
+ * @param {Object} obj - The object to check
+ * @return {Boolean} - Is it a DOM container or not
+ */
+export default function isDOMContainer(obj) {
+  return isDOMElement(obj) || isDOMFragment(obj);
 }
