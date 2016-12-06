@@ -76,7 +76,6 @@ const babelConfig = {
   plugins: []
 };
 
-// if(browsers.some((a) => /^ie/i.test(a))) {
 babelConfig.plugins = babelConfig.plugins.concat([
   'transform-es2015-arrow-functions',
   'transform-es2015-block-scoped-functions',
@@ -90,7 +89,6 @@ babelConfig.plugins = babelConfig.plugins.concat([
   'transform-proto-to-assign',
   'transform-es2015-shorthand-properties'
 ]);
-// }
 
 const reporters = [args.simple ? 'progress' : 'mocha'];
 
