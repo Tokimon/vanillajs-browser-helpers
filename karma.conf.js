@@ -76,21 +76,21 @@ const babelConfig = {
   plugins: []
 };
 
-if(browsers.some((a) => /^ie/i.test(a))) {
-  babelConfig.plugins = babelConfig.plugins.concat([
-    'transform-es2015-arrow-functions',
-    'transform-es2015-block-scoped-functions',
-    'transform-es2015-block-scoping',
-    'transform-es2015-computed-properties',
-    'transform-es2015-destructuring',
-    'transform-es2015-duplicate-keys',
-    'transform-es2015-parameters',
-    'transform-es2015-spread',
-    'transform-es2015-template-literals',
-    'transform-proto-to-assign',
-    'transform-es2015-shorthand-properties'
-  ]);
-}
+// if(browsers.some((a) => /^ie/i.test(a))) {
+babelConfig.plugins = babelConfig.plugins.concat([
+  'transform-es2015-arrow-functions',
+  'transform-es2015-block-scoped-functions',
+  'transform-es2015-block-scoping',
+  'transform-es2015-computed-properties',
+  'transform-es2015-destructuring',
+  'transform-es2015-duplicate-keys',
+  'transform-es2015-parameters',
+  'transform-es2015-spread',
+  'transform-es2015-template-literals',
+  'transform-proto-to-assign',
+  'transform-es2015-shorthand-properties'
+]);
+// }
 
 const reporters = [args.simple ? 'progress' : 'mocha'];
 
