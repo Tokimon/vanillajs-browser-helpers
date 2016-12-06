@@ -6,5 +6,5 @@ before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - sleep 2
-script: npm test -- -b firefox -sc & npm test -- -b firefox -sr cjs
+script: npm test -- -b firefox -sc; npm test -- -b firefox -sr cjs
 after_success: npm run coveralls
