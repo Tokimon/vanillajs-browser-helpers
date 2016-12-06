@@ -5,8 +5,7 @@
   "author": "Toke Voltelen",
   "license": "MIT",
   "scripts": {
-    "preversion": "npm run cjs",
-    "postinstall": "npm run polyfills",
+    "prepublish": "npm run cjs",
     "test": "karma start",
     "spec": "node ./tasks/spec.js",
     "polyfills": "node ./tasks/polyfills.js",
