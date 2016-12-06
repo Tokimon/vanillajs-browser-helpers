@@ -135,3 +135,7 @@ If you find any bugs or missing functionality you would like to see included, fe
 free to add an issue in the [issue list](https://github.com/Tokimon/vanillajs-browser-helpers/issues)
 or perhaps do a [Pull Request](https://github.com/Tokimon/vanillajs-browser-helpers/pulls)
 of a great snippet you created.
+
+## Testing
+
+Check out the [Testing docs](https://github.com/Tokimon/vanillajs-browser-helpers/TESTING)
