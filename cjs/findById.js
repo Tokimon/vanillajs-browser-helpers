@@ -1,5 +1,6 @@
-'use strict';
-
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = findById;
 
 var _isString = require('vanillajs-helpers/isString');

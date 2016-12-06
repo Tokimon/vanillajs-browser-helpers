@@ -1,5 +1,6 @@
-'use strict';
-
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = removeCLass;
 
 var _isDOMElement = require('./isDOMElement');

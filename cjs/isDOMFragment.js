@@ -1,5 +1,6 @@
-"use strict";
-
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = isDOMFragment;
 /**
  * Is the given object a Document Fragment

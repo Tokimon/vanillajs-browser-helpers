@@ -1,31 +1,79 @@
 const nPath = require('path');
 
+const fs = require('fs-promise');
 const glob = require('glob-promise');
 
 const rollup = require('rollup');
-const rollupBuble = require('rollup-plugin-buble');
+const rollupBabel = require('rollup-plugin-babel');
 const rollupNode = require('rollup-plugin-node-resolve');
 const rollupCJS = require('rollup-plugin-commonjs');
+const rollupIstanbul = require('rollup-plugin-istanbul');
 
-glob(nPath.resolve('test/*.spec.js'))
+const args = require('yargs')
+  .option('modern', {
+    type: 'boolean',
+    alias: 'm',
+    describe: 'Build for modern browsers (no transpilation)'
+  })
+  .option('instrument', {
+    type: 'boolean',
+    alias: 'i',
+    describe: 'Instrument the code using Istanbul'
+  })
+  .option('root', {
+    alias: 'r',
+    describe: 'Root path to search for the test directory',
+    type: 'string',
+    choices: ['.', 'cjs'],
+    default: '.'
+  })
+  .help()
+  .alias('help', 'h')
+  .argv;
+
+const plugins = [
+  rollupNode({ jsnext: true, main: true }),
+  rollupCJS({ sourceMap: false })
+];
+
+if(!args.modern) {
+  plugins.push(rollupBabel({
+    plugins: [
+      'transform-es2015-arrow-functions',
+      'transform-es2015-block-scoped-functions',
+      'transform-es2015-block-scoping',
+      'transform-es2015-computed-properties',
+      'transform-es2015-destructuring',
+      'transform-es2015-duplicate-keys',
+      'transform-es2015-parameters',
+      'transform-es2015-spread',
+      'transform-es2015-template-literals',
+      'transform-proto-to-assign',
+      'transform-es2015-shorthand-properties'
+    ]
+  }));
+}
+
+if(args.instrument) {
+  plugins.push(rollupIstanbul({ include: [`./*.js`], embedSource: true }));
+}
+
+fs.remove(nPath.join('specs', args.root))
+  .then(() => glob(nPath.resolve(args.root, 'test/*.spec.js')))
   .then((files) => Promise.all(files.map((file) => {
-    const fileParse = nPath.parse(file);
     return rollup.rollup({
       entry: file,
       sourceMap: false,
-      exports: 'none',
-      plugins: [
-        rollupNode({ jsnext: true, main: true }),
-        rollupCJS({ sourceMap: false }),
-        rollupBuble()
-      ]
+      plugins
     })
       .then((bundle) => {
         process.stdout.write('.');
-        const dest = nPath.join('specs', fileParse.base.replace('.spec', ''));
+        const dest = nPath.join('specs', nPath.relative(process.cwd(), file.replace(/[\\/]test([\\/])/, '$1')));
 
         return bundle.write({
           format: 'iife',
+          moduleName: nPath.basename(file, '.spec.js'),
+          exports: 'named',
           dest
         });
       });

@@ -1,11 +1,10 @@
 language: node_js
 node_js:
   - '6'
-install: npm install
+install: npm install; npm run cjs
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - npm run build:polyfills
   - sleep 2
-script: npm run test -- -b firefox -sc
+script: npm test -- -b firefox -sc & npm test -- -b firefox -sr cjs
 after_success: npm run coveralls

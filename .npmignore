@@ -1,4 +1,5 @@
 test
+cjs/test
 tasks
 .babelrc
 coverage

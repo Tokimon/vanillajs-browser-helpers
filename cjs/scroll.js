@@ -1,5 +1,6 @@
-'use strict';
-
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = scroll;
 
 var _isObject = require('vanillajs-helpers/isObject');

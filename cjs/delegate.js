@@ -1,5 +1,6 @@
-'use strict';
-
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.delegateHandler = delegateHandler;
 exports.delegateBuilder = delegateBuilder;
 

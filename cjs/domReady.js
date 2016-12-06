@@ -1,5 +1,6 @@
-'use strict';
-
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.domReadyBuilder = domReadyBuilder;
 
 var _once2 = require('./once');

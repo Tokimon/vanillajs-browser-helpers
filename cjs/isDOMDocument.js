@@ -1,5 +1,6 @@
-"use strict";
-
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = isDOMDocument;
 /**
  * Is the given object a DOM document node

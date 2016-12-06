@@ -1,5 +1,6 @@
-'use strict';
-
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = findByQuery;
 
 var _isBoolean = require('vanillajs-helpers/isBoolean');

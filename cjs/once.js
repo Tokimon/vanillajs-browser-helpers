@@ -1,5 +1,6 @@
-'use strict';
-
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.onceBuilder = onceBuilder;
 
 var _isFunction = require('vanillajs-helpers/isFunction');

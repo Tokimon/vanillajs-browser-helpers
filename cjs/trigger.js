@@ -1,5 +1,6 @@
-'use strict';
-
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = trigger;
 
 var _eachWord = require('vanillajs-helpers/eachWord');

@@ -2,14 +2,12 @@
 
 const nPath = require('path');
 
-const rollupBuble = require('rollup-plugin-buble');
+const rollupBabel = require('rollup-plugin-babel');
 const rollupNode = require('rollup-plugin-node-resolve');
 const rollupIstanbul = require('rollup-plugin-istanbul');
 const rollupCJS = require('rollup-plugin-commonjs');
 
 const yargs = require('yargs');
-
-
 
 const browserTypes = {
   chrome: 'Chrome',
@@ -22,9 +20,14 @@ const browserTypes = {
 
 let browsers = Object.keys(browserTypes);
 
-
-
 const args = yargs
+  .option('root', {
+    alias: 'r',
+    describe: 'Root path to search for the test directory',
+    type: 'string',
+    choices: ['.', 'cjs'],
+    default: '.'
+  })
   .option('test', {
     alias: 't',
     describe: 'Which test to load (* for all)',
@@ -52,13 +55,13 @@ const args = yargs
 
 
 
-let names = args.test || [];
-const nameLen = names.length;
+let tests = args.test || [];
+const nameLen = tests.length;
 
-if(names.indexOf('*') > -1 || !nameLen) { names = '*'; }
+if(tests.indexOf('*') > -1 || !nameLen) { tests = '*'; }
 
-if(Array.isArray(names)) {
-  names = nameLen > 1 ? `@(${names.join('|')})` : names[0];
+if(Array.isArray(tests)) {
+  tests = nameLen > 1 ? `@(${tests.join('|')})` : tests[0];
 }
 
 if(args.browser && args.browser.length) {
@@ -67,22 +70,49 @@ if(args.browser && args.browser.length) {
 
 browsers = browsers.map((browser) => browserTypes[browser.toLowerCase()]);
 
-const testFiles = nPath.resolve(`test/${names}.spec.js`);
+const testFiles = nPath.resolve(args.root, `test/${tests}.spec.js`);
 
-const rollupPlugins = [
-  rollupNode({ jsnext: true, main: true }),
-  rollupCJS({ sourceMap: false }),
-  rollupBuble()
-];
+const babelConfig = {
+  plugins: []
+};
+
+if(browsers.some((a) => /^ie/i.test(a))) {
+  babelConfig.plugins = babelConfig.plugins.concat([
+    'transform-es2015-arrow-functions',
+    'transform-es2015-block-scoped-functions',
+    'transform-es2015-block-scoping',
+    'transform-es2015-computed-properties',
+    'transform-es2015-destructuring',
+    'transform-es2015-duplicate-keys',
+    'transform-es2015-parameters',
+    'transform-es2015-spread',
+    'transform-es2015-template-literals',
+    'transform-proto-to-assign',
+    'transform-es2015-shorthand-properties'
+  ]);
+}
 
 const reporters = [args.simple ? 'progress' : 'mocha'];
 
+const rollupPlugins = [
+  rollupNode({ jsnext: true, main: true }),
+  rollupCJS({ sourceMap: false })
+];
+
 if(args.coverage) {
-  rollupPlugins.push(rollupIstanbul({ include: [`./${names}.js`], embedSource: true }));
-  reporters.push('istanbul');
+  if(args.root !== 'cjs') {
+    rollupPlugins.push(rollupIstanbul({ include: [`./${tests}.js`], embedSource: true }));
+    reporters.push('istanbul');
+    console.log('ADDING COVERAGE REPORT');
+  } else {
+    console.log('COVERAGE REPORTING IS NOT AVAILABLE FOR CJS TESTS');
+  }
 }
 
-
+if(babelConfig.plugins.length) {
+  rollupPlugins.push(rollupBabel(babelConfig));
+  console.log('USING TRANSPILED FILES');
+}
 
 console.log('Browsers:', browsers.join(', '));
 console.log('Test files:', testFiles);
@@ -90,11 +120,8 @@ console.log('Test files:', testFiles);
 module.exports = function(config) {
   config.set({
     basePath: '',
-    // frameworks to use
-    // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['mocha', 'chai-dom', 'chai', 'chai-sinon'],
 
-    // list of files / patterns to load in the browser
     files: [
       'test/assets/style.css',
       'test/assets/init-test.js',
@@ -102,31 +129,20 @@ module.exports = function(config) {
       testFiles
     ],
 
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: { [testFiles]: ['rollup'] },
 
     rollupPreprocessor: {
       plugins: rollupPlugins,
       format: 'iife',
-      exports: 'none',
+      exports: 'named',
+      moduleName: 'test',
       sourceMap: false
     },
 
-    // test results reporter to use
-    // possible values: 'dots', 'progress'
-    // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters,
-
-    // enable / disable colors in the output (reporters and logs)
     colors: true,
-
-    // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_INFO,
 
-    // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers,
 
     customLaunchers: {

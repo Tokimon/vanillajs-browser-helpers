@@ -1,5 +1,6 @@
-'use strict';
-
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = inDOM;
 
 var _isDOMNode = require('./isDOMNode');
