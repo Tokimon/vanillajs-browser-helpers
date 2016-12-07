@@ -129,6 +129,26 @@ Get the current viewport area
 - [visible](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/visible):
 Detect if a DOM element is visible or not
 
+## Installation
+
+```
+npm install vanillajs-browser-helpers
+```
+
+## Usage
+
+```js
+// ES 6 Modules
+import append from 'vanillajs-browser-helpers/append';
+append('<div class="child-element"></div>');
+```
+
+```js
+// CommonJS Modules
+const append = require('vanillajs-browser-helpers/cjs/append').default;
+append('<div class="child-element"></div>');
+```
+
 ## Something missing?
 
 If you find any bugs or missing functionality you would like to see included, feel
