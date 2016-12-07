@@ -10,11 +10,6 @@ const rollupCJS = require('rollup-plugin-commonjs');
 const rollupIstanbul = require('rollup-plugin-istanbul');
 
 const args = require('yargs')
-  .option('modern', {
-    type: 'boolean',
-    alias: 'm',
-    describe: 'Build for modern browsers (no transpilation)'
-  })
   .option('instrument', {
     type: 'boolean',
     alias: 'i',
@@ -36,25 +31,23 @@ const plugins = [
   rollupCJS({ sourceMap: false })
 ];
 
-if(!args.modern) {
-  plugins.push(rollupBabel({
-    plugins: [
-      'transform-es2015-arrow-functions',
-      'transform-es2015-block-scoped-functions',
-      'transform-es2015-block-scoping',
-      'transform-es2015-computed-properties',
-      'transform-es2015-destructuring',
-      'transform-es2015-duplicate-keys',
-      'transform-es2015-parameters',
-      'transform-es2015-spread',
-      'transform-es2015-template-literals',
-      'transform-proto-to-assign',
-      'transform-es2015-shorthand-properties'
-    ]
-  }));
-}
+plugins.push(rollupBabel({
+  plugins: [
+    'transform-es2015-arrow-functions',
+    'transform-es2015-block-scoped-functions',
+    'transform-es2015-block-scoping',
+    'transform-es2015-computed-properties',
+    'transform-es2015-destructuring',
+    'transform-es2015-duplicate-keys',
+    'transform-es2015-parameters',
+    'transform-es2015-spread',
+    'transform-es2015-template-literals',
+    'transform-proto-to-assign',
+    'transform-es2015-shorthand-properties'
+  ]
+}));
 
-if(args.instrument) {
+if(args.instrument && args.root !== 'cjs') {
   plugins.push(rollupIstanbul({ include: [`./*.js`], embedSource: true }));
 }
 
@@ -78,7 +71,7 @@ fs.remove(nPath.join('specs', args.root))
         });
       });
   })))
-  .then(() => process.stdout.write('\ndone\n'))
+  .then(() => process.stdout.write('\nSPEC files successfully transpiled\n'))
   .catch((err) => {
     console.log('\n\n-----------');
     console.error(err.message);
