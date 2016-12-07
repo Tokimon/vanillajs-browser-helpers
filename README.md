@@ -138,4 +138,4 @@ of a great snippet you created.
 
 ## Testing
 
-Check out the [Testing docs](https://github.com/Tokimon/vanillajs-browser-helpers/TESTING)
+Check out the [Testing docs](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/testing)
