@@ -94,7 +94,8 @@ const reporters = [args.simple ? 'progress' : 'mocha'];
 
 const rollupPlugins = [
   rollupNode({ jsnext: true, main: true }),
-  rollupCJS({ sourceMap: false })
+  rollupCJS({ sourceMap: false }),
+  rollupBabel(babelConfig)
 ];
 
 if(args.coverage) {
@@ -105,11 +106,6 @@ if(args.coverage) {
   } else {
     console.log('COVERAGE REPORTING IS NOT AVAILABLE FOR CJS TESTS');
   }
-}
-
-if(babelConfig.plugins.length) {
-  rollupPlugins.push(rollupBabel(babelConfig));
-  console.log('USING TRANSPILED FILES');
 }
 
 console.log('Browsers:', browsers.join(', '));
