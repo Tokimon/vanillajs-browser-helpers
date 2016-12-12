@@ -38,7 +38,7 @@ export function parseSelector(selector) {
         attributes.class = (attributes.class || []).concat(val);
       } else {
         if(!attributes[att]) { attributes[att] = []; }
-        attributes[att].push(val.replace(/(?!\\)"/g, '\\"'));
+        attributes[att].push(val.replace(/\\*"/g, '&quot;'));
       }
 
       return '';
@@ -85,5 +85,5 @@ export function selectorToHTML(selector) {
 }
 
 export default function create(selector) {
-  return toDOM(selectorToHTML(selector));
+  return toDOM(selectorToHTML(selector))[0];
 }
