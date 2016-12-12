@@ -10,9 +10,6 @@ const idExp = new RegExp(`#${nameExp.source}`, 'i');
 const classExp = new RegExp(`\\.${nameExp.source}`, 'ig');
 const attrExp = new RegExp(`\\[(${nameExp.source})(?:=([^\\]]+))?]`, 'g');
 
-console.log(attrExp.source);
-
-
 export function parseSelector(selector) {
   if(!selector) { selector = ''; }
   selector = `${selector}`;
