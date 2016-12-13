@@ -119,7 +119,7 @@ module.exports = function(config) {
     files: [
       'test/assets/style.css',
       'test/assets/init-test.js',
-      'test/assets/polyfills/*.js',
+      // 'test/assets/polyfills/*.js',
       testFiles
     ],
 

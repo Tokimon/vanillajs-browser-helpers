@@ -1,6 +1,8 @@
 /* eslint-env node, mocha, browser */
 /* global expect, $ */
 
+import '../polyfills/domtokenlist';
+
 import hasClass, { hasAnyClass } from '../hasClass';
 
 const testID = 'TestNode';

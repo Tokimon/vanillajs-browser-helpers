@@ -2,9 +2,17 @@ import prefixed from './prefixed';
 import inDOM from './inDOM';
 
 // Determine the supported method of 'matches' (with or without prefixes)
+function fallback(selector) {
+  const matches = document.querySelectorAll(selector);
+  let i = matches.length;
+  while(--i >= 0 && matches.item(i) !== this) {}
+  return i > -1;
+}
+
 const _matchMethod = Element.matches ||
   Element.matchesSelector ||
-  Element[prefixed('MatchesSelector').filter((method) => !!Element[method])[0]];
+  Element[prefixed('MatchesSelector').filter((method) => !!Element[method])[0]] ||
+  fallback;
 
 /**
  * Determines whether or not a DOM element matches a given CSS query selector

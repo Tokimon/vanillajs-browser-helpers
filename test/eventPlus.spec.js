@@ -1,5 +1,7 @@
 /* eslint-env node, mocha, browser */
 /* global expect, $, sinon */
+import '../polyfills/array.from';
+import '../polyfills/Map';
 
 import on, { off, eventListId, getEvents } from '../eventPlus';
 

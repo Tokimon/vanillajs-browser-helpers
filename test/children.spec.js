@@ -1,5 +1,6 @@
 /* eslint-env node, mocha, browser */
 /* global expect, $ */
+import '../polyfills/array.from';
 import children from '../children';
 
 const testID = 'TestNode';

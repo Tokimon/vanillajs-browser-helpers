@@ -1,6 +1,9 @@
 /* eslint-env node, mocha, browser */
 /* global expect, $ */
 
+import '../polyfills/array.from';
+import '../polyfills/Set';
+
 import findByName from '../findByName';
 
 const testID = 'TestNode';
