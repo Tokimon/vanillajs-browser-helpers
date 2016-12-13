@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const nPath = require('path');
 
 const fs = require('fs-promise');
@@ -8,6 +10,7 @@ const rollupBabel = require('rollup-plugin-babel');
 const rollupNode = require('rollup-plugin-node-resolve');
 const rollupCJS = require('rollup-plugin-commonjs');
 const rollupIstanbul = require('rollup-plugin-istanbul');
+const rollupIncludePaths = require('rollup-plugin-includepaths');
 
 const args = require('yargs')
   .option('instrument', {
@@ -27,6 +30,7 @@ const args = require('yargs')
   .argv;
 
 const plugins = [
+  rollupIncludePaths({ paths: [''], include: {} }),
   rollupNode({ jsnext: true, main: true }),
   rollupCJS({ sourceMap: false })
 ];

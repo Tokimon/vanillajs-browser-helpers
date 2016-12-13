@@ -1,6 +1,8 @@
 /* eslint-env node, mocha, browser */
 /* global expect, $ */
 
+import 'polyfills/domtokenlist-polyfill';
+
 import removeClass from '../removeClass';
 
 const testID = 'TestNode';

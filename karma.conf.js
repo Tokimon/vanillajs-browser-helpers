@@ -1,11 +1,14 @@
 'use strict';
 
+/* eslint-disable no-console */
+
 const nPath = require('path');
 
 const rollupBabel = require('rollup-plugin-babel');
 const rollupNode = require('rollup-plugin-node-resolve');
 const rollupIstanbul = require('rollup-plugin-istanbul');
 const rollupCJS = require('rollup-plugin-commonjs');
+const rollupIncludePaths = require('rollup-plugin-includepaths');
 
 const yargs = require('yargs');
 
@@ -93,8 +96,10 @@ babelConfig.plugins = babelConfig.plugins.concat([
 const reporters = [args.simple ? 'progress' : 'mocha'];
 
 const rollupPlugins = [
+  rollupIncludePaths({ paths: [''], include: {} }),
   rollupNode({ jsnext: true, main: true }),
-  rollupCJS({ sourceMap: false })
+  rollupCJS({ sourceMap: false }),
+  rollupBabel(babelConfig)
 ];
 
 if(args.coverage) {
@@ -105,11 +110,6 @@ if(args.coverage) {
   } else {
     console.log('COVERAGE REPORTING IS NOT AVAILABLE FOR CJS TESTS');
   }
-}
-
-if(babelConfig.plugins.length) {
-  rollupPlugins.push(rollupBabel(babelConfig));
-  console.log('USING TRANSPILED FILES');
 }
 
 console.log('Browsers:', browsers.join(', '));
@@ -123,7 +123,7 @@ module.exports = function(config) {
     files: [
       'test/assets/style.css',
       'test/assets/init-test.js',
-      'test/assets/polyfills/*.js',
+      // 'test/assets/polyfills/*.js',
       testFiles
     ],
 

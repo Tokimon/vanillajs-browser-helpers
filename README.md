@@ -42,6 +42,8 @@ Insert HTML or ad DOM element before a DOM element
 Get the direct child DOM elements of a DOM element
 - [css](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/css):
 Get/set styling of a DOM element
+- [create](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/create):
+Creates a DOM element from a selector (eg. _div#myDiv.some-class_)
 - [data](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/data):
 Get/set value of a data attribute on a DOM element
 - [delegate](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/delegate):

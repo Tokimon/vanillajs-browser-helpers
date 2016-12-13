@@ -1,6 +1,6 @@
 /* eslint-env node, mocha, browser */
 /* global expect, $ */
-
+import 'polyfills/array-from-polyfill';
 import findByQuery from '../findByQuery';
 
 describe('"findByQuery"', () => {

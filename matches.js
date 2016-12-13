@@ -2,8 +2,17 @@ import prefixed from './prefixed';
 import inDOM from './inDOM';
 
 // Determine the supported method of 'matches' (with or without prefixes)
-const body = document.body;
-const _matchMethod = body.matches || body[prefixed('MatchesSelector').filter((method) => !!body[method])[0]];
+function fallback(selector) {
+  const matches = document.querySelectorAll(selector);
+  let i = matches.length;
+  while(--i >= 0 && matches.item(i) !== this) {} // eslint-disable-line no-empty
+  return i > -1;
+}
+
+const _matchMethod = Element.matches ||
+  Element.matchesSelector ||
+  Element[prefixed('MatchesSelector').filter((method) => !!Element[method])[0]] ||
+  fallback;
 
 /**
  * Determines whether or not a DOM element matches a given CSS query selector

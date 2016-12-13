@@ -3,6 +3,9 @@
 
 'use strict';
 
+import 'polyfills/array-from-polyfill';
+import 'polyfills/Set';
+
 import find, { findOne } from '../find';
 
 const testID = 'FindTest';
