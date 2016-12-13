@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const nPath = require('path');
 
 const fs = require('fs-promise');

@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const path = require('path');
 const glob = require('glob-promise');
 

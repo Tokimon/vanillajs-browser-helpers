@@ -5,7 +5,7 @@ import inDOM from './inDOM';
 function fallback(selector) {
   const matches = document.querySelectorAll(selector);
   let i = matches.length;
-  while(--i >= 0 && matches.item(i) !== this) {}
+  while(--i >= 0 && matches.item(i) !== this) {} // eslint-disable-line no-empty
   return i > -1;
 }
 
