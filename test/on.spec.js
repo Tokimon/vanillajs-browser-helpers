@@ -98,7 +98,7 @@ describe('"on"', () => {
     expect(on(b, ['test', 'test2', 'test3'], cb)).to.be.equal(b);
     test();
 
-    expect(on(b, ['test test2', , 'test3'], cb)).to.be.equal(b);
+    expect(on(b, ['test test2', null, 'test3'], cb)).to.be.equal(b);
     test();
   });
 });

@@ -135,7 +135,7 @@ describe('"off"', () => {
 
     cb.reset();
 
-    expect(off(b, ['test test2', , 'test3'], cb)).to.be.equal(b);
+    expect(off(b, ['test test2', null, 'test3'], cb)).to.be.equal(b);
 
     triggerEvents();
     expect(cb).to.not.have.been.called;
