@@ -1,4 +1,8 @@
 import isFunction from 'vanillajs-helpers/isFunction';
+import isString from 'vanillajs-helpers/isString';
+
+import isDOMNode from './isDOMNode';
+import isWindow from './isWindow';
 
 import _on from './on';
 import _off from './off';
@@ -17,6 +21,9 @@ export function onceBuilder(on, off) {
   if(!isFunction(off)) { off = _off; }
 
   return (elm, eventNames, handler) => {
+    if(isString(elm)) { [elm, eventNames, handler] = [document, elm, eventNames]; }
+    if(!isDOMNode(elm) && !isWindow(elm)) { elm = document; }
+
     if(!isFunction(handler)) { return null; }
 
     const _one = function(e) {

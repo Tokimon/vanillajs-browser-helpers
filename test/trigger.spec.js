@@ -3,6 +3,8 @@
 
 import trigger from '../trigger';
 
+// TODO: add test for events on window
+
 describe('"Trigger"', () => {
   it('Should fallback to document, if the element is not a DOM Node', () => {
     const cb = sinon.spy();

@@ -3,81 +3,102 @@
 
 import on from '../on';
 
+// TODO: add test for events on window
+
 describe('"on"', () => {
-  const onCb = sinon.spy();
-  const strCb = sinon.spy();
-  const arrCb = sinon.spy();
+  it('Should fallback to document, if the element is not a DOM Node', () => {
+    const cb = sinon.spy();
 
-  after(() => {
-    $.off(document.body, 'on', onCb);
+    expect(on('test-undefined', cb)).to.be.equal(document);
+    expect(on(null, 'test-null', cb)).to.be.equal(document);
+    expect(on({}, 'test-object', cb)).to.be.equal(document);
+    expect(on(123, 'test-number', cb)).to.be.equal(document);
 
-    $.off(document.body, 'click', strCb);
-    $.off(document.body, 'custom', strCb);
+    $.trigger('test-undefined', document);
+    $.trigger('test-null', document);
+    $.trigger('test-object', document);
+    $.trigger('test-number', document);
 
-    $.off(document.body, 'click', arrCb);
-    $.off(document.body, 'custom', arrCb);
-  });
+    expect(cb).to.have.callCount(4);
 
-  it('Should return null if the element is empty or not defined', () => {
-    expect(on(null, 'evt', () => {})).to.be.null;
-    expect(on(undefined, 'evt', () => {})).to.be.null;
-    expect(on('', 'evt', () => {})).to.be.null;
-  });
-
-  it('Should always return the element if it is defined', () => {
-    expect(on({}, 'evt', () => {})).to.be.an('object');
-    expect(on(document.body, 'evt', () => {})).to.be.equal(document.body);
-    expect(on(123, 'evt', () => {})).to.be.a('number');
+    $.off(document, 'test-undefined', cb);
+    $.off(document, 'test-null', cb);
+    $.off(document, 'test-object', cb);
+    $.off(document, 'test-number', cb);
   });
 
   it('Should not add event if handler is not defined', () => {
-    onCb.reset();
+    const cb = sinon.spy();
 
-    $.trigger('on', document.body);
-    expect(onCb).not.to.have.been.called;
+    $.on(document, 'test', cb);
 
-    on(document.body, 'on');
+    expect(on(document, undefined, cb)).to.be.equal(document);
+    expect(on(undefined, cb)).to.be.equal(document);
+    expect(on(document, 123, cb)).to.be.equal(document);
+    expect(on(document, null, cb)).to.be.equal(document);
+    expect(on(document, {}, cb)).to.be.equal(document);
 
-    onCb.reset();
+    $.trigger('123', document);
+    $.trigger('null', document);
+    $.trigger('undefined', document);
+    $.trigger('[object Object]', document);
 
-    $.trigger('on', document.body);
-    expect(onCb).not.to.have.been.called;
+    expect(cb).to.not.have.been.called;
   });
 
   it('Should add an given event handler to an object', () => {
-    onCb.reset();
+    const cb = sinon.spy();
+    const b = document.body;
 
-    $.trigger('on', document.body);
-    expect(onCb).not.to.have.been.called;
+    expect(on(b, 'test', cb)).to.be.equal(b);
+    expect(on(b, 'test_underscore', cb)).to.be.equal(b);
+    expect(on(b, 'test-dash', cb)).to.be.equal(b);
+    expect(on(b, 'test.dot', cb)).to.be.equal(b);
+    expect(on(b, 'test:colon', cb)).to.be.equal(b);
 
-    onCb.reset();
+    $.trigger('test', b);
+    $.trigger('test_underscore', b);
+    $.trigger('test-dash', b);
+    $.trigger('test.dot', b);
+    $.trigger('test:colon', b);
 
-    on(document.body, 'on', onCb);
+    expect(cb).to.have.callCount(5);
 
-    $.trigger('on', document.body);
-    expect(onCb).to.have.been.calledOnce;
+    $.off(b, 'test', cb);
+    $.off(b, 'test_underscore', cb);
+    $.off(b, 'test-dash', cb);
+    $.off(b, 'test.dot', cb);
+    $.off(b, 'test:colon', cb);
   });
 
   it('Should add multiple event handlers to an object', () => {
-    strCb.reset();
-    arrCb.reset();
+    const cb = sinon.spy();
+    const b = document.body;
 
-    $.trigger('click', document.body);
-    $.trigger('custom', document.body);
+    const test = () => {
+      $.trigger('test', b);
+      $.trigger('test2', b);
+      $.trigger('test3', b);
 
-    expect(strCb).not.to.have.been.called;
-    expect(arrCb).not.to.have.been.called;
+      $.off(b, 'test', cb);
+      $.off(b, 'test2', cb);
+      $.off(b, 'test3', cb);
 
-    on(document.body, 'click custom', strCb);
-    on(document.body, ['click', 'custom'], arrCb);
+      expect(cb).to.have.been.calledTrice;
 
-    strCb.reset();
-    arrCb.reset();
+      cb.reset();
+    };
 
-    $.trigger('click', document.body);
-    $.trigger('custom', document.body);
+    expect(on(b, 'test test2 test3', cb)).to.be.equal(b);
+    test();
 
-    expect(strCb).to.have.been.calledTwice;
-    expect(arrCb).to.have.been.calledTwice;
+    expect(on(b, 'test, test2, test3', cb)).to.be.equal(b);
+    test();
+
+    expect(on(b, ['test', 'test2', 'test3'], cb)).to.be.equal(b);
+    test();
+
+    expect(on(b, ['test test2', null, 'test3'], cb)).to.be.equal(b);
+    test();
   });
 });
