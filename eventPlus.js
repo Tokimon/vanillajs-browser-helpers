@@ -5,6 +5,9 @@ import isFunction from 'vanillajs-helpers/isFunction';
 import isString from 'vanillajs-helpers/isString';
 import isArray from 'vanillajs-helpers/isArray';
 
+import isDOMNode from './isDOMNode';
+import isWindow from './isWindow';
+
 import _on from './on';
 import _off from './off';
 import { delegateHandler } from './delegate';
@@ -110,17 +113,23 @@ function eachEventNamespace(evtName, cb) {
  * (NOTE: in order to enable unbinding of delegates and all handlers for an event,
  * all events ar cached and an event caching id is set on the element via the
  * data-eventlistid or the _eventlistid property)
- * @param  {HTMLElement} elm - DOM element to bind the event to
+ * @param  {HTMLElement} [elm=document] - DOM element to bind the event to
  * @param  {String|Array<String>} eventNames - Event names to bind the handler to
  * @param  {String} [delegation] - CSS Selector that matches the element(s) to delegate the event to
  * @param  {Function} handler - Handler to bind to the event
  * @return {HTMLElement} - The `elm` DOM element
  */
 export default function on(elm, eventNames, delegation, handler) {
-  const evts = getEvents(elm);
-  const strEvts = isString(eventNames);
+  if(isString(elm)) {
+    [elm, eventNames, delegation, handler] = [document, elm, eventNames, delegation];
+  }
 
-  if(!evts || !(strEvts || isArray(eventNames))) { return elm; }
+  if(!isDOMNode(elm) && !isWindow(elm)) { elm = document; }
+  if(isArray(eventNames)) { eventNames = eventNames.join(); }
+
+  const evts = getEvents(elm);
+
+  if(!evts || !isString(eventNames)) { return elm; }
 
   // If only handler has been given as argument in the place of the delegation
   // selector, correct the variables
@@ -130,7 +139,7 @@ export default function on(elm, eventNames, delegation, handler) {
   // Delegation handlers has to be stores separately to enable better unbinding control
   // so we check if we are dealing with a delegate
   const isDelegate = isString(delegation);
-  const itrCb = (evtName) => {
+  const onEvt = (evtName) => {
     // Go through event and namespaces
     eachEventNamespace(evtName, (evtNS) => {
       // Get the current handlers and push the handler to it
@@ -164,11 +173,7 @@ export default function on(elm, eventNames, delegation, handler) {
     });
   };
 
-  if(strEvts) {
-    words(eventNames, itrCb);
-  } else {
-    iterate(eventNames, itrCb);
-  }
+  words(eventNames, onEvt, /[, ]+/);
 
   return elm;
 }
@@ -181,20 +186,26 @@ export default function on(elm, eventNames, delegation, handler) {
  * it removes all events bound to the element.
  * (in order to remove all handlers on the element, all handlers must have been
  * bound via the 'on' method)
- * @param  {HTMLElement} elm - DOM element to unbind the event from
+ * @param  {HTMLElement} [elm=document] - DOM element to unbind the event from
  * @param  {String|Array<String>} [eventNames] - Event names to unbind the handler from
  * @param  {String} [delegation] - Delegation selector to unbind
  * @param  {Function} [handler] - Handler to remove from the event
  * @return {HTMLElement} - the 'elm'
  */
 export function off(elm, eventNames, delegation, handler) {
+  if(isString(elm)) {
+    [elm, eventNames, delegation, handler] = [document, elm, eventNames, delegation];
+  }
+
+  if(!isDOMNode(elm) && !isWindow(elm)) { elm = document; }
+
   const evts = getEvents(elm);
   if(!evts) { return elm; }
 
-  const strEvts = isString(eventNames);
+  if(isArray(eventNames)) { eventNames = eventNames.join(); }
 
   // If no events have been given, remove all event listeners
-  if(!strEvts && !isArray(eventNames)) {
+  if(!isString(eventNames)) {
     evts.forEach((evtObj, evtName) => _off(elm, evtName, callback));
     evts.clear();
     return elm;
@@ -207,7 +218,7 @@ export function off(elm, eventNames, delegation, handler) {
   const removeAll = !isFunction(handler);
   const removeDelegate = isString(delegation);
 
-  const itrCb = (evtName) => {
+  const onEvt = (evtName) => {
     // Go through event and namespaces
     eachEventNamespace(evtName, (evtNS) => {
       const evt = evts.get(evtNS);
@@ -235,11 +246,7 @@ export function off(elm, eventNames, delegation, handler) {
     });
   };
 
-  if(strEvts) {
-    words(eventNames, itrCb);
-  } else {
-    iterate(eventNames, itrCb);
-  }
+  words(eventNames, onEvt, /[, ]+/);
 
   return elm;
 }
