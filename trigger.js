@@ -32,10 +32,8 @@ export default function trigger(elm, eventNames, data) {
   if(isString(elm)) { [elm, eventNames, data] = [document, elm, eventNames]; }
   if(!isDOMNode(elm)) { elm = document; }
 
-  if(isFunction(elm.dispatchEvent)) {
-    if(isArray(eventNames)) { eventNames = eventNames.join(); }
-    words(eventNames, (name) => elm.dispatchEvent(customEvent(name, data)), /[, ]/);
-  }
+  if(isArray(eventNames)) { eventNames = eventNames.join(); }
+  words(eventNames, (name) => elm.dispatchEvent(customEvent(name, data)), /[, ]/);
 
   return elm;
 }
