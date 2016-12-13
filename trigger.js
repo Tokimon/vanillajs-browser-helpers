@@ -23,10 +23,10 @@ const customEvent = isFunction(CustomEvent)
 
 /**
  * Trigger one or more events on a DOM element.
- * @param  {HTMLElement} elm - DOM element to trigger the event on
+ * @param  {HTMLElement} [elm=document] - DOM element to trigger the event on
  * @param  {String|Array<String>} eventNames - Event names to trigger
  * @param  {Object} [data] - Extra data to add to the triggered event
- * @return {HTMLElement|NULL} - The 'elm' or NULL
+ * @return {HTMLElement} - The 'elm' (or document)
  */
 export default function trigger(elm, eventNames, data) {
   if(isString(elm)) { [elm, eventNames, data] = [document, elm, eventNames]; }
