@@ -3,6 +3,8 @@
 
 import off from '../off';
 
+// TODO: add test for events on window
+
 describe('"off"', () => {
   it('Should fallback to document, if the element is not a DOM Node', () => {
     const cb = sinon.spy();

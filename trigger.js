@@ -4,6 +4,7 @@ import isArray from 'vanillajs-helpers/isArray';
 import isString from 'vanillajs-helpers/isString';
 
 import isDOMNode from './isDOMNode';
+import isWindow from './isWindow';
 
 // Determine the method to create the correct CustomEvent object
 // (IE 11 and below doesn't implement the object correctly)
@@ -30,10 +31,10 @@ const customEvent = isFunction(CustomEvent)
  */
 export default function trigger(elm, eventNames, data) {
   if(isString(elm)) { [elm, eventNames, data] = [document, elm, eventNames]; }
-  if(!isDOMNode(elm)) { elm = document; }
+  if(!isDOMNode(elm) && !isWindow(elm)) { elm = document; }
 
   if(isArray(eventNames)) { eventNames = eventNames.join(); }
-  words(eventNames, (name) => elm.dispatchEvent(customEvent(name, data)), /[, ]/);
+  words(eventNames, (name) => elm.dispatchEvent(customEvent(name, data)), /[, ]+/);
 
   return elm;
 }

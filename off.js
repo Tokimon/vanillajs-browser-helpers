@@ -4,6 +4,7 @@ import isFunction from 'vanillajs-helpers/isFunction';
 import isString from 'vanillajs-helpers/isString';
 
 import isDOMNode from './isDOMNode';
+import isWindow from './isWindow';
 
 /**
  * Removed an event handler from one or more event names on a DOM element.
@@ -14,11 +15,11 @@ import isDOMNode from './isDOMNode';
  */
 export default function off(elm, eventNames, handler) {
   if(isString(elm)) { [elm, eventNames, handler] = [document, elm, eventNames]; }
-  if(!isDOMNode(elm)) { elm = document; }
+  if(!isDOMNode(elm) && !isWindow(elm)) { elm = document; }
 
   if(isFunction(handler)) {
     if(isArray(eventNames)) { eventNames = eventNames.join(); }
-    words(eventNames, (name) => elm.removeEventListener(name, handler, false), /[, ]/);
+    words(eventNames, (name) => elm.removeEventListener(name, handler, false), /[, ]+/);
   }
 
   return elm;
