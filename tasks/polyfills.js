@@ -1,11 +1,13 @@
 const nPath = require('path');
+const fs = require('fs-promise');
 const glob = require('glob-promise');
 
 const rollup = require('rollup');
 const rollupNode = require('rollup-plugin-node-resolve');
 const rollupCJS = require('rollup-plugin-commonjs');
 
-glob(nPath.resolve('polyfills/*.js'))
+fs.remove('polyfills/out')
+  .then(() => glob(nPath.resolve('polyfills/*.js')))
   .then((files) => Promise.all(files.map((file) => {
     return rollup.rollup({
       entry: file,
@@ -17,11 +19,14 @@ glob(nPath.resolve('polyfills/*.js'))
       ]
     })
       .then((bundle) => {
-        const dest = nPath.resolve('test/assets/polyfills', nPath.basename(file));
+        process.stdout.write('.');
+
+        const dest = nPath.resolve('polyfills/out', nPath.basename(file));
 
         return bundle.write({
           format: 'iife',
           dest
         });
       });
-  })));
+  })))
+  .then(() => console.log('\nDONE'));

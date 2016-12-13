@@ -40,6 +40,6 @@ jspm_packages
 .node_repl_history
 
 # Custom
-test/assets/polyfills
+polyfills/out
 specs
 cjs
