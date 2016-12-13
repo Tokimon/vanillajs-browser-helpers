@@ -3,8 +3,8 @@
 
 'use strict';
 
-import '../polyfills/array.from';
-import '../polyfills/Set';
+import 'polyfills/array-from-polyfill';
+import 'polyfills/Set';
 
 import find, { findOne } from '../find';
 

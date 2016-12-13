@@ -1,8 +1,8 @@
 /* eslint-env node, mocha, browser */
 /* global expect */
 
-import '../polyfills/array.includes';
-import '../polyfills/matches';
+import 'polyfills/array-includes';
+import 'polyfills/matches';
 
 import create, { parseSelector, selectorToHTML } from '../create';
 

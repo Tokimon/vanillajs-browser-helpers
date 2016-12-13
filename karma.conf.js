@@ -6,6 +6,7 @@ const rollupBabel = require('rollup-plugin-babel');
 const rollupNode = require('rollup-plugin-node-resolve');
 const rollupIstanbul = require('rollup-plugin-istanbul');
 const rollupCJS = require('rollup-plugin-commonjs');
+const rollupIncludePaths = require('rollup-plugin-includepaths');
 
 const yargs = require('yargs');
 
@@ -93,6 +94,7 @@ babelConfig.plugins = babelConfig.plugins.concat([
 const reporters = [args.simple ? 'progress' : 'mocha'];
 
 const rollupPlugins = [
+  rollupIncludePaths({ paths: [''], include: {} }),
   rollupNode({ jsnext: true, main: true }),
   rollupCJS({ sourceMap: false }),
   rollupBabel(babelConfig)

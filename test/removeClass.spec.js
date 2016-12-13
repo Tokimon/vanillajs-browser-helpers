@@ -1,7 +1,7 @@
 /* eslint-env node, mocha, browser */
 /* global expect, $ */
 
-import '../polyfills/domtokenlist';
+import 'polyfills/domtokenlist-polyfill';
 
 import removeClass from '../removeClass';
 

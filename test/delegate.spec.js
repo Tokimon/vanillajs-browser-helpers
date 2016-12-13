@@ -1,7 +1,7 @@
 /* eslint-env node, mocha, browser */
 /* global expect, $, sinon */
 
-import '../polyfills/object.assign';
+import 'polyfills/object-assign-polyfill';
 
 import delegate, { delegateHandler, delegateBuilder } from '../delegate';
 

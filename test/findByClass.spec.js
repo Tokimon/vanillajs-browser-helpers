@@ -1,8 +1,8 @@
 /* eslint-env node, mocha, browser */
 /* global expect, $ */
 
-import '../polyfills/array.from';
-import '../polyfills/Set';
+import 'polyfills/array-from-polyfill';
+import 'polyfills/Set';
 
 import findByClass from '../findByClass';
 

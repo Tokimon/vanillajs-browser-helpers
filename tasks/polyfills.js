@@ -29,4 +29,4 @@ fs.remove('polyfills/out')
         });
       });
   })))
-  .then(() => console.log('\nDONE'));
+  .then(() => console.log('\nPOLYFILLS successfully build'));

@@ -1,6 +1,6 @@
 /* eslint-env node, mocha, browser */
 /* global expect, $ */
-import '../polyfills/array.from';
+import 'polyfills/array-from-polyfill';
 import findByTagName from '../findByTagName';
 
 const testID = 'tagNameTest';
