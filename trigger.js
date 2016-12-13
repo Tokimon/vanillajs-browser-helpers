@@ -1,12 +1,19 @@
 import words from 'vanillajs-helpers/eachWord';
 import isFunction from 'vanillajs-helpers/isFunction';
 import isArray from 'vanillajs-helpers/isArray';
+import isString from 'vanillajs-helpers/isString';
+
+import isDOMNode from './isDOMNode';
 
 // Determine the method to create the correct CustomEvent object
 // (IE 11 and below doesn't implement the object correctly)
-const customEvent = typeof CustomEvent === 'function'
-  ? (name, data) => new CustomEvent(name, { detail: data, bubbles: true })
-  : (name, data) => {
+const customEvent = isFunction(CustomEvent)
+  ? (name, data) => {
+    const options = { bubbles: true };
+    if(typeof data !== 'undefined') { options.detail = data; }
+    return new CustomEvent(name, options);
+  }
+  : (name, data = null) => {
     const evt = document.createEvent('CustomEvent');
     evt.initCustomEvent(name, true, true, data);
     return evt;
@@ -22,11 +29,12 @@ const customEvent = typeof CustomEvent === 'function'
  * @return {HTMLElement|NULL} - The 'elm' or NULL
  */
 export default function trigger(elm, eventNames, data) {
-  if(!elm) { return null; }
+  if(isString(elm)) { [elm, eventNames, data] = [document, elm, eventNames]; }
+  if(!isDOMNode(elm)) { elm = document; }
 
   if(isFunction(elm.dispatchEvent)) {
-    if(isArray(eventNames)) { eventNames = eventNames.join(' '); }
-    words(eventNames, (name) => elm.dispatchEvent(customEvent(name, data)));
+    if(isArray(eventNames)) { eventNames = eventNames.join(); }
+    words(eventNames, (name) => elm.dispatchEvent(customEvent(name, data)), /[, ]/);
   }
 
   return elm;
