@@ -11,10 +11,10 @@ import _off from './off';
 
 /**
  * Build an event binder that will bind event handlers that are triggered only once
- *
- * @param  {Function} on - The method to use bind event handlers
- * @param  {Function} off - The method to use to remove event handlers
- * @return {Function} - The single fire event binder function
+ * @function onceBuilder
+ * @param {Function} on - The method to use bind event handlers
+ * @param {Function} off - The method to use to remove event handlers
+ * @return {Function} The single fire event binder function
  */
 export function onceBuilder(on, off) {
   if(!isFunction(on)) { on = _on; }
@@ -41,11 +41,11 @@ export function onceBuilder(on, off) {
 
 /**
  * Bind a single fire event handler for one or more event names on a DOM element.
- *
- * @param  {HTMLElement} elm - DOM element to unbind the event from
- * @param  {String|Array<String>} eventNames - Event names to bind the handler to
- * @param  {Function} handler - Handler to bind to the event
- * @return {Function} - The single fire event handler (so it may be removed again)
+ * @function once
+ * @param {HTMLElement} elm - DOM element to unbind the event from
+ * @param {String|String[]} eventNames - Event names to bind the handler to
+ * @param {Function} handler - Handler to bind to the event
+ * @return {Function} The single fire event handler (so it may be removed again)
  */
 const once = onceBuilder();
 export default once;

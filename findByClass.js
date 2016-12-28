@@ -4,9 +4,10 @@ import iterate from 'vanillajs-helpers/iterate';
 
 /**
  * Finds DOM elements with a given class name
- * @param  {String|Array<String>} classNames - Class name to find elements by
- * @param  {HTMLElement} [elm=document] - The DOM element to start the search from
- * @return {Array<HTMLElement>} - List of found DOM elements
+ * @function findByClass
+ * @param {String|String[]} classNames - Class name to find elements by
+ * @param {HTMLElement} [elm=document] - The DOM element to start the search from
+ * @return {HTMLElement[]} List of found DOM elements
  */
 export default function findByClass(classNames, elm) {
   // Is it is a string split by comma (convert to Array)

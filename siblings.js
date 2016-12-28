@@ -1,10 +1,13 @@
 import isDOMChildNode from './isDOMChildNode';
 import children from './children';
 
+
+
 /**
  * Get all sibling elements of a given DOM element
- * @param  {HTMLElement} elm - DOM element to find siblings of
- * @return {Array<HTMLElement>} - Collection of sibling elements
+ * @function siblings
+ * @param {HTMLElement} elm - DOM element to find siblings of
+ * @return {HTMLElement[]} Collection of sibling elements
  */
 export default function siblings(elm) {
   if(!isDOMChildNode(elm)) { return []; }
@@ -15,8 +18,9 @@ export default function siblings(elm) {
 
 /**
  * Get the next sibling element of a DOM element
- * @param  {HTMLElement} elm - The HTMLElement to find the sibling of
- * @return {HTMLElement|null} - The next sibling element or null
+ * @function next
+ * @param {HTMLElement} elm - The HTMLElement to find the sibling of
+ * @return {HTMLElement|null} The next sibling element or null
  */
 export function next(elm) {
   return isDOMChildNode(elm) ? elm.nextElementSibling : null;
@@ -26,8 +30,9 @@ export function next(elm) {
 
 /**
  * Get the previous sibling element of a DOM element
- * @param  {HTMLElement} elm - The HTMLElement to find the sibling of
- * @return {[type]} - The previous sibling element or null
+ * @function prev
+ * @param {HTMLElement} elm - The HTMLElement to find the sibling of
+ * @return {[type]} The previous sibling element or null
  */
 export function prev(elm) {
   return isDOMChildNode(elm) ? elm.previousElementSibling : null;

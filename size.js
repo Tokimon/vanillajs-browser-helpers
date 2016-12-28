@@ -15,8 +15,9 @@ import isDOMDocument from './isDOMDocument';
 
 /**
  * Finds the size of a DOM element or window.
- * @param  {HTMLElement|window} [elm = viewport] - The DOM element (or window) to find the size of
- * @return {SizeData} - Object describing the various size information of an element
+ * @function size
+ * @param {HTMLElement|window} [elm = viewport] - The DOM element (or window) to find the size of
+ * @return {SizeData} Object describing the various size information of an element
  */
 export default function size(elm) {
   if(isDOMDocument(elm)) { elm = elm.documentElement; }

@@ -10,3 +10,4 @@ coverage
 polyfills
 karma.conf.js
 specs
+jsdoc

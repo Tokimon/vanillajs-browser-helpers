@@ -6,10 +6,11 @@ import isDOMElement from './isDOMElement';
 
 /**
  * Get current styling of a DOM element and optionally set given style first
- * @param  {HTMLElement} elm - DOM element to get the style from
- * @param  {Object} [pseudo] - Pseudo element to get the styling from
- * @param  {Object} [style] - Styling to set on the element
- * @return {Object|null} - Current styling on the element
+ * @function css
+ * @param {HTMLElement} elm - DOM element to get the style from
+ * @param {Object} [pseudo] - Pseudo element to get the styling from
+ * @param {Object} [style] - Styling to set on the element
+ * @return {Object|null} Current styling on the element
  */
 export default function css(elm, pseudo, style) {
   if(!isDOMElement(elm)) { return null; }

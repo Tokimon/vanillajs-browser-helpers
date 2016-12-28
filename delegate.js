@@ -8,9 +8,10 @@ import isFunction from 'vanillajs-helpers/isFunction';
 /**
  * Creates a function that triggers the given handler if the current event target
  * matches the given delegation selector
- * @param  {String} delegation - CSS Selector that matches the element to delegate the event to
- * @param  {Funciton} handler - Handler to triger if delegation selector match
- * @return {Function} - The delegate event handler
+ * @function delegateHandler
+ * @param {String} delegation - CSS Selector that matches the element to delegate the event to
+ * @param {Funciton} handler - Handler to triger if delegation selector match
+ * @return {Function} The delegate event handler
  */
 export function delegateHandler(delegation, handler) {
   if(!isString(delegation) || !isFunction(handler)) { return null; }
@@ -34,10 +35,10 @@ export function delegateHandler(delegation, handler) {
 
 /**
  * Build an event binder that will bind delegated event handlers
- *
- * @param  {Function} on - The method to use bind event handlers
- * @param  {Function} off - The method to use to remove event handlers
- * @return {Function} - The delegate event binder
+ * @function delegateBuilder
+ * @param {Function} on - The method to use bind event handlers
+ * @param {Function} off - The method to use to remove event handlers
+ * @return {Function} The delegate event binder
  */
 export function delegateBuilder(on = _on) {
   if(!isFunction(on)) { return null; }
@@ -56,11 +57,11 @@ export function delegateBuilder(on = _on) {
 /**
  * Bind a delegated event handler for one or more event names on a DOM element.
  *
- * @param  {HTMLElement} elm - DOM element to unbind the event from
- * @param  {String|Array<String>} eventNames - Event names to bind the handler to
- * @param  {String} delegation - CSS Selector that matches the element to delegate the event to
- * @param  {Function} handler - Handler to bind to the event
- * @return {Function} - The delegation event handler (so it may be removed again)
+ * @param {HTMLElement} elm - DOM element to unbind the event from
+ * @param {String|String[]} eventNames - Event names to bind the handler to
+ * @param {String} delegation - CSS Selector that matches the element to delegate the event to
+ * @param {Function} handler - Handler to bind to the event
+ * @return {Function} The delegation event handler (so it may be removed again)
  */
 const delegate = delegateBuilder();
 export default delegate;

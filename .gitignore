@@ -43,3 +43,4 @@ jspm_packages
 polyfills/out
 specs
 cjs
+jsdoc

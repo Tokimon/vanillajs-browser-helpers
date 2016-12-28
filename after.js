@@ -4,9 +4,10 @@ import isDOMChildNode from './isDOMChildNode';
 
 /**
  * Inserts DOM element or plain HTML after a given DOM element
+ * @function addClass
  * @param {HTMLElement} elm - The DOM element to insert after
  * @param {String|HTMLElement} insertElm - DOM element or HTML to insert
- * @return {HTMLElement} - The inserted element
+ * @return {HTMLElement|null} The inserted element
  */
 export default function after(elm, insertElm) {
   if(!isDOMChildNode(elm)) { return null; }

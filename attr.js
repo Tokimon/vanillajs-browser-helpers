@@ -2,10 +2,11 @@ import isDOMElement from './isDOMElement';
 
 /**
  * Get/set the value of an attribute on a given DOM element
- * @param  {HTMLElement} elm - The DOM element to fetch the attribute from
- * @param  {String} attrName - Name of the attribute to handle
- * @param  {String|Number} [value] - Value to insert into the attribute
- * @return {String} - Data found in the attribute (the old value if {value} is defined)
+ * @function attr
+ * @param {HTMLElement} elm - The DOM element to fetch the attribute from
+ * @param {String} attrName - Name of the attribute to handle
+ * @param {String|Number} [value] - Value to insert into the attribute
+ * @return {String} Data found in the attribute (the old value if {value} is defined)
  */
 export default function attr(elm, attrName, value) {
   if(!isDOMElement(elm) || !attrName) { return false; }

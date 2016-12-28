@@ -144,9 +144,10 @@ function check(queries, elm) {
 
 /**
  * Takes a selector and determines the correct method to find matching DOM elements in the DOM.
- * @param  {String|Array<String>} queries - CSS query selector to find elements from
- * @param  {HTMLElement} [elm=document] - The DOM element from where to start the search
- * @return {Array<HTMLElement>|HTMLElement|NULL} - The found element(s) or null/empty array
+ * @function find
+ * @param {String|String[]} queries - CSS query selector to find elements from
+ * @param {HTMLElement} [elm=document] - The DOM element from where to start the search
+ * @return {HTMLElement[]|HTMLElement|null} The found element(s) or null/empty array
  */
 export default function find(queries, elm) {
   const vars = check(queries, elm);
@@ -187,9 +188,10 @@ export default function find(queries, elm) {
 
 /**
  * Shortcut function to find(selector, elm, true). Returns the first found element.
- * @param  {String|Array<String>} selector - CSS query selector
- * @param  {HTMLElement} [elm=document] - The DOM element from where to start the search
- * @return {HTMLElement|NULL} - The found element or null
+ * @function findOne
+ * @param {String|String[]} selector - CSS query selector
+ * @param {HTMLElement} [elm=document] - The DOM element from where to start the search
+ * @return {HTMLElement|null} The found element or null
  */
 export function findOne(queries, elm) {
   const vars = check(queries, elm);

@@ -24,9 +24,10 @@ import isDOMDocument from './isDOMDocument';
  * Get the curernt position of a DOM element, either relative to the offsetParent
  * or relative to the document. If the element is the viewport or the window, the
  * position of the window is returned.
- * @param  {HTMLElement|window} [elm = window] - The DOM element to find the position of
- * @param  {Boolean} relative = false - Find the position relative to the offsetParent rather than the document
- * @return {PositionData} - the position information of the element
+ * @function position
+ * @param {HTMLElement|window} [elm = window] - The DOM element to find the position of
+ * @param {Boolean} relative = false - Find the position relative to the offsetParent rather than the document
+ * @return {PositionData} the position information of the element
  */
 export default function position(elm) {
   if(!elm) { elm = window; }

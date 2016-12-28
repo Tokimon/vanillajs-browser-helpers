@@ -1,7 +1,8 @@
 /**
  * Is the given object a DOM document node
+ * @function isDOMDocument
  * @param {Object} obj - The object to check
- * @return {Boolean} - Is it a DOM document node or not
+ * @return {Boolean} Is it a DOM document node or not
  */
 export default function isDOMDocument(obj) {
   if(!obj || !obj.defaultView) { return false; }

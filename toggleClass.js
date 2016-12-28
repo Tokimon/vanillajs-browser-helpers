@@ -6,8 +6,9 @@ import isDOMElement from './isDOMElement';
 
 /**
  * Toggles (add/remove) one or multiple class names on a DOM element
+ * @function toggle
  * @param {HTMLElement} elm - DOM element to toggle class names from
- * @param {String|Array<String>} classNames - Class names to toggle
+ * @param {String|String[]} classNames - Class names to toggle
  * @param {Boolean} force - Force to add or remove (true = add, false = remove)
  */
 export default function toggle(elm, classNames, force) {

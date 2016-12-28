@@ -2,8 +2,9 @@ import inDOM from './inDOM';
 
 /**
  * Test if a given DOM element is technically hidden ('display:none' or 'visibility: hidden').
- * @param  {HTMLElement} elm - DOM element to test
- * @return {Boolean} - Is the element technically hidden or not
+ * @function hidden
+ * @param {HTMLElement} elm - DOM element to test
+ * @return {Boolean} Is the element technically hidden or not
  */
 export default function hidden(elm) {
   return !inDOM(elm) ||

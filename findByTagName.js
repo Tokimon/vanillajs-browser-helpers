@@ -3,9 +3,10 @@ import isArray from 'vanillajs-helpers/isArray';
 
 /**
  * Find elements by given tag name
- * @param  {String|Array<String>} tags - Tag name to find the elements by
- * @param  {HTMLElement} [elm=document] - The DOM element to start the search from
- * @return {Array<HTMLElement>} - List of found DOM elements
+ * @function findByTagName
+ * @param {String|String[]} tags - Tag name to find the elements by
+ * @param {HTMLElement} [elm=document] - The DOM element to start the search from
+ * @return {HTMLElement[]} List of found DOM elements
  */
 export default function findByTagName(tags, elm) {
   // Is it is a string split by comma (convert to Array)

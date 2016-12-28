@@ -4,8 +4,10 @@ import isDOMChildNode from './isDOMChildNode';
 
 /**
  * Inserts DOM element or plain HTML before a given DOM element
- * @param  {HTMLElement} elm - The DOM element to insert {insertElm} before
- * @param  {String|HTMLElement} insertElm - DOM element or String to insert before the {elm}
+ * @function before
+ * @param {HTMLElement} elm - The DOM element to insert {insertElm} before
+ * @param {String|HTMLElement} insertElm - DOM element or String to insert before the {elm}
+ * @return {HTMLElement|null}
  */
 export default function before(elm, insertElm) {
   if(!isDOMChildNode(elm)) { return null; }

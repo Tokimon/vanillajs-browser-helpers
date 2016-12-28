@@ -4,9 +4,10 @@ import isArray from 'vanillajs-helpers/isArray';
 
 /**
  * Remove one or multiple class names from a DOM element
+ * @function removeCLass
  * @param {HTMLElement} elm - HTML ELement to remove class names from
- * @param {String|Array<String>} classNames - Class names to remove
- * @return {HTMLElement} - Returns element given in 'elm'
+ * @param {String|String[]} classNames - Class names to remove
+ * @return {HTMLElement} Returns element given in 'elm'
  */
 export default function removeCLass(elm, classNames) {
   if(isString(classNames)) { classNames = classNames.split(/\s+/); }

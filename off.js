@@ -8,10 +8,11 @@ import isWindow from './isWindow';
 
 /**
  * Removed an event handler from one or more event names on a DOM element.
- * @param  {HTMLElement} [elm=document] - DOM element to unbind the event from
- * @param  {String|Array<String>} eventNames - Event names to remove the handler from
- * @param  {Function} handler - Handler to unbind from the event
- * @return {HTMLElement} - The 'elm' (or document)
+ * @function off
+ * @param {HTMLElement} [elm=document] - DOM element to unbind the event from
+ * @param {String|String[]} eventNames - Event names to remove the handler from
+ * @param {Function} handler - Handler to unbind from the event
+ * @return {HTMLElement} The 'elm' (or document)
  */
 export default function off(elm, eventNames, handler) {
   if(isString(elm)) { [elm, eventNames, handler] = [document, elm, eventNames]; }

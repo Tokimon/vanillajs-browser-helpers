@@ -10,6 +10,7 @@
     "spec": "node ./tasks/spec.js",
     "polyfills": "node ./tasks/polyfills.js",
     "cjs": "node ./tasks/cjs.js",
+    "jsdoc": "node ./tasks/jsdoc.js",
     "coveralls": "cat ./coverage/lcov/lcov.info | node node_modules/.bin/coveralls",
     "coveralls:win": "type ./coverage/lcov/lcov.info | node node_modules/.bin/coveralls",
     "lint": "eslint"

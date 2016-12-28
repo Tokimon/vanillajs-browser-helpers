@@ -4,10 +4,11 @@ import isArray from 'vanillajs-helpers/isArray';
 
 /**
  * Find elements by given CSS selector
- * @param  {String|Array<String>} queries - CSS selector to find elements by
- * @param  {HTMLElement} [elm=document] - The DOM element to start the search from
- * @param  {Boolean} [first=false] - Return only the first found element
- * @return {HTMLElement|Array<HTMLElement>} - List of found DOM elements
+ * @function findByQuery
+ * @param {String|String[]} queries - CSS selector to find elements by
+ * @param {HTMLElement} [elm=document] - The DOM element to start the search from
+ * @param {Boolean} [first=false] - Return only the first found element
+ * @return {HTMLElement|HTMLElement[]} List of found DOM elements
  */
 export default function findByQuery(queries, elm, first = false) {
   // Correct variables if 'elm' is omitted but 'first' isn't

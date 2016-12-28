@@ -4,8 +4,9 @@ import iterate from 'vanillajs-helpers/iterate';
 
 /**
  * Find DOM elements with the given name
- * @param  {String|Array<String>} names - Value of name attribute to find the elements by
- * @return {Array<HTMLElement>} - List of found DOM elements
+ * @function findByName
+ * @param {String|String[]} names - Value of name attribute to find the elements by
+ * @return {HTMLElement[]} List of found DOM elements
  */
 export default function findByName(names) {
   // Is it is a string split by comma (convert to Array)

@@ -3,9 +3,10 @@ import isArray from 'vanillajs-helpers/isArray';
 
 /**
  * Is the given object a DOM element node and of a given type
+ * @function isDOMElement
  * @param {Object} obj - The object to check
- * @param  {String|Array<String>} [tags] - Tag name to match
- * @return {Boolean} - Is it a DOM element node or not and of the right type
+ * @param {String|String[]} [tags] - Tag name to match
+ * @return {Boolean} Is it a DOM element node or not and of the right type
  */
 export default function isDOMElement(obj, tags) {
   const isElm = obj instanceof Element;

@@ -7,9 +7,10 @@ import remove from './remove';
 
 /**
  * Replace a given DOM element with another DOM element or plain HTML string
+ * @function replace
  * @param {HTMLElement} elm - DOM element to replace
  * @param {HTMLElement|String} replacement - DOM element or plain HTML string to replace {elm}
- * @return {HTMLElement} - The value given in `elm`
+ * @return {HTMLElement} The value given in `elm`
  */
 export default function replace(elm, replacement) {
   if(!isDOMChildNode(elm)) { return elm; }

@@ -3,8 +3,9 @@ import children from './children';
 
 /**
  * Convert HTML into DOM node(s)
- * @param  {String} html - HTML string to transform into nodes
- * @return {Array<HTMLElement>} - DOM elements that the HTML represented
+ * @function toDOM
+ * @param {String} html - HTML string to transform into nodes
+ * @return {HTMLElement[]} DOM elements that the HTML represented
  */
 export default function toDOM(html) {
   if(!isString(html)) { return html; }

@@ -17,8 +17,9 @@ import size from './size';
 
 /**
  * Find the current scroll position of a DOM element
- * @param  {HTMLElement|window} [elm = window] - The DOM element to find the scrolling position from
- * @return {ScrollData} - The scroll information
+ * @function scroll
+ * @param {HTMLElement|window} [elm = window] - The DOM element to find the scrolling position from
+ * @return {ScrollData} The scroll information
  */
 export default function scroll(elm = window, scrollPos = null) {
   let isWin = isWindow(elm);

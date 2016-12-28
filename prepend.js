@@ -4,8 +4,10 @@ import isDOMContainer from './isDOMContainer';
 
 /**
  * Prepend DOM element or plain HTML into a given DOM element
- * @param  {HTMLElement} elm - The DOM element to prepend into
- * @param  {string|HTMLElement} insertElm - DOM element or String to prepend to the {elm}
+ * @function prepend
+ * @param {HTMLElement} elm - The DOM element to prepend into
+ * @param {String|HTMLElement} insertElm - DOM element or String to prepend to the {elm}
+ * @return {HTMLElement|null} The inserted child element
  */
 export default function prepend(elm, insertElm) {
   if(!isDOMContainer(elm)) { return null; }

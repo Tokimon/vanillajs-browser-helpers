@@ -5,11 +5,12 @@ import dashed from 'vanillajs-helpers/dashed';
 
 /**
  * Get/set the value of a 'data-' attribute on a given DOM element
- * @param  {HTMLElement} elm - The DOM element to fetch the data from
- * @param  {String} dataName - Name of the 'data-' attribute to handle (eg. id -> data-id)
- * @param  {String|Number} [value] - Value to insert into the 'data-' attribute
- * @return {String|Boolean|null} - Data found in the 'data-' attribute - true (also empty values),
- *                                 null if undefined, false if data attributes are not supported on the element
+ * @function data
+ * @param {HTMLElement} elm - The DOM element to fetch the data from
+ * @param {String} dataName - Name of the 'data-' attribute to handle (eg. id -> data-id)
+ * @param {String|Number} [value] - Value to insert into the 'data-' attribute
+ * @return {String|Boolean|null} Data found in the 'data-' attribute - true (also empty values),
+ *                               null if undefined, false if data attributes are not supported on the element
  */
 export default function data(elm, dataName, value) {
   if(!isDOMElement(elm)) { return false; }

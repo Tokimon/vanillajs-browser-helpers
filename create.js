@@ -3,6 +3,8 @@ import uniqueArray from 'vanillajs-helpers/uniqueArray';
 
 import toDOM from './toDOM';
 
+
+
 const voidTags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
 const elmExp = /^[a-z]+/;
 const nameExp = /[a-z][\w\d-]*/i;
@@ -10,6 +12,20 @@ const idExp = new RegExp(`#${nameExp.source}`, 'i');
 const classExp = new RegExp(`\\.${nameExp.source}`, 'ig');
 const attrExp = new RegExp(`\\[(${nameExp.source})(?:=([^\\]]+))?]`, 'g');
 
+
+
+/**
+ * @typedef SelectorParsing
+ * @property {String} tagName - The tag name
+ * @property {Object} attributes - The parsed attributes in key/value pairs
+ */
+
+/**
+ * Parses a selector string into a structured object
+ * @function parseSelector
+ * @param {String} selector - The CSS selector to parse
+ * @return {SelectorParsing} The parsing mapping
+ */
 export function parseSelector(selector) {
   if(!selector) { selector = ''; }
   selector = `${selector}`;
@@ -62,6 +78,7 @@ export function parseSelector(selector) {
     attributes.class = uniqueArray(attributes.class).join(' ');
   }
 
+  // Transform array attributes into space separated strings
   Object.keys(attributes)
     .forEach((att) => {
       if(isArray(attributes[att])) {
@@ -72,6 +89,14 @@ export function parseSelector(selector) {
   return { tagName, attributes };
 }
 
+
+
+/**
+ * Converts a given CSS selector into HTML (limited to only one element)
+ * @function selectorToHTML
+ * @param  {String} selector - The CSS selector to convert
+ * @return {String} The parsed HTML
+ */
 export function selectorToHTML(selector) {
   const { tagName: tag, attributes } = parseSelector(selector);
 
@@ -84,6 +109,14 @@ export function selectorToHTML(selector) {
   return start + end;
 }
 
+
+
+/**
+ * Creates an element from a given CSS selector (restricted to only one element)
+ * @function create
+ * @param  {String} selector - The CSS selector to convert
+ * @return {HTMLElement} The converted element
+ */
 export default function create(selector) {
   return toDOM(selectorToHTML(selector))[0];
 }

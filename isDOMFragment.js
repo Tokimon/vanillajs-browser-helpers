@@ -1,7 +1,8 @@
 /**
  * Is the given object a Document Fragment
+ * @function isDOMFragment
  * @param {Object} obj - The object to check
- * @return {Boolean} - Is it a Document Fragment or not
+ * @return {Boolean} Is it a Document Fragment or not
  */
 export default function isDOMFragment(obj) {
   return obj instanceof DocumentFragment;

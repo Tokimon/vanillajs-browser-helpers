@@ -11,11 +11,12 @@ import hidden from './hidden';
 
 /**
  * Determines whether the element is in the area of the viewport or not.
- * @param  {HTMLElement} elm - DOM element to test
- * @param  {Number} [threshold = 0] - The distance to the edge of the viwport before
+ * @function inView
+ * @param {HTMLElement} elm - DOM element to test
+ * @param {Number} [threshold = 0] - The distance to the edge of the viwport before
  *                                    the element is no longer visible in the viewport area
  *
- * @return {Boolean|PositionIndicator} - If the element is in the viewport area it returns true,
+ * @return {Boolean|PositionIndicator} If the element is in the viewport area it returns true,
  *                            otherwise it returns an object with indications of
  *                            where the element is compared to the viewport area
  */
