@@ -84,6 +84,6 @@
     "yargs": "^6.4.0"
   },
   "dependencies": {
-    "vanillajs-helpers": "^1.1.6"
+    "vanillajs-helpers": "^1.1.7"
   }
 }
