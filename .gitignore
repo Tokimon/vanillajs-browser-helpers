@@ -42,5 +42,5 @@ jspm_packages
 # Custom
 polyfills/out
 specs
-cjs
+es5
 jsdoc

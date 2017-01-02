@@ -28,7 +28,7 @@ const args = yargs
     alias: 'r',
     describe: 'Root path to search for the test directory',
     type: 'string',
-    choices: ['.', 'cjs'],
+    choices: ['.', 'es5'],
     default: '.'
   })
   .option('test', {
@@ -80,6 +80,7 @@ const babelConfig = {
 };
 
 babelConfig.plugins = babelConfig.plugins.concat([
+  'transform-strict-mode',
   'transform-es2015-arrow-functions',
   'transform-es2015-block-scoped-functions',
   'transform-es2015-block-scoping',
@@ -103,7 +104,7 @@ const rollupPlugins = [
 ];
 
 if(args.coverage) {
-  if(args.root !== 'cjs') {
+  if(args.root !== 'es5') {
     rollupPlugins.push(rollupIstanbul({ include: [`./${tests}.js`], embedSource: true }));
     reporters.push('istanbul');
     console.log('ADDING COVERAGE REPORT');

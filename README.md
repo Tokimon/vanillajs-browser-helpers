@@ -8,8 +8,8 @@ This is a collection of simple, no dependency, vanilla JS snippets with the aim
 of making it easier to work with vanilla JS.
 
 They is written in ES6, since most of the major browsers support this syntax,
-all scripts have however been converted into the CommonJS syntax and stored in
-the `./cjs` folder if needed.
+all scripts have however been converted into the Echma Script 5 syntax (without
+polyfills) and stored in the `./es5` folder if needed.
 
 Polyfills haven't been included as they exist in abundance on NPM, and since the
 need for polyfills are ever diminishing it is more future proof and clutter free
@@ -140,14 +140,14 @@ npm install vanillajs-browser-helpers
 ## Usage
 
 ```js
-// ES 6 Modules
+// ES 6
 import append from 'vanillajs-browser-helpers/append';
 append('<div class="child-element"></div>');
 ```
 
 ```js
-// CommonJS Modules
-const append = require('vanillajs-browser-helpers/cjs/append').default;
+// ES 5
+var append = require('vanillajs-browser-helpers/es5/append').default;
 append('<div class="child-element"></div>');
 ```
 
