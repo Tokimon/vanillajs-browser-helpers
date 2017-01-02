@@ -5,11 +5,11 @@
   "author": "Toke Voltelen",
   "license": "MIT",
   "scripts": {
-    "prepublish": "npm run cjs",
+    "prepublish": "npm run es5",
     "test": "karma start",
     "spec": "node ./tasks/spec.js",
     "polyfills": "node ./tasks/polyfills.js",
-    "cjs": "node ./tasks/cjs.js",
+    "es5": "node ./tasks/es5.js",
     "jsdoc": "node ./tasks/jsdoc.js",
     "coveralls": "cat ./coverage/lcov/lcov.info | node node_modules/.bin/coveralls",
     "coveralls:win": "type ./coverage/lcov/lcov.info | node node_modules/.bin/coveralls",
@@ -42,6 +42,7 @@
     "babel-plugin-transform-es2015-spread": "^6.8.0",
     "babel-plugin-transform-es2015-template-literals": "^6.8.0",
     "babel-plugin-transform-proto-to-assign": "^6.9.0",
+    "babel-plugin-transform-strict-mode": "^6.18.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "chai-things": "^0.2.0",
@@ -83,6 +84,6 @@
     "yargs": "^6.4.0"
   },
   "dependencies": {
-    "vanillajs-helpers": "^1.1.0"
+    "vanillajs-helpers": "^1.1.6"
   }
 }

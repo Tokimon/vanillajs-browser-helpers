@@ -3,12 +3,12 @@ node_js:
   - '6'
 install:
   - npm install
-  - npm run cjs
+  - npm run es5
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - sleep 2
 script:
   - npm test -- -b firefox -sc
-  - npm test -- -b firefox -sr cjs
+  - npm test -- -b firefox -sr es5
 after_success: npm run coveralls

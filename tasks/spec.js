@@ -22,7 +22,7 @@ const args = require('yargs')
     alias: 'r',
     describe: 'Root path to search for the test directory',
     type: 'string',
-    choices: ['.', 'cjs'],
+    choices: ['.', 'es5'],
     default: '.'
   })
   .help()
@@ -51,7 +51,7 @@ plugins.push(rollupBabel({
   ]
 }));
 
-if(args.instrument && args.root !== 'cjs') {
+if(args.instrument && args.root !== 'es5') {
   plugins.push(rollupIstanbul({ include: [`./*.js`], embedSource: true }));
 }
 
