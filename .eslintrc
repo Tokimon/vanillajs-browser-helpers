@@ -34,6 +34,7 @@
     "no-console": 1,
     "no-multiple-empty-lines": [2, { max: 3, maxBOF: 0, maxEOF: 1 }],
     "curly": [2, "all"],
-    "no-case-declarations": 0
+    "no-case-declarations": 0,
+    "generator-star-spacing": ["error", { "before": true, "after": false }]
   }
 }
