@@ -1,4 +1,5 @@
 /* eslint-env node, mocha, browser */
+/* eslint-disable no-unused-expressions */
 /* global expect, $, sinon */
 import 'polyfills/array-from-polyfill';
 import 'polyfills/Map';

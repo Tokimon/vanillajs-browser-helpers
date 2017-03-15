@@ -16,9 +16,18 @@ import size from './size';
  */
 
 /**
+ * @typedef {Object} ScrollMoveInfo
+ * @property {Number} x - Set the scroll X position to this value.
+ * @property {Number} y - Set the scroll Y position to this value.
+ * @property {Number} byX - Scroll X axis by this amount (only if `x` is not defined).
+ * @property {Number} byY - Scroll Y axis by this amount (only if `y` is not defined).
+ */
+
+/**
  * Find the current scroll position of a DOM element
  * @function scroll
  * @param {HTMLElement|window} [elm = window] - The DOM element to find the scrolling position from
+ * @param {ScrollMoveInfo|Number} [scrollPos = null] - Set the scroll position (Only number sets the Y position)
  * @return {ScrollData} The scroll information
  */
 export default function scroll(elm = window, scrollPos = null) {
@@ -49,8 +58,11 @@ export default function scroll(elm = window, scrollPos = null) {
   // non standard properties. So for consitency we use the viewport, that uses the
   // same methods as the normal DOM elements.
 
+  // If only a number is given for the scroll position, assume it is an Y axis position
+  if(isNumber(scrollPos)) { scrollPos = { y: scrollPos }; }
+
   // Set the scroll position if the position object is defined
-  if(scrollPos) {
+  if(isObject(scrollPos)) {
     const { byX, byY, x, y } = scrollPos;
 
     // X Values - x = absolute pixel value, byX = relative pixel value

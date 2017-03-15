@@ -93,8 +93,7 @@ function getElm(elm, selector) {
     if(m) { return elm.getElementsByName(m[1]); }
   }
 
-  // If no method could be found just return undefined
-  return;
+  // If no method could be found undefined is returned
 }
 
 function _find(elm, queries, first) {
