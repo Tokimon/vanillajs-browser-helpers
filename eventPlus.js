@@ -15,8 +15,6 @@ import data from './data';
 
 
 
-// The registry of bound events
-// (necessary for advanced event handling)
 const events = new Map();
 
 
@@ -90,10 +88,7 @@ function callback(e) {
 
   const { handlers, delegates } = evts;
 
-  // Normal handlers use the 'currentTarget' as the element
   triggerHandlers(e, handlers, e.currentTarget);
-  // Delegates look at the target of the event to determine whether the element
-  // should trigger the event handler or not
   if(delegates.size > 0) {
     triggerHandlers(e, Array.from(delegates.values()).map((obj) => obj.cb));
   }
@@ -122,7 +117,7 @@ function eachEventNamespace(evtName, cb) {
  * @param {Function} handler - Handler to bind to the event
  * @return {HTMLElement} The `elm` DOM element
  */
-export default function on(elm, eventNames, delegation, handler) {
+export default function on(elm, eventNames, delegation, handler, options) {
   if(isString(elm)) {
     [elm, eventNames, delegation, handler] = [document, elm, eventNames, delegation];
   }
@@ -134,44 +129,32 @@ export default function on(elm, eventNames, delegation, handler) {
 
   if(!evts || !isString(eventNames)) { return elm; }
 
-  // If only handler has been given as argument in the place of the delegation
-  // selector, correct the variables
   if(isFunction(delegation)) { [handler, delegation] = [delegation, undefined]; }
   if(!isFunction(handler)) { return elm; }
 
   // Delegation handlers has to be stores separately to enable better unbinding control
-  // so we check if we are dealing with a delegate
   const isDelegate = isString(delegation);
   const onEvt = (evtName) => {
-    // Go through event and namespaces
     eachEventNamespace(evtName, (evtNS) => {
-      // Get the current handlers and push the handler to it
       // NOTE: We use arrays for handler collections over Set(), as functions
       // are treated individually anyway, thus loosing the benefits of using Set()
       const evt = evts.get(evtNS) || { handlers: [], delegates: new Map() };
 
       if(!isDelegate) {
-        // No delegate handlers we just add to the 'handlers' collection
         evt.handlers.push(handler);
       } else {
-        // Delegates will have to be stored, with the selector and a callback function
-        // that triggers all the handlers if the delegation element is the correct one
         const delegate = evt.delegates.get(delegation) || {
-          // CB is a delegation handler that triggers all the stored handlers
-          // if the delegation selector is met
           cb: delegateHandler(delegation, (e) => triggerHandlers(e, delegate.handlers)),
           handlers: []
         };
 
-        // Add handler to the delegate
         delegate.handlers.push(handler);
         evt.delegates.set(delegation, delegate);
       }
 
-      // Bind the event if it is the first handler for this event
-      if(!evts.has(evtNS)) { _on(elm, evtNS, callback); }
+      // Only bind the event if it is the first handler for this event
+      if(!evts.has(evtNS)) { _on(elm, evtNS, callback, options); }
 
-      // Make sure the events are stored
       evts.set(evtNS, evt);
     });
   };
@@ -215,30 +198,24 @@ export function off(elm, eventNames, delegation, handler) {
     return elm;
   }
 
-  // If only handler has been given as argument in the place of the delegation
-  // selector, correct the variables
   if(isFunction(delegation)) { [handler, delegation] = [delegation, undefined]; }
 
   const removeAll = !isFunction(handler);
   const removeDelegate = isString(delegation);
 
   const onEvt = (evtName) => {
-    // Go through event and namespaces
     eachEventNamespace(evtName, (evtNS) => {
       const evt = evts.get(evtNS);
       if(!evt) { return; }
 
       if(!removeDelegate) {
         evt.handlers = removeAll ? [] : evt.handlers.filter((h) => h !== handler);
-        // If we are removing all event handlers, we remove delegations as well
         if(removeAll) { evt.delegates.clear(); }
       } else {
         const delegate = evt.delegates.get(delegation);
         if(!delegate) { return; }
 
-        // Remove all handers or a single specific handler from the delegation
         delegate.handlers = removeAll ? [] : delegate.handlers.filter((h) => h !== handler);
-        // If there are no handlers left, remove the delegation cache.
         if(delegate.handlers.length === 0) { evt.delegates.delete(delegation); }
       }
 
