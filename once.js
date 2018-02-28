@@ -1,10 +1,11 @@
 import isFunction from 'vanillajs-helpers/isFunction';
 import isString from 'vanillajs-helpers/isString';
+import isObject from 'vanillajs-helpers/isObject';
 
 import isDOMNode from './isDOMNode';
 import isWindow from './isWindow';
 
-import _on from './on';
+import _on, { propsSupported } from './on';
 import _off from './off';
 
 
@@ -20,18 +21,27 @@ export function onceBuilder(on, off) {
   if(!isFunction(on)) { on = _on; }
   if(!isFunction(off)) { off = _off; }
 
-  return (elm, eventNames, handler) => {
-    if(isString(elm)) { [elm, eventNames, handler] = [document, elm, eventNames]; }
-    if(!isDOMNode(elm) && !isWindow(elm)) { elm = document; }
+  return (elm, eventNames, handler, options) => {
+    if(isString(elm)) {
+      [elm, eventNames, handler, options] = [document, elm, eventNames, handler];
+    }
 
     if(!isFunction(handler)) { return null; }
 
-    const _one = function(e) {
-      off(elm, e.type, _one);
-      return handler.call(this, e);
-    };
+    if(!isDOMNode(elm) && !isWindow(elm)) { elm = document; }
+    if(!isObject(options)) { options = { capture: !!options }; }
 
-    on(elm, eventNames, _one);
+    let _one = handler;
+    options.once = true;
+
+    if(!propsSupported) {
+      _one = function(e) {
+        off(elm, e.type, _one);
+        return handler.call(this, e);
+      };
+    }
+
+    on(elm, eventNames, _one, options);
 
     return _one;
   };
