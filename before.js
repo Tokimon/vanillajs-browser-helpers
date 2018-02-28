@@ -1,6 +1,10 @@
 import isString from 'vanillajs-helpers/isString';
+
 import isDOMNode from './isDOMNode';
 import isDOMChildNode from './isDOMChildNode';
+import selectorToHTML from './selectorToHTML';
+
+
 
 /**
  * Inserts DOM element or plain HTML before a given DOM element
@@ -15,6 +19,10 @@ export default function before(elm, insertElm) {
   if(isDOMNode(insertElm)) {
     elm.parentNode.insertBefore(insertElm, elm);
   } else if(isString(insertElm)) {
+    if(insertElm.indexOf('<') < 0) {
+      insertElm = selectorToHTML(insertElm);
+    }
+
     elm.insertAdjacentHTML('beforebegin', insertElm);
   } else {
     return null;

@@ -1,6 +1,10 @@
 import isString from 'vanillajs-helpers/isString';
+
 import isDOMNode from './isDOMNode';
 import isDOMContainer from './isDOMContainer';
+import selectorToHTML from './selectorToHTML';
+
+
 
 /**
  * Prepend DOM element or plain HTML into a given DOM element
@@ -15,6 +19,10 @@ export default function prepend(elm, insertElm) {
   if(isDOMNode(insertElm)) {
     elm.insertBefore(insertElm, elm.firstChild);
   } else if(isString(insertElm)) {
+    if(insertElm.indexOf('<') < 0) {
+      insertElm = selectorToHTML(insertElm);
+    }
+
     elm.insertAdjacentHTML('afterbegin', insertElm);
   } else {
     return null;

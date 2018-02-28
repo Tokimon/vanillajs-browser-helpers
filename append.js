@@ -1,6 +1,10 @@
 import isString from 'vanillajs-helpers/isString';
+
 import isDOMNode from './isDOMNode';
 import isDOMContainer from './isDOMContainer';
+import selectorToHTML from './selectorToHTML';
+
+
 
 /**
  * Append DOM element or plain HTML to the end of a given DOM element
@@ -15,6 +19,10 @@ export default function append(elm, insertElm) {
   if(isDOMNode(insertElm)) {
     elm.appendChild(insertElm);
   } else if(isString(insertElm)) {
+    if(insertElm.indexOf('<') < 0) {
+      insertElm = selectorToHTML(insertElm);
+    }
+
     elm.insertAdjacentHTML('beforeend', insertElm);
   } else {
     return null;
