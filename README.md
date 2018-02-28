@@ -44,6 +44,8 @@ Get/set an attribute of a DOM element
 Insert HTML or ad DOM element before a DOM element
 - [children](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/children):
 Get the direct child DOM elements of a DOM element
+- [create](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/create):
+Creates DOM element from CSS selector
 - [css](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/css):
 Get/set styling of a DOM element
 - [create](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/create):
@@ -60,8 +62,9 @@ Get the index of a DOM node amongst its siblings
 Sophisticated on/off event bindings:
   - Remove all event handler of one or all event bindings
   - Bind name spaced events
+  - Delegates
 - [find](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/find):
-Find method that detect the most effecient find mothod dependeing on the query. Also includes certain wilcards.
+Find method that detect the most efficient find method depending on the query. Also includes certain wildcards.
 - [findByClass](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/findByClass):
 Find DOM elements by class name
 - [findById](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/findById):
@@ -109,7 +112,7 @@ Add a single fire event handler to a DOM element
 - [position](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/position):
 Get the position of a DOM element
 - [prefixed](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/prefixed):
-Prefix a css attribute with vendor prefixes (webkit, moz, ms, o)
+Prefixes a name with vendor prefixes (webkit, moz, ms, o)
 - [prepend](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/prepend):
 Insert HTML or ad DOM element into the beginning of a DOM element child list
 - [remove](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/remove):
@@ -118,12 +121,20 @@ Remove a given DOM element from the DOM
 Remove a given class name from a DOM element
 - [replace](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/replace):
 Replace a given DOM element with another
-- [scroll](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/scroll):
-Get/set the scroll position of a DOM element
+- **scrollBy**:
+Scroll page or given DOM element by x number of pixels left/right
+- **scrollInfo**:
+Get information about current window or DOM element scroll positions (includes percentage scrolled)
+- **scrollParent**:
+Get the current DOM elements scrolling parent
+- **scrollTo**:
+Scroll page or given DOM element to given x and y coordinate
 - [siblings](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/siblings):
 Get the siblings of a DOM element
 - [size](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/size):
 Get the size of a DOM element
+- **supportsCSS**:
+Detects whether the current browser supports a given CSS prop and/or value
 - [toDOM](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/toDOM):
 Convert a HTML string into DOM element(s)
 - [toggleClass](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/toggleClass):

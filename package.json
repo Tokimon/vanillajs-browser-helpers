@@ -20,7 +20,12 @@
     "url": "git+https://Tokimon@github.com/Tokimon/vanillajs-browser-helpers.git"
   },
   "keywords": [
-    "javascript"
+    "javascript",
+    "helpers",
+    "find",
+    "event",
+    "scroll",
+    "css"
   ],
   "bugs": {
     "url": "https://github.com/Tokimon/vanillajs-browser-helpers/issues"
