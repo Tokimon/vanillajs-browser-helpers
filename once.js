@@ -5,7 +5,8 @@ import isObject from 'vanillajs-helpers/isObject';
 import isDOMNode from './isDOMNode';
 import isWindow from './isWindow';
 
-import _on, { propsSupported } from './on';
+import eventPropsSupported from './eventPropsSupported';
+import _on from './on';
 import _off from './off';
 
 
@@ -17,9 +18,12 @@ import _off from './off';
  * @param {Function} off - The method to use to remove event handlers
  * @return {Function} The single fire event binder function
  */
-export function onceBuilder(on, off) {
+export function onceBuilder({ on, off, condition } = {}) {
   if(!isFunction(on)) { on = _on; }
   if(!isFunction(off)) { off = _off; }
+
+  const hasCondition = isFunction(condition);
+  const propsSupported = eventPropsSupported();
 
   return (elm, eventNames, handler, options) => {
     if(isString(elm)) {
@@ -31,15 +35,22 @@ export function onceBuilder(on, off) {
     if(!isDOMNode(elm) && !isWindow(elm)) { elm = document; }
     if(!isObject(options)) { options = { capture: !!options }; }
 
-    let _one = handler;
-    options.once = true;
+    const offHandler = (e) => {
+      off(elm, e.type, _one);
+      return handler.call(this, e);
+    };
 
-    if(!propsSupported) {
-      _one = function(e) {
-        off(elm, e.type, _one);
-        return handler.call(this, e);
-      };
-    }
+    const conditionHandler = (e) => {
+      return condition() ? offHandler(e) : true;
+    };
+
+    const _one = hasCondition
+      ? conditionHandler
+      : (propsSupported ? handler : offHandler);
+
+    options.once = !hasCondition;
+
+    if(!propsSupported) { options = false; }
 
     on(elm, eventNames, _one, options);
 

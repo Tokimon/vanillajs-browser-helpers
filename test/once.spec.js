@@ -1,166 +1,163 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $, sinon */
+/* global sinon */
 
+import { expect, testUtils, describe, it } from './assets/init-test';
+
+import * as evtProps from '../eventPropsSupported';
 import once, { onceBuilder } from '../once';
 
-describe('"once" package', () => {
-  const onCb = sinon.spy();
-  const strCb = sinon.spy();
-  const arrCb = sinon.spy();
 
+
+describe('"once" package', () => {
   describe('"onceBuilder"', () => {
     it('Should always return a function', () => {
       expect(onceBuilder()).to.be.a('function');
-      expect(onceBuilder(null, null)).to.be.a('function');
-      expect(onceBuilder(null, () => {})).to.be.a('function');
-      expect(onceBuilder(() => {}, () => {})).to.be.a('function');
-      expect(onceBuilder('String', 1234)).to.be.a('function');
-      expect(onceBuilder(1234, 'String')).to.be.a('function');
       expect(onceBuilder({})).to.be.a('function');
-      expect(onceBuilder(undefined, 'String')).to.be.a('function');
     });
 
-    it('Should use "on" as default event binder and "off" as default event remover', () => {
-      // NOTE:
-      // This can't actually be tested as the "on" and "off" methods cannot be mocked from here,
-      // but it can be tested that an event has been bound and removed after event has fired
-      // even if no methods have been given
+    it('Should only trigger given handler once', () => {
+      const spy = sinon.spy();
 
-      const customOnce = onceBuilder();
-      customOnce(document.body, 'on', onCb);
+      onceBuilder()(document.body, 'evt', spy);
+      expect(spy).not.to.have.been.called;
 
-      onCb.reset();
+      testUtils.trigger('evt', document.body);
+      expect(spy).to.have.been.calledOnce;
 
-      expect(onCb).not.to.have.been.called;
-
-      $.trigger('on', document.body);
-      expect(onCb).to.have.been.calledOnce;
-
-      onCb.reset();
-
-      $.trigger('on', document.body);
-      expect(onCb).not.to.have.been.called;
+      testUtils.trigger('evt', document.body);
+      expect(spy).to.have.been.calledOnce;
     });
 
     it('Should accept a custom "on" event binder', () => {
-      sinon.spy($, 'on');
+      const fakeOn = sinon.fake();
 
-      const customOnce = onceBuilder($.on);
-      const tempHandler = customOnce(document.body, 'on', onCb);
-      expect($.on).to.have.been.calledOnce;
+      onceBuilder({ on: fakeOn })(document.body, 'evt', () => {});
 
-      // Clean up
-      $.off(document.body, 'on', tempHandler);
-
-      onCb.reset();
-      $.on.restore();
+      expect(fakeOn).to.have.been.calledOnce;
     });
 
     it('Should accept a custom "off" event remover', () => {
-      sinon.spy($, 'off');
+      sinon.spy(testUtils, 'off');
+      sinon.stub(evtProps, 'default').returns(false);
 
-      const customOnce = onceBuilder($.on, $.off);
-      customOnce(document.body, 'on', onCb);
+      onceBuilder({ off: testUtils.off })(document.body, 'evt', () => {});
 
-      onCb.reset();
+      testUtils.trigger('evt', document.body);
 
-      $.trigger('on', document.body);
+      expect(testUtils.off).to.have.been.calledOnce;
 
-      expect($.off).to.have.been.calledOnce;
+      testUtils.off.restore();
+      evtProps.default.restore();
+    });
 
-      onCb.reset();
 
-      $.trigger('on', document.body);
-      expect(onCb).not.to.have.been.called;
+    const evtPropsTest = evtProps.default() ? it : it.skip;
 
-      onCb.reset();
-      $.off.restore();
+    evtPropsTest('Should should only use the event remover if event properties are not supported', () => {
+      sinon.spy(testUtils, 'off');
+      sinon.stub(evtProps, 'default').returns(false);
+
+      const noop = () => {};
+
+      onceBuilder({ off: testUtils.off })(document.body, 'evt', noop);
+      testUtils.trigger('evt', document.body);
+
+      expect(testUtils.off).to.have.been.calledOnce;
+      evtProps.default.restore();
+
+      onceBuilder({ off: testUtils.off })(document.body, 'evt', noop);
+      testUtils.trigger('evt', document.body);
+
+      expect(testUtils.off).to.have.been.calledOnce;
+
+      testUtils.off.restore();
+    });
+
+    it('Should accept a condition before removing handler', () => {
+      const spy = sinon.spy();
+      const condition = sinon.stub();
+
+      condition.returns(false);
+      condition.onCall(1).returns(true);
+
+      onceBuilder({ condition })(document.body, 'evt', spy);
+
+      testUtils.trigger('evt', document.body);
+      expect(spy).not.to.have.been.called;
+      expect(condition).to.have.been.calledOnce;
+
+      testUtils.trigger('evt', document.body);
+      expect(spy).to.have.been.calledOnce;
+      expect(condition).to.have.been.calledTwice;
     });
   });
 
   describe('"once"', () => {
     it('Should return null if the handler is not a function', () => {
-      expect(once(document.body, 'on')).to.be.null;
-      expect(once(document.body, 'on', null)).to.be.null;
-      expect(once(document.body, 'on', 'String')).to.be.null;
-      expect(once(document.body, 'on', 1234)).to.be.null;
-      expect(once(document.body, 'on', {})).to.be.null;
+      expect(once(document.body, 'evt')).to.be.null;
+      expect(once(document.body, 'evt', null)).to.be.null;
+      expect(once(document.body, 'evt', 'String')).to.be.null;
+      expect(once(document.body, 'evt', 1234)).to.be.null;
+      expect(once(document.body, 'evt', {})).to.be.null;
     });
 
     it('Should always return a function if the handler is defined', () => {
       expect(once(null, null, () => {})).to.be.a('function');
-      const tempHandler = once(document.body, 'on', () => {});
+      const tempHandler = once(document.body, 'evt', () => {});
       expect(tempHandler).to.be.a('function');
-      expect(once(123, 'on', () => {})).to.be.a('function');
+      expect(once(123, 'evt', () => {})).to.be.a('function');
 
       // Clean up
-      $.off(document.body, 'on', tempHandler);
-    });
-
-    it('Should not add event if handler is not defined', () => {
-      onCb.reset();
-
-      $.trigger('on', document.body);
-      expect(onCb).not.to.have.been.called;
-
-      once(document.body, 'on');
-
-      onCb.reset();
-
-      $.trigger('on', document.body);
-      expect(onCb).not.to.have.been.called;
+      testUtils.off(document.body, 'evt', tempHandler);
     });
 
     it('Should add an given event handler to an object that is triggered only once', () => {
-      onCb.reset();
+      const spy = sinon.spy();
 
-      $.trigger('on', document.body);
-      expect(onCb).not.to.have.been.called;
+      once(document.body, 'evt', spy);
 
-      onCb.reset();
+      testUtils.trigger('evt', document.body);
+      expect(spy).to.have.been.calledOnce;
 
-      once(document.body, 'on', onCb);
-
-      $.trigger('on', document.body);
-      expect(onCb).to.have.been.calledOnce;
-
-      onCb.reset();
-
-      $.trigger('on', document.body);
-      expect(onCb).not.to.have.been.called;
+      testUtils.trigger('evt', document.body);
+      expect(spy).to.have.been.calledOnce;
     });
 
     it('Should add multiple event handlers to an object that are triggered only once', () => {
-      strCb.reset();
-      arrCb.reset();
+      const spy1 = sinon.spy();
+      const spy2 = sinon.spy();
 
-      $.trigger('click', document.body);
-      $.trigger('custom', document.body);
+      once(document.body, 'click custom', spy1);
+      once(document.body, ['click', 'custom'], spy2);
 
-      expect(strCb).not.to.have.been.called;
-      expect(arrCb).not.to.have.been.called;
+      testUtils.trigger('click', document.body);
 
-      once(document.body, 'click custom', strCb);
-      once(document.body, ['click', 'custom'], arrCb);
+      expect(spy1).to.have.been.calledOnce;
+      expect(spy2).to.have.been.calledOnce;
 
-      strCb.reset();
-      arrCb.reset();
+      testUtils.trigger('custom', document.body);
 
-      $.trigger('click', document.body);
-      $.trigger('custom', document.body);
+      expect(spy1).to.have.been.calledTwice;
+      expect(spy2).to.have.been.calledTwice;
 
-      expect(strCb).to.have.been.calledTwice;
-      expect(arrCb).to.have.been.calledTwice;
+      testUtils.trigger('click', document.body);
+      testUtils.trigger('custom', document.body);
 
-      strCb.reset();
-      arrCb.reset();
+      expect(spy1).to.have.been.calledTwice;
+      expect(spy2).to.have.been.calledTwice;
+    });
 
-      $.trigger('click', document.body);
-      $.trigger('custom', document.body);
+    it('Should fall back to document if element is not defined', () => {
+      const spy = sinon.spy();
 
-      expect(strCb).not.to.have.been.called;
-      expect(arrCb).not.to.have.been.called;
+      once('evt', spy);
+
+      testUtils.trigger('evt', window);
+      expect(spy).not.to.have.been.called;
+
+      testUtils.trigger('evt', document);
+      expect(spy).to.have.been.calledOnce;
     });
   });
 });
