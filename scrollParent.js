@@ -8,9 +8,7 @@ export default function scrollParent(elm) {
     const noStaticParent = elmPosition === 'absolute';
     let parent = elm;
 
-    while(parent) {
-      if(parent === document.body) { break; }
-
+    while(parent && parent !== document.body) {
       const { position, overflow, overflowX, overflowY } = getComputedStyle(parent);
 
       if(
@@ -24,5 +22,5 @@ export default function scrollParent(elm) {
     }
   }
 
-  return viewport(window);
+  return viewport();
 }
