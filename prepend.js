@@ -17,7 +17,11 @@ export default function prepend(elm, insertElm) {
   if(!isDOMContainer(elm)) { return null; }
 
   if(isDOMNode(insertElm)) {
-    elm.insertBefore(insertElm, elm.firstChild);
+    if(elm.prepend) {
+      elm.prepend(insertElm);
+    } else {
+      elm.insertBefore(insertElm, elm.firstChild);
+    }
   } else if(isString(insertElm)) {
     if(insertElm.indexOf('<') < 0) {
       insertElm = selectorToHTML(insertElm);
