@@ -1,32 +1,10 @@
-import words from 'vanillajs-helpers/eachWord';
-import isArray from 'vanillajs-helpers/isArray';
+import eachWord from 'vanillajs-helpers/eachWord';
 import isFunction from 'vanillajs-helpers/isFunction';
 import isString from 'vanillajs-helpers/isString';
+import isArray from 'vanillajs-helpers/isArray';
 import isBoolean from 'vanillajs-helpers/isBoolean';
 
-import isDOMNode from './isDOMNode';
-import isWindow from './isWindow';
-
-
-
-export const propsSupported = (() => {
-  let supported = false;
-
-  try {
-    const noop = () => {};
-
-    const opts = Object.defineProperty({}, 'passive', {
-      get() { supported = true; }
-    });
-
-    window.addEventListener('test', noop, opts);
-    window.removeEventListener('test', noop, opts);
-  } catch(err) {
-    supported = false;
-  }
-
-  return supported;
-})();
+import eventOptionsSupported from './eventOptionsSupported';
 
 
 
@@ -40,19 +18,20 @@ export const propsSupported = (() => {
  * @return {HTMLElement} The 'elm' (or document)
  */
 export default function on(elm, eventNames, handler, options) {
-  if(isString(elm)) {
+  if(isString(elm) || isArray(elm)) {
     [elm, eventNames, handler, options] = [document, elm, eventNames, handler];
   }
 
-  if(isFunction(handler)) {
-    if(!isDOMNode(elm) && !isWindow(elm)) { elm = document; }
+  if(!elm || !elm.addEventListener) { elm = document; }
+
+  if(isFunction(handler) && (isString(eventNames) || isArray(eventNames))) {
     if(isArray(eventNames)) { eventNames = eventNames.join(); }
 
-    if(!propsSupported) {
+    if(!eventOptionsSupported()) {
       options = isBoolean(options) ? options : !!options.capture;
     }
 
-    words(eventNames, (name) => elm.addEventListener(name, handler, options), /[, ]+/);
+    eachWord(eventNames, (name) => elm.addEventListener(name, handler, options), /[, ]+/);
   }
 
   return elm;

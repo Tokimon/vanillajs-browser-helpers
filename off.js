@@ -1,10 +1,9 @@
-import words from 'vanillajs-helpers/eachWord';
+import eachWord from 'vanillajs-helpers/eachWord';
 import isArray from 'vanillajs-helpers/isArray';
 import isFunction from 'vanillajs-helpers/isFunction';
 import isString from 'vanillajs-helpers/isString';
 
-import isDOMNode from './isDOMNode';
-import isWindow from './isWindow';
+
 
 /**
  * Removed an event handler from one or more event names on a DOM element.
@@ -15,12 +14,14 @@ import isWindow from './isWindow';
  * @return {HTMLElement} The 'elm' (or document)
  */
 export default function off(elm, eventNames, handler) {
-  if(isString(elm)) { [elm, eventNames, handler] = [document, elm, eventNames]; }
-  if(!isDOMNode(elm) && !isWindow(elm)) { elm = document; }
+  if(isString(elm) || isArray(elm)) {
+    [elm, eventNames, handler] = [document, elm, eventNames];
+  }
+  if(!elm || !elm.addEventListener) { elm = document; }
 
-  if(isFunction(handler)) {
+  if(isFunction(handler) && (isString(eventNames) || isArray(eventNames))) {
     if(isArray(eventNames)) { eventNames = eventNames.join(); }
-    words(eventNames, (name) => elm.removeEventListener(name, handler, false), /[, ]+/);
+    eachWord(eventNames, (name) => elm.removeEventListener(name, handler, false), /[, ]+/);
   }
 
   return elm;
