@@ -1,21 +1,26 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
 
-import 'polyfills/domtokenlist-polyfill';
+import 'babel-polyfill';
+
+import { expect, testUtils, describe, it, before, beforeEach, after } from './assets/init-test';
 
 import addClass from '../addClass';
 
+
+
 const testID = 'TestNode';
 
-describe('"addClass"', () => {
-  before(() => $.html(`<div id="${testID}"></div>`));
-  beforeEach(() => { $.id(testID).className = ''; });
 
-  after(() => $.remove(testID));
+
+describe('"addClass"', () => {
+  before(() => testUtils.html(`<div id="${testID}"></div>`));
+  beforeEach(() => { testUtils.id(testID).className = ''; });
+
+  after(() => testUtils.remove(testID));
 
   it('Should add a given CSS class to a DOM element', () => {
-    const node = $.id(testID);
+    const node = testUtils.id(testID);
 
     expect(node.className).to.equal('');
     addClass(node, 'inserted');
@@ -23,7 +28,7 @@ describe('"addClass"', () => {
   });
 
   it('Should not add a given CSS class twice to a DOM element', () => {
-    const node = $.id(testID);
+    const node = testUtils.id(testID);
     node.className = 'inserted';
 
     expect(node.className).to.equal('inserted');
@@ -32,7 +37,7 @@ describe('"addClass"', () => {
   });
 
   it('Should always return the given element', () => {
-    const node = $.id(testID);
+    const node = testUtils.id(testID);
 
     expect(addClass(null, 'always')).to.be.null;
     expect(addClass(node, 'always')).to.equal(node);
@@ -43,7 +48,7 @@ describe('"addClass"', () => {
 
   describe('- Multiple class names', () => {
     it('Should add several CSS classes to a DOM element', () => {
-      const node = $.id(testID);
+      const node = testUtils.id(testID);
 
       expect(node.className).to.equal('');
       addClass(node, 'inserted added class3');
@@ -61,7 +66,7 @@ describe('"addClass"', () => {
     });
 
     it('Should only add unset CSS classes to a DOM element', () => {
-      const node = $.id(testID);
+      const node = testUtils.id(testID);
       node.className = 'inserted class3';
 
       expect(node.className).to.equal('inserted class3');

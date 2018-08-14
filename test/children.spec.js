@@ -1,23 +1,30 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
-import 'polyfills/array-from-polyfill';
+
+import 'babel-polyfill';
+
+import { expect, testUtils, describe, it, before, after } from './assets/init-test';
+
 import children from '../children';
+
+
 
 const testID = 'TestNode';
 
+
+
 describe('"children"', () => {
-  before(() => $.html(`<div id="${testID}">
+  before(() => testUtils.html(`<div id="${testID}">
   <span><b></b></span>
   text
   <br>
   <span><i></i><span>
 </div>`));
 
-  after(() => $.remove(testID));
+  after(() => testUtils.remove(testID));
 
   it('Should get all the children of a given DOM element', () => {
-    const node = $.id(testID);
+    const node = testUtils.id(testID);
     const childs = children(node);
 
     expect(Array.isArray(childs)).to.be.true;
@@ -37,7 +44,7 @@ describe('"children"', () => {
   });
 
   it('Should return child elements of an element not yet in the DOM', () => {
-    const div = $.create('div');
+    const div = testUtils.create('div');
     div.innerHTML = `
     <span><b></b></span>
     text

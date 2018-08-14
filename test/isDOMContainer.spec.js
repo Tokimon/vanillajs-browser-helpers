@@ -1,15 +1,18 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
+
+import { expect, testUtils, describe, it } from './assets/init-test';
 
 import isDOMContainer from '../isDOMContainer';
+
+
 
 describe('"isDOMContainer"', () => {
   it('Should only return true for DOM element or Document Fragment', () => {
     // True statements
     expect(isDOMContainer(document.documentElement)).to.be.true;
     expect(isDOMContainer(document.body)).to.be.true;
-    expect(isDOMContainer($.create('p'))).to.be.true;
+    expect(isDOMContainer(testUtils.create('p'))).to.be.true;
     expect(isDOMContainer(document.createDocumentFragment())).to.be.true;
 
     // False statements

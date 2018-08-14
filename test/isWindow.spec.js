@@ -1,14 +1,17 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
+
+import { expect, testUtils, describe, it } from './assets/init-test';
 
 import isWindow from '../isWindow';
+
+
 
 describe('"isWindow"', () => {
   it('Should return true for window elements', () => {
     expect(isWindow(window)).to.be.true;
 
-    const iframe = $.create('iframe');
+    const iframe = testUtils.create('iframe');
     iframe.src = 'about:blank';
     document.body.appendChild(iframe);
 

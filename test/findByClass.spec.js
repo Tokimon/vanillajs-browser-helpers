@@ -1,13 +1,15 @@
-/* eslint-env node, mocha, browser */
-/* global expect, $ */
+/* eslint-env node, browser */
 
-import 'polyfills/array-from-polyfill';
-import 'polyfills/Set';
+import 'babel-polyfill';
+
+import { expect, testUtils, describe, it, before, after } from './assets/init-test';
 
 import findByClass from '../findByClass';
 
+
+
 describe('"findByClass"', () => {
-  before(() => $.html(`
+  before(() => testUtils.html(`
     <div id='Item1' class="item"></div>
     <div id='Item2' class="item second">
       <div class='item child'></div>
@@ -15,7 +17,7 @@ describe('"findByClass"', () => {
     </div>
   `));
 
-  after(() => ['Item1', 'Item2'].forEach((id) => $.remove(id)));
+  after(() => ['Item1', 'Item2'].forEach((id) => testUtils.remove(id)));
 
   it('Should always return an Array', () => {
     expect(findByClass()).to.be.an('array');
@@ -82,7 +84,7 @@ describe('"findByClass"', () => {
 
   describe('- With defined context', () => {
     it('Should find DOM elements matching given classnames from a given DOM element context', () => {
-      const nodes = findByClass(['item child', 'second-child'], $.id('Item2'));
+      const nodes = findByClass(['item child', 'second-child'], testUtils.id('Item2'));
       expect(nodes)
         .to.be.a('array')
         .and.to.have.length(2);

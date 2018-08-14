@@ -1,14 +1,17 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
+
+import { expect, testUtils, describe, it } from './assets/init-test';
 
 import isDOMDocument from '../isDOMDocument';
+
+
 
 describe('"isDOMDocument"', () => {
   it('Should only return true for Document node elements', () => {
     expect(isDOMDocument(document)).to.be.true;
 
-    const iframe = $.create('iframe');
+    const iframe = testUtils.create('iframe');
     iframe.src = 'about:blank';
     document.body.appendChild(iframe);
 

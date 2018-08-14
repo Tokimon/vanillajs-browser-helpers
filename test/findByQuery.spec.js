@@ -1,11 +1,16 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
-import 'polyfills/array-from-polyfill';
+
+import 'babel-polyfill';
+
+import { expect, testUtils, describe, it, before, after } from './assets/init-test';
+
 import findByQuery from '../findByQuery';
 
+
+
 describe('"findByQuery"', () => {
-  before(() => $.html(`
+  before(() => testUtils.html(`
     <div id='Item1' class="item"></div>
     <div id='Item2' class="item second">
       <div class='item child'></div>
@@ -13,7 +18,7 @@ describe('"findByQuery"', () => {
     </div>
   `));
 
-  after(() => ['Item1', 'Item2'].forEach((id) => $.remove(id)));
+  after(() => ['Item1', 'Item2'].forEach((id) => testUtils.remove(id)));
 
   describe('- find ALL', () => {
     it('Should always return an Array', () => {
@@ -90,7 +95,7 @@ describe('"findByQuery"', () => {
 
     describe('- With defined context', () => {
       it('Should find DOM elements matching given CSS selector from a given DOM element context', () => {
-        const nodes = findByQuery(['.item.child', '.second-child'], $.id('Item2'));
+        const nodes = findByQuery(['.item.child', '.second-child'], testUtils.id('Item2'));
         expect(nodes)
           .to.be.a('array')
           .and.to.have.length(2);
@@ -159,7 +164,7 @@ describe('"findByQuery"', () => {
 
     describe('- With defined context', () => {
       it('Should find DOM elements matching given CSS selector from a given DOM element context', () => {
-        const node = findByQuery(['.item.child', '.second-child'], $.id('Item2'), true);
+        const node = findByQuery(['.item.child', '.second-child'], testUtils.id('Item2'), true);
         expect(node).to.not.be.null;
         expect(node.className).to.equal('item child');
       });

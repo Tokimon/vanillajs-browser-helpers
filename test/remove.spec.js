@@ -1,21 +1,26 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
+
+import { expect, testUtils, describe, it, before, after } from './assets/init-test';
 
 import remove from '../remove';
 
+
+
 const testID = 'TestNode';
 
+
+
 describe('"remove"', () => {
-  before(() => $.html(`<div id="${testID}"><div id="child"></div></div>`));
-  after(() => $.remove(testID));
+  before(() => testUtils.html(`<div id="${testID}"><div id="child"></div></div>`));
+  after(() => testUtils.remove(testID));
 
   it('Should always return the removed element', () => {
     expect(remove(null)).to.be.null;
     expect(remove(document)).to.equal(document);
     expect(remove(window)).to.equal(window);
 
-    const child = $.id('child');
+    const child = testUtils.id('child');
     expect(remove(child)).to.equal(child);
   });
 
@@ -27,9 +32,9 @@ describe('"remove"', () => {
   });
 
   it('Should remove a given DOM element', () => {
-    const tester = $.id(testID);
+    const tester = testUtils.id(testID);
     remove(tester);
     expect(tester.parentNode).to.be.null;
-    expect($.id(testID)).to.be.null;
+    expect(testUtils.id(testID)).to.be.null;
   });
 });

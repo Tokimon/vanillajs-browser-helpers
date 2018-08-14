@@ -1,10 +1,14 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $, sinon */
+/* global sinon */
 
-import 'polyfills/object-assign-polyfill';
+import 'babel-polyfill';
+
+import { expect, testUtils, describe, it } from './assets/init-test';
 
 import delegate, { delegateHandler, delegateBuilder } from '../delegate';
+
+
 
 describe('"delegate" package', () => {
   describe('"delegateHandler"', () => {
@@ -27,17 +31,17 @@ describe('"delegate" package', () => {
     });
 
     it('Should call handler if event target is a child of delegation target', () => {
-      $.html('<div id="Delegate"><div id="Child"></div></div>');
+      testUtils.html('<div id="Delegate"><div id="Child"></div></div>');
 
       const delegateCb = sinon.spy();
       const handler = delegateHandler('body', delegateCb);
 
-      handler({ target: $.id('Delegate') });
-      handler({ target: $.id('Child') });
+      handler({ target: testUtils.id('Delegate') });
+      handler({ target: testUtils.id('Child') });
 
       expect(delegateCb).to.have.been.calledTwice;
 
-      $.remove('Delegate');
+      testUtils.remove('Delegate');
     });
   });
 
@@ -84,7 +88,7 @@ describe('"delegate" package', () => {
     it('Should bind a delagate event handler to an object', () => {
       const delegateCb = sinon.spy();
       delegate(document, 'delegate', 'body', delegateCb);
-      $.trigger('delegate', document.body);
+      testUtils.trigger('delegate', document.body);
       expect(delegateCb).to.have.been.calledOnce;
     });
   });

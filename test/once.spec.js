@@ -4,7 +4,7 @@
 
 import { expect, testUtils, describe, it } from './assets/init-test';
 
-import * as evtProps from '../eventPropsSupported';
+import * as evtProps from '../eventOptionsSupported';
 import once, { onceBuilder } from '../once';
 
 
@@ -73,43 +73,19 @@ describe('"once" package', () => {
 
       testUtils.off.restore();
     });
-
-    it('Should accept a condition before removing handler', () => {
-      const spy = sinon.spy();
-      const condition = sinon.stub();
-
-      condition.returns(false);
-      condition.onCall(1).returns(true);
-
-      onceBuilder({ condition })(document.body, 'evt', spy);
-
-      testUtils.trigger('evt', document.body);
-      expect(spy).not.to.have.been.called;
-      expect(condition).to.have.been.calledOnce;
-
-      testUtils.trigger('evt', document.body);
-      expect(spy).to.have.been.calledOnce;
-      expect(condition).to.have.been.calledTwice;
-    });
   });
 
   describe('"once"', () => {
-    it('Should return null if the handler is not a function', () => {
-      expect(once(document.body, 'evt')).to.be.null;
-      expect(once(document.body, 'evt', null)).to.be.null;
-      expect(once(document.body, 'evt', 'String')).to.be.null;
-      expect(once(document.body, 'evt', 1234)).to.be.null;
-      expect(once(document.body, 'evt', {})).to.be.null;
-    });
+    it('Should return null if neihter handler nor eventNames are given', () => {
+      expect(once()).to.be.null;
+      expect(once('evt')).to.be.null;
+      expect(once(() => {})).to.be.null;
 
-    it('Should always return a function if the handler is defined', () => {
-      expect(once(null, null, () => {})).to.be.a('function');
-      const tempHandler = once(document.body, 'evt', () => {});
-      expect(tempHandler).to.be.a('function');
-      expect(once(123, 'evt', () => {})).to.be.a('function');
+      expect(once('evt', null)).to.be.null;
+      expect(once('evt', undefined)).to.be.null;
 
-      // Clean up
-      testUtils.off(document.body, 'evt', tempHandler);
+      expect(once(null, () => {})).to.be.null;
+      expect(once(undefined, () => {})).to.be.null;
     });
 
     it('Should add an given event handler to an object that is triggered only once', () => {
@@ -122,6 +98,28 @@ describe('"once" package', () => {
 
       testUtils.trigger('evt', document.body);
       expect(spy).to.have.been.calledOnce;
+    });
+
+    it('Should accept a "when" option that decides when the handler is triggered', () => {
+      const spy = sinon.spy();
+      const condition = sinon.stub();
+
+      condition.returns(false);
+      condition.onCall(1).returns(true);
+
+      once(document.body, 'evt', spy, { when: condition });
+
+      testUtils.trigger('evt', document.body);
+      expect(spy).not.to.have.been.called;
+      expect(condition).to.have.been.calledOnce;
+
+      testUtils.trigger('evt', document.body);
+      expect(spy).to.have.been.calledOnce;
+      expect(condition).to.have.been.calledTwice;
+
+      testUtils.trigger('evt', document.body);
+      expect(spy).to.have.been.calledOnce;
+      expect(condition).to.have.been.calledTwice;
     });
 
     it('Should add multiple event handlers to an object that are triggered only once', () => {

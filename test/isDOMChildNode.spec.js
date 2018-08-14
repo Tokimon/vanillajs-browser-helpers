@@ -1,28 +1,33 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
+
+import { expect, testUtils, describe, it, before, after } from './assets/init-test';
 
 import isDOMChildNode from '../isDOMChildNode';
 
+
+
 const testID = 'TestNode';
 
+
+
 describe('"isDOMChildNode"', () => {
-  before(() => $.html(
-`<div id="${testID}">
-  <span></span>
-</div>`
+  before(() => testUtils.html(
+    `<div id="${testID}">
+      <span></span>
+    </div>`
   ));
 
-  after(() => $.remove(testID));
+  after(() => testUtils.remove(testID));
 
   it('Should return true for DOM nodes in the DOM below the DOM root element', () => {
     expect(isDOMChildNode(document.body)).to.be.true;
     expect(isDOMChildNode(document.documentElement)).to.be.false;
-    expect(isDOMChildNode($.id(testID).firstChild)).to.be.true;
+    expect(isDOMChildNode(testUtils.id(testID).firstChild)).to.be.true;
   });
 
   it('Should return true for child DOM nodes of a DOM element not in the DOM', () => {
-    const div = $.create('div');
+    const div = testUtils.create('div');
     div.innerHTML = '<b></b>\ntext';
     expect(isDOMChildNode(div)).to.be.false;
     expect(isDOMChildNode(div.firstChild)).to.be.true;

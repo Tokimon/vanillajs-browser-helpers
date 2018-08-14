@@ -1,21 +1,23 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
 
-'use strict';
+import 'babel-polyfill';
 
-import 'polyfills/array-from-polyfill';
-import 'polyfills/Set';
+import { expect, testUtils, describe, it, before, after } from './assets/init-test';
 
 import find, { findOne } from '../find';
 
+
+
 const testID = 'FindTest';
+
+
 
 describe('"Find" package', () => {
   let numberSupport;
 
   before(() => {
-    $.html(`
+    testUtils.html(`
     <div id="${testID}">
       <div id="QuickRefs">
         <form></form>
@@ -94,17 +96,17 @@ describe('"Find" package', () => {
     `);
 
     numberSupport = (() => {
-      $.html('<input type="number" id="TestNumber">');
+      testUtils.html('<input type="number" id="TestNumber">');
       const val = 'not a number';
-      const input = $.id('TestNumber');
+      const input = testUtils.id('TestNumber');
       input.setAttribute('value', val);
-      $.remove('TestNumber');
+      testUtils.remove('TestNumber');
 
       return input.type === 'number' && input.value !== val;
     })();
   });
 
-  after(() => $.remove(testID));
+  after(() => testUtils.remove(testID));
 
   describe('"find"', () => {
     it('Should always return an array', () => {
@@ -182,8 +184,8 @@ describe('"Find" package', () => {
         let WildCards, Form;
 
         before(() => {
-          WildCards = $.id('WildCards');
-          Form = $.id('Form');
+          WildCards = testUtils.id('WildCards');
+          Form = testUtils.id('Form');
         });
 
         it('[:stylesheet] Should find all stylesheets', () => {
@@ -263,11 +265,11 @@ describe('"Find" package', () => {
 
       describe('- From a given DOM element context', () => {
         it('Should find a DOM element with the given ID ignoring the context', () => {
-          const node = find(`#Select`, $.id(testID));
+          const node = find(`#Select`, testUtils.id(testID));
           expect(node).to.have.length(1);
           expect(node[0]).to.have.id('Select');
 
-          expect(find(`#${testID}`, $.id(testID))).to.have.length(1);
+          expect(find(`#${testID}`, testUtils.id(testID))).to.have.length(1);
         });
       });
     });
@@ -291,15 +293,15 @@ describe('"Find" package', () => {
 
       describe('- From a given DOM element context', () => {
         it('Should find all DOM element with a given tag name', () => {
-          const a = find('a', $.id('WildCards'));
+          const a = find('a', testUtils.id('WildCards'));
           expect(a).to.have.length(1);
           expect(a[0].tagName).to.equal('A');
 
-          const inputs = find('input', $.id('Form'));
+          const inputs = find('input', testUtils.id('Form'));
           expect(inputs).to.have.length(24);
           expect(inputs.every((elm) => elm.tagName === 'INPUT')).to.be.true;
 
-          const options = find('option', $.id('Form'));
+          const options = find('option', testUtils.id('Form'));
           expect(options).to.have.length(3);
           expect(options.every((elm) => elm.tagName === 'OPTION' && elm.parentNode.id === 'Select')).to.be.true;
         });
@@ -317,7 +319,7 @@ describe('"Find" package', () => {
 
       describe('- From a given DOM element context', () => {
         it('Should find all DOM element with a given class name', () => {
-          const buttons = find('.button', $.id('Form'));
+          const buttons = find('.button', testUtils.id('Form'));
           expect(buttons).to.have.length(5);
           expect(buttons.every((elm) => elm.className === 'button')).to.be.true;
         });
@@ -340,11 +342,11 @@ describe('"Find" package', () => {
 
       describe('- From a given DOM element context', () => {
         it('Should find all DOM element with a given name attribute', () => {
-          const radios = find('[name=radio]', $.id('Form'));
+          const radios = find('[name=radio]', testUtils.id('Form'));
           expect(radios).to.have.length(1);
           expect(radios[0].name).to.equal('radio');
 
-          const map = find('[name="map"]', $.id('WildCards'));
+          const map = find('[name="map"]', testUtils.id('WildCards'));
           expect(map).to.have.length(1);
           expect(map[0].name).to.equal('map');
           expect(map[0].parentNode).to.have.id('WildCards');
@@ -399,12 +401,12 @@ describe('"Find" package', () => {
       describe('- From a given DOM element context', () => {
         describe('-- Selectors as String', () => {
           it('Should find all DOM elements from the given CSS selectors', () => {
-            const nodes = find('.button, .text, #Select', $.id('Form'));
+            const nodes = find('.button, .text, #Select', testUtils.id('Form'));
             expect(nodes).to.have.length(14);
           });
 
           it('Should find all DOM elements from CSS and wildcard selectors', () => {
-            const nodes = find('#Select, :button', $.id('Form'));
+            const nodes = find('#Select, :button', testUtils.id('Form'));
             expect(nodes).to.have.length(6);
             expect(nodes[0]).to.have.id('Select').and.to.be.a('htmlselectelement');
             expect(nodes[2]).to.have.class('button');
@@ -413,12 +415,12 @@ describe('"Find" package', () => {
 
         describe('-- Selectors as Array', () => {
           it('Should find all DOM elements from the given CSS selectors', () => {
-            const nodes = find(['.button', '.text', '#Select'], $.id('Form'));
+            const nodes = find(['.button', '.text', '#Select'], testUtils.id('Form'));
             expect(nodes).to.have.length(14);
           });
 
           it('Should find all DOM elements from CSS and wildcard selectors', () => {
-            const nodes = find(['#Select', ':button'], $.id('Form'));
+            const nodes = find(['#Select', ':button'], testUtils.id('Form'));
             expect(nodes).to.have.length(6);
             expect(nodes[0]).to.have.id('Select').and.to.be.a('htmlselectelement');
             expect(nodes[2]).to.have.class('button');
@@ -433,7 +435,7 @@ describe('"Find" package', () => {
     it('Should always return null or the element', () => {
       expect(findOne()).to.be.null;
       expect(findOne({})).to.be.null;
-      expect(findOne(`:stylesheet`, $.id('Form'))).to.be.null;
+      expect(findOne(`:stylesheet`, testUtils.id('Form'))).to.be.null;
       expect(findOne(`:badquery`)).to.be.null;
       expect(findOne(`#${testID}`)).to.be.a('htmldivelement');
     });
@@ -495,8 +497,8 @@ describe('"Find" package', () => {
         let WildCards, Form;
 
         before(() => {
-          WildCards = $.id('WildCards');
-          Form = $.id('Form');
+          WildCards = testUtils.id('WildCards');
+          Form = testUtils.id('Form');
         });
 
         it('[:stylesheet] Should find all stylesheets', () => {
@@ -561,8 +563,8 @@ describe('"Find" package', () => {
 
       describe('- From a given DOM element context', () => {
         it('Should find a DOM element with the diven ID ignoring the context', () => {
-          expect(findOne(`#Select`, $.id(testID))).to.have.id('Select');
-          expect(findOne(`#${testID}`, $.id(testID))).to.have.id(testID);
+          expect(findOne(`#Select`, testUtils.id(testID))).to.have.id('Select');
+          expect(findOne(`#${testID}`, testUtils.id(testID))).to.have.id(testID);
         });
       });
     });
@@ -583,13 +585,13 @@ describe('"Find" package', () => {
 
       describe('- From a given DOM element context', () => {
         it('Should find all DOM element with a given tag name', () => {
-          const a = findOne('a', $.id('WildCards'));
+          const a = findOne('a', testUtils.id('WildCards'));
           expect(a.tagName).to.equal('A');
 
-          const input = findOne('input', $.id('Form'));
+          const input = findOne('input', testUtils.id('Form'));
           expect(input.tagName).to.equal('INPUT');
 
-          const option = findOne('option', $.id('Form'));
+          const option = findOne('option', testUtils.id('Form'));
           expect(option.tagName).to.equal('OPTION');
         });
       });
@@ -605,7 +607,7 @@ describe('"Find" package', () => {
 
       describe('- From a given DOM element context', () => {
         it('Should find all DOM element with a given class name', () => {
-          const button = findOne('.button', $.id('Form'));
+          const button = findOne('.button', testUtils.id('Form'));
           expect(button).to.have.class('button');
         });
       });
@@ -625,10 +627,10 @@ describe('"Find" package', () => {
 
       describe('- From a given DOM element context', () => {
         it('Should find all DOM element with a given name attribute', () => {
-          const radio = findOne('[name=radio]', $.id('Form'));
+          const radio = findOne('[name=radio]', testUtils.id('Form'));
           expect(radio.name).to.equal('radio');
 
-          const map = findOne('[name="map"]', $.id('WildCards'));
+          const map = findOne('[name="map"]', testUtils.id('WildCards'));
           expect(map.name).to.equal('map');
           expect(map.parentNode).to.have.id('WildCards');
         });
@@ -681,13 +683,13 @@ describe('"Find" package', () => {
       describe('- From a given DOM element context', () => {
         describe('-- Selectors as String', () => {
           it('Should find all DOM elements from the given CSS selectors', () => {
-            const node = findOne('.button, .text, #Select', $.id('Form'));
+            const node = findOne('.button, .text, #Select', testUtils.id('Form'));
             expect(node).to.not.be.null;
             expect(node.nodeType).to.equal(1);
           });
 
           it('Should find all DOM elements from CSS and wildcard selectors', () => {
-            const node = findOne('#Select, :button', $.id('Form'));
+            const node = findOne('#Select, :button', testUtils.id('Form'));
             expect(node).to.not.be.null;
             expect(node.nodeType).to.equal(1);
           });
@@ -695,7 +697,7 @@ describe('"Find" package', () => {
 
         describe('-- Selectors as Array', () => {
           it('Should find all DOM elements from the given CSS selectors', () => {
-            let node = findOne(['.button', '.text', '#Select'], $.id('Form'));
+            let node = findOne(['.button', '.text', '#Select'], testUtils.id('Form'));
             expect(node).to.not.be.null;
             expect(node.nodeType).to.equal(1);
 
@@ -707,7 +709,7 @@ describe('"Find" package', () => {
           });
 
           it('Should find all DOM elements from CSS and wildcard selectors', () => {
-            const node = findOne(['#Select', ':button'], $.id('Form'));
+            const node = findOne(['#Select', ':button'], testUtils.id('Form'));
             expect(node).to.not.be.null;
             expect(node.nodeType).to.equal(1);
           });

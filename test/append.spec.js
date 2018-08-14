@@ -1,20 +1,25 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
+
+import { expect, testUtils, describe, it, before, beforeEach, after } from './assets/init-test';
 
 import append from '../append';
+
+
 
 const testID = 'AppendTest';
 const insertHTML = '<div class="inserted"></div>';
 
-describe('"append"', () => {
-  before(() => $.html(`<div id="${testID}"></div>`));
-  beforeEach(() => { $.id(testID).innerHTML = `<span></span>`; });
 
-  after(() => $.remove(testID));
+
+describe('"append"', () => {
+  before(() => testUtils.html(`<div id="${testID}"></div>`));
+  beforeEach(() => { testUtils.id(testID).innerHTML = `<span></span>`; });
+
+  after(() => testUtils.remove(testID));
 
   it('Should append plain HTML to a DOM element', () => {
-    const node = $.id(testID);
+    const node = testUtils.id(testID);
 
     expect(node.lastChild).not.to.have.attribute('class', 'inserted');
     append(node, insertHTML);
@@ -22,8 +27,8 @@ describe('"append"', () => {
   });
 
   it('Should append DOM element to a DOM element', () => {
-    const node = $.id(testID);
-    const div = $.create('div');
+    const node = testUtils.id(testID);
+    const div = testUtils.create('div');
     div.className = 'inserted';
 
     expect(node.lastChild).not.to.have.attribute('class', 'inserted');
@@ -32,7 +37,7 @@ describe('"append"', () => {
   });
 
   it('Should append to DOM elements not inserted into the DOM', () => {
-    const div = $.create('div');
+    const div = testUtils.create('div');
 
     append(div, insertHTML);
 
@@ -41,11 +46,11 @@ describe('"append"', () => {
   });
 
   it('Should move element from one DOM element to another', () => {
-    const node = $.id(testID);
+    const node = testUtils.id(testID);
     node.innerHTML = `<div id="NewContainer"></div><div id="Moved"></div>`;
 
-    const moveDiv = $.id('Moved');
-    const newCont = $.id('NewContainer');
+    const moveDiv = testUtils.id('Moved');
+    const newCont = testUtils.id('NewContainer');
 
     expect(node.lastChild).to.have.id('Moved');
     expect(newCont.lastChild).to.be.null;
@@ -59,9 +64,9 @@ describe('"append"', () => {
   });
 
   it('Should always return the inserted DOM element', () => {
-    const node = $.id(testID);
+    const node = testUtils.id(testID);
 
-    const div = $.create('div');
+    const div = testUtils.create('div');
     div.className = 'inserted-always-dom';
 
     expect(append(node, div)).to.have.class('inserted-always-dom');

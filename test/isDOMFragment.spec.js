@@ -1,12 +1,14 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
+
+import { expect, testUtils, describe, it } from './assets/init-test';
 
 import isDOMFragment from '../isDOMFragment';
 
+
+
 describe('"isDOMFragment"', () => {
   it('Should only return true for a Document fragment', () => {
-    // True statements
     expect(isDOMFragment(document.createDocumentFragment())).to.be.true;
   });
 
@@ -14,7 +16,7 @@ describe('"isDOMFragment"', () => {
     expect(isDOMFragment(document.documentElement)).to.be.false;
     expect(isDOMFragment(document.body)).to.be.false;
     expect(isDOMFragment(document)).to.be.false;
-    expect(isDOMFragment($.create('p'))).to.be.false;
+    expect(isDOMFragment(testUtils.create('p'))).to.be.false;
     expect(isDOMFragment(document.createTextNode(''))).to.be.false;
     expect(isDOMFragment(document.createComment(''))).to.be.false;
     expect(isDOMFragment(window)).to.be.false;

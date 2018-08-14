@@ -1,44 +1,45 @@
-/* global chai */
+/* global chai, describe, it, before, beforeEach, after, afterEach */
 
-var expect = chai.expect;
 
-var $ = (function(win, doc) {
-  function _id(id) { return doc.getElementById(id); }
-  function _query(query, elm) { return (elm || doc).querySelectorAll(query); }
-  function _remove(id, elm) { try { (elm || doc.body).removeChild(_id(id)); } catch(ex) { /* Fail silently */ } }
-  function _create(tagName) { return document.createElement(tagName); }
-  function _html(html, elm) { (elm || doc.body).insertAdjacentHTML('beforeend', html); }
+// --- Mocha ---
+export const describe = window.describe;
+export const it = window.it;
+export const before = window.before;
+export const beforeEach = window.beforeEach;
+export const after = window.after;
+export const afterEach = window.afterEach;
 
-  function _createEvent(eventName, data) {
-    if(typeof win.CustomEvent === 'function') {
-      return new win.CustomEvent(eventName, { detail: data, bubbles: true });
-    } else {
-      var evt = doc.createEvent('CustomEvent');
-      evt.initCustomEvent(eventName, true, true, data);
-      return evt;
-    }
+
+
+// --- Chai expect ---
+export const expect = window.chai.expect;
+
+
+
+// --- Test Utils ---
+function _createEvent(eventName, data) {
+  if('CustomEvent' in window) {
+    return new window.CustomEvent(eventName, { detail: data, bubbles: true });
+  } else {
+    const evt = document.createEvent('CustomEvent');
+    evt.initCustomEvent(eventName, true, true, data);
+    return evt;
   }
+}
 
-  function _trigger(eventName, elm) {
-    (elm || doc).dispatchEvent(_createEvent(eventName));
-  }
-
-  function _on(elm, evt, handler) {
+export const testUtils = {
+  id(id) { return document.getElementById(id); },
+  query(query, elm) { return (elm || document).querySelectorAll(query); },
+  remove(id, elm) { try { (elm || document.body).removeChild(_id(id)); } catch(ex) { /* Fail silently */ } },
+  create(tagName) { return document.createElement(tagName); },
+  html(html, elm) { (elm || document.body).insertAdjacentHTML('beforeend', html); },
+  trigger(eventName, elm) {
+    (elm || document).dispatchEvent(_createEvent(eventName));
+  },
+  on(elm, evt, handler) {
     elm.addEventListener(evt, handler, false);
-  }
-
-  function _off(elm, evt, handler) {
+  },
+  off(elm, evt, handler) {
     elm.removeEventListener(evt, handler, false);
   }
-
-  return {
-    id: _id,
-    query: _query,
-    remove: _remove,
-    create: _create,
-    html: _html,
-    trigger: _trigger,
-    on: _on,
-    off: _off
-  };
-})(window, document);
+};

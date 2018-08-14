@@ -1,12 +1,17 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $, sinon */
-import 'polyfills/array-from-polyfill';
-import 'polyfills/Map';
+/* global sinon */
+
+import 'babel-polyfill';
+import { expect, testUtils, describe, it } from './assets/init-test';
 
 import on, { off, eventListId, getEvents } from '../eventPlus';
 
+
+
 // TODO: Should probably avoid having too tight a connection between on and off methods and not share spys
+
+
 
 describe('"eventPlus" package', () => {
   describe('"eventListId"', () => {
@@ -104,14 +109,14 @@ describe('"eventPlus" package', () => {
       expect(on({}, 'test-object', cb)).to.be.equal(d);
       expect(on(123, 'test-number', cb)).to.be.equal(d);
 
-      $.trigger('test-undefined', d);
-      $.trigger('test-null', d);
-      $.trigger('test-object', d);
-      $.trigger('test-number', d);
+      testUtils.trigger('test-undefined', d);
+      testUtils.trigger('test-null', d);
+      testUtils.trigger('test-object', d);
+      testUtils.trigger('test-number', d);
 
       expect(cb).to.have.callCount(4);
 
-      cb.reset();
+      cb.resetHistory();
 
       off(d);
     });
@@ -160,16 +165,16 @@ describe('"eventPlus" package', () => {
       on(window, 'test-dash', cbWin);
       on(window, 'test:colon', cbWin);
 
-      $.trigger('test', window);
-      $.trigger('test_underscore', window);
-      $.trigger('test-dash', window);
-      $.trigger('test:colon', window);
+      testUtils.trigger('test', window);
+      testUtils.trigger('test_underscore', window);
+      testUtils.trigger('test-dash', window);
+      testUtils.trigger('test:colon', window);
 
       expect(cb).to.have.been.calledOnce;
       expect(cbWin).to.have.callCount(3);
 
-      cb.reset();
-      cbWin.reset();
+      cb.resetHistory();
+      cbWin.resetHistory();
 
       const cbDoc = sinon.spy();
 
@@ -179,18 +184,18 @@ describe('"eventPlus" package', () => {
       on(d, 'test-dash', cbDoc);
       on(d, 'test:colon', cbDoc);
 
-      $.trigger('test', d);
-      $.trigger('test_underscore', d);
-      $.trigger('test-dash', d);
-      $.trigger('test:colon', d);
+      testUtils.trigger('test', d);
+      testUtils.trigger('test_underscore', d);
+      testUtils.trigger('test-dash', d);
+      testUtils.trigger('test:colon', d);
 
       expect(cb).to.have.been.calledTwice;
       expect(cbWin).to.have.calledTrice;
       expect(cbDoc).to.have.calledTrice;
 
-      cb.reset();
-      cbWin.reset();
-      cbDoc.reset();
+      cb.resetHistory();
+      cbWin.resetHistory();
+      cbDoc.resetHistory();
 
       const cbBody = sinon.spy();
 
@@ -200,10 +205,10 @@ describe('"eventPlus" package', () => {
       on(b, 'test-dash', cbBody);
       on(b, 'test:colon', cbBody);
 
-      $.trigger('test', b);
-      $.trigger('test_underscore', b);
-      $.trigger('test-dash', b);
-      $.trigger('test:colon', b);
+      testUtils.trigger('test', b);
+      testUtils.trigger('test_underscore', b);
+      testUtils.trigger('test-dash', b);
+      testUtils.trigger('test:colon', b);
 
       expect(cb).to.have.been.calledTrice;
       expect(cbWin).to.have.calledTrice;
@@ -219,7 +224,7 @@ describe('"eventPlus" package', () => {
       const cb = sinon.spy();
 
       on(d, 'delegate', 'body', cb);
-      $.trigger('delegate', b);
+      testUtils.trigger('delegate', b);
       expect(cb).to.have.been.calledOnce;
 
       off(d);
@@ -230,8 +235,8 @@ describe('"eventPlus" package', () => {
 
       on(b, 'name.space', cb);
 
-      $.trigger('name.space', b);
-      $.trigger('name', b);
+      testUtils.trigger('name.space', b);
+      testUtils.trigger('name', b);
 
       expect(cb).to.have.been.calledTwice;
 
@@ -251,9 +256,9 @@ describe('"eventPlus" package', () => {
       on(b, ['click', 'touch', 'custom'], cb4);
       on(b, ['click, touch', null, 'custom'], cb5);
 
-      $.trigger('click', b);
-      $.trigger('touch', b);
-      $.trigger('custom', b);
+      testUtils.trigger('click', b);
+      testUtils.trigger('touch', b);
+      testUtils.trigger('custom', b);
 
       expect(cb).to.have.been.calledTrice;
       expect(cb2).to.have.been.calledTrice;
@@ -269,7 +274,7 @@ describe('"eventPlus" package', () => {
 
       on(b, 'disapeared', cb);
       getEvents(b).delete('disapeared');
-      $.trigger('disapeared', b);
+      testUtils.trigger('disapeared', b);
 
       expect(cb).not.to.have.been.called;
 
@@ -287,7 +292,7 @@ describe('"eventPlus" package', () => {
       on(b, 'stop', stopCb2);
       on(b, 'stop', stopCb3);
 
-      $.trigger('stop', b);
+      testUtils.trigger('stop', b);
 
       expect(stopCb).to.have.been.calledOnce;
       expect(stopCb2).not.to.have.been.called;
@@ -306,10 +311,10 @@ describe('"eventPlus" package', () => {
       on({}, 'test-object', cb);
       on(123, 'test-number', cb);
 
-      $.trigger('test-undefined', d);
-      $.trigger('test-null', d);
-      $.trigger('test-object', d);
-      $.trigger('test-number', d);
+      testUtils.trigger('test-undefined', d);
+      testUtils.trigger('test-null', d);
+      testUtils.trigger('test-object', d);
+      testUtils.trigger('test-number', d);
 
       expect(cb).to.have.callCount(4);
 
@@ -318,12 +323,12 @@ describe('"eventPlus" package', () => {
       expect(off({}, 'test-object', cb)).to.be.equal(d);
       expect(off(123, 'test-number', cb)).to.be.equal(d);
 
-      cb.reset();
+      cb.resetHistory();
 
-      $.trigger('test-undefined', d);
-      $.trigger('test-null', d);
-      $.trigger('test-object', d);
-      $.trigger('test-number', d);
+      testUtils.trigger('test-undefined', d);
+      testUtils.trigger('test-null', d);
+      testUtils.trigger('test-object', d);
+      testUtils.trigger('test-number', d);
 
       expect(cb).not.to.have.been.called;
     });
@@ -350,10 +355,10 @@ describe('"eventPlus" package', () => {
       on(b, 'test:colon', cb4);
 
       const trigger = () => {
-        $.trigger('test', b);
-        $.trigger('test_underscore', b);
-        $.trigger('test-dash', b);
-        $.trigger('test:colon', b);
+        testUtils.trigger('test', b);
+        testUtils.trigger('test_underscore', b);
+        testUtils.trigger('test-dash', b);
+        testUtils.trigger('test:colon', b);
       };
 
       const remove = (elm) => {
@@ -371,10 +376,10 @@ describe('"eventPlus" package', () => {
       };
 
       const reset = () => {
-        cb.reset();
-        cb2.reset();
-        cb3.reset();
-        cb4.reset();
+        cb.resetHistory();
+        cb2.resetHistory();
+        cb3.resetHistory();
+        cb4.resetHistory();
       };
 
       trigger();
@@ -408,14 +413,14 @@ describe('"eventPlus" package', () => {
 
       on(d, 'delegate', 'body', cb);
 
-      $.trigger('delegate', b);
+      testUtils.trigger('delegate', b);
       expect(cb).to.have.been.calledOnce;
 
-      cb.reset();
+      cb.resetHistory();
 
       off(d, 'delegate', 'body', cb);
 
-      $.trigger('delegate', b);
+      testUtils.trigger('delegate', b);
       expect(cb).to.not.have.been.called;
     });
 
@@ -428,19 +433,19 @@ describe('"eventPlus" package', () => {
       on(d, 'delegate', 'body', cb2);
       on(d, 'delegate', 'body', cb3);
 
-      $.trigger('delegate', b);
+      testUtils.trigger('delegate', b);
 
       expect(cb).to.have.been.calledOnce;
       expect(cb2).to.have.been.calledOnce;
       expect(cb3).to.have.been.calledOnce;
 
-      cb.reset();
-      cb2.reset();
-      cb3.reset();
+      cb.resetHistory();
+      cb2.resetHistory();
+      cb3.resetHistory();
 
       off(d, 'delegate', 'body');
 
-      $.trigger('delegate', b);
+      testUtils.trigger('delegate', b);
 
       expect(cb).to.have.been.calledOnce;
       expect(cb2).to.not.have.been.called;
@@ -452,19 +457,19 @@ describe('"eventPlus" package', () => {
 
       on(b, 'name.space', cb);
 
-      $.trigger('name.space', b);
-      $.trigger('name', b);
-      $.trigger('space', b);
+      testUtils.trigger('name.space', b);
+      testUtils.trigger('name', b);
+      testUtils.trigger('space', b);
 
       expect(cb).to.have.been.calledTwice;
 
       off(b, 'name.space', cb);
 
-      cb.reset();
+      cb.resetHistory();
 
-      $.trigger('name.space', b);
-      $.trigger('name', b);
-      $.trigger('space', b);
+      testUtils.trigger('name.space', b);
+      testUtils.trigger('name', b);
+      testUtils.trigger('space', b);
 
       expect(cb).to.not.have.been.called;
     });
@@ -475,19 +480,19 @@ describe('"eventPlus" package', () => {
 
         on(b, 'click touch custom', cb);
 
-        $.trigger('click', b);
-        $.trigger('touch', b);
-        $.trigger('custom', b);
+        testUtils.trigger('click', b);
+        testUtils.trigger('touch', b);
+        testUtils.trigger('custom', b);
 
         expect(cb).to.have.been.calledTrice;
 
         off(b, evts, cb);
 
-        cb.reset();
+        cb.resetHistory();
 
-        $.trigger('click', b);
-        $.trigger('touch', b);
-        $.trigger('custom', b);
+        testUtils.trigger('click', b);
+        testUtils.trigger('touch', b);
+        testUtils.trigger('custom', b);
 
         expect(cb).to.not.have.been.called;
       };
@@ -508,7 +513,7 @@ describe('"eventPlus" package', () => {
       on(b, 'test', cb2);
       on(b, 'test', cb3);
 
-      $.trigger('test', b);
+      testUtils.trigger('test', b);
 
       expect(cb).to.have.been.calledOnce;
       expect(cb2).to.have.been.calledOnce;
@@ -516,11 +521,11 @@ describe('"eventPlus" package', () => {
 
       off(b, 'test');
 
-      cb.reset();
-      cb2.reset();
-      cb3.reset();
+      cb.resetHistory();
+      cb2.resetHistory();
+      cb3.resetHistory();
 
-      $.trigger('test', b);
+      testUtils.trigger('test', b);
 
       expect(cb).not.to.have.been.called;
       expect(cb2).not.to.have.been.called;
@@ -537,9 +542,9 @@ describe('"eventPlus" package', () => {
         on(b, 'click touch custom', cb2);
         on(b, 'click touch custom', cb3);
 
-        $.trigger('click', b);
-        $.trigger('touch', b);
-        $.trigger('custom', b);
+        testUtils.trigger('click', b);
+        testUtils.trigger('touch', b);
+        testUtils.trigger('custom', b);
 
         expect(cb).to.have.been.callCount(3);
         expect(cb2).to.have.been.callCount(3);
@@ -547,13 +552,13 @@ describe('"eventPlus" package', () => {
 
         off(b, evts);
 
-        cb.reset();
-        cb2.reset();
-        cb3.reset();
+        cb.resetHistory();
+        cb2.resetHistory();
+        cb3.resetHistory();
 
-        $.trigger('click', b);
-        $.trigger('touch', b);
-        $.trigger('custom', b);
+        testUtils.trigger('click', b);
+        testUtils.trigger('touch', b);
+        testUtils.trigger('custom', b);
 
         expect(cb).not.to.have.been.called;
         expect(cb2).not.to.have.been.called;
@@ -576,9 +581,9 @@ describe('"eventPlus" package', () => {
       on(b, 'click touch custom', cb2);
       on(b, 'click touch custom', cb3);
 
-      $.trigger('click', b);
-      $.trigger('touch', b);
-      $.trigger('custom', b);
+      testUtils.trigger('click', b);
+      testUtils.trigger('touch', b);
+      testUtils.trigger('custom', b);
 
       expect(getEvents(b).size).to.equal(3);
 
@@ -588,13 +593,13 @@ describe('"eventPlus" package', () => {
 
       off(b);
 
-      cb.reset();
-      cb2.reset();
-      cb3.reset();
+      cb.resetHistory();
+      cb2.resetHistory();
+      cb3.resetHistory();
 
-      $.trigger('click', b);
-      $.trigger('touch', b);
-      $.trigger('custom', b);
+      testUtils.trigger('click', b);
+      testUtils.trigger('touch', b);
+      testUtils.trigger('custom', b);
 
       expect(cb).not.to.have.been.called;
       expect(cb2).not.to.have.been.called;

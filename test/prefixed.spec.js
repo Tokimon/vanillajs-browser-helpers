@@ -1,6 +1,10 @@
-/* eslint-env node, mocha, browser */
-/* global expect */
+/* eslint-env node, browser */
+
+import { expect, describe, it } from './assets/init-test';
+
 import prefixed from '../prefixed';
+
+
 
 function expectArrayInput(arr, input) {
   expect(arr).to.be.a('array');
@@ -9,6 +13,8 @@ function expectArrayInput(arr, input) {
   expect(arr[2]).to.equal(`ms${input}`);
   expect(arr[3]).to.equal(`o${input}`);
 }
+
+
 
 describe('"prefixed"', () => {
   it('Should prefix a word with vendor prefixes', () => {

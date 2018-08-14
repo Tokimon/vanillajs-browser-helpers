@@ -1,10 +1,15 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
+
+import { expect, testUtils, describe, it, before, after } from './assets/init-test';
 
 import inView from '../inView';
 
+
+
 const testID = 'TestNode';
+
+
 
 function scroll(x, y) { window.scroll(x, y); }
 
@@ -17,6 +22,8 @@ function scrollY(y) {
   const x = typeof window.scrollX !== 'undefined' ? window.scrollX : document.documentElement.scrollLeft;
   scroll(x, y);
 }
+
+
 
 describe('"inView"', () => {
   let node;
@@ -40,7 +47,7 @@ describe('"inView"', () => {
   const threshold = 20;
 
   before(() => {
-    $.html(`
+    testUtils.html(`
       <div id="View">
         <div id="hidden"></div>
         <div id="${testID}"></div>
@@ -65,13 +72,13 @@ describe('"inView"', () => {
       </div>
     `);
 
-    node = $.id(testID);
+    node = testUtils.id(testID);
   });
 
-  after(() => { $.remove('View'); });
+  after(() => { testUtils.remove('View'); });
 
   it('Should return false if the given element is hidden or not an element in the DOM', () => {
-    const div = $.create('div');
+    const div = testUtils.create('div');
     div.innerHTML = '<p></p>';
 
     expect(inView()).to.be.false;
@@ -79,7 +86,7 @@ describe('"inView"', () => {
     expect(inView({})).to.be.false;
     expect(inView(div)).to.be.false;
     expect(inView(div.firstChild)).to.be.false;
-    expect(inView($.id('hidden'))).to.be.false;
+    expect(inView(testUtils.id('hidden'))).to.be.false;
     expect(inView(node)).to.not.be.false;
   });
 

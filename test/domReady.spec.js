@@ -1,11 +1,17 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, sinon */
+/* global sinon */
+
+import { expect, describe, it } from './assets/init-test';
 
 import domReady, { domReadyBuilder } from '../domReady';
 
+
+
 const domreadyCb = sinon.spy();
 let domLoaded = false;
+
+
 
 function once(elm, evt, handler) {
   return elm.addEventListener(evt, function _one(e) {
@@ -23,13 +29,18 @@ document.addEventListener('DOMContentLoaded', (e) => {
   domLoaded = true;
 }, true);
 
+
+
 // We have to build the dom ready handlers here as we otherwise will be to late
 // to test the dom ready event
 const _once = sinon.spy();
 const domReadyBinder = domReadyBuilder(_once);
+
 domReadyBinder(() => {});
 domReadyBuilder(once)(domreadyCb);
 domReady(domreadyCb);
+
+
 
 describe('"domReady" package', () => {
   describe('"domReadyBuilder"', () => {
@@ -72,7 +83,7 @@ describe('"domReady" package', () => {
     });
 
     it('Should trigger the handler if the method is bound after the DOM has finished loading', (done) => {
-      domreadyCb.reset();
+      domreadyCb.resetHistory();
       afterDomLoad(() => {
         domReady(domreadyCb);
         expect(domreadyCb).to.have.been.calledOnce;

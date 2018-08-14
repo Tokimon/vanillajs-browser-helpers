@@ -1,8 +1,11 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
+
+import { expect, testUtils, describe, it } from './assets/init-test';
 
 import isDOMRoot from '../isDOMRoot';
+
+
 
 describe('"isDOMRoot"', () => {
   it('Should only return true for the DOM element', () => {
@@ -12,7 +15,7 @@ describe('"isDOMRoot"', () => {
     // False statements
     expect(isDOMRoot(document.body)).to.be.false;
     expect(isDOMRoot(document)).to.be.false;
-    expect(isDOMRoot($.create('html'))).to.be.false;
+    expect(isDOMRoot(testUtils.create('html'))).to.be.false;
     expect(isDOMRoot(document.implementation.createHTMLDocument('').documentElement)).to.be.false;
   });
 

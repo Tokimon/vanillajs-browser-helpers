@@ -1,13 +1,18 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
+
+import { expect, testUtils, describe, it, before, after } from './assets/init-test';
 
 import findById from '../findById';
 
+
+
 const testID = 'TestNode';
 
+
+
 describe('"findById"', () => {
-  before(() => $.html(`
+  before(() => testUtils.html(`
     <div id="${testID}"></div>
     <div id="Duplicate" class="first"></div>
     <div id="Duplicate" class="second">
@@ -16,7 +21,7 @@ describe('"findById"', () => {
     </div>
   `));
 
-  after(() => [testID, 'Duplicate', 'Duplicate'].forEach((id) => $.remove(id)));
+  after(() => [testID, 'Duplicate', 'Duplicate'].forEach((id) => testUtils.remove(id)));
 
   it('Should find a DOM element with a given ID', () => {
     expect(findById(testID))

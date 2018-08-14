@@ -1,15 +1,18 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
+
+import { expect, testUtils, describe, it } from './assets/init-test';
 
 import isDOMElement from '../isDOMElement';
+
+
 
 describe('"isDOMElement"', () => {
   it('Should only return true for DOM elements', () => {
     // True statements
     expect(isDOMElement(document.documentElement)).to.be.true;
     expect(isDOMElement(document.body)).to.be.true;
-    expect(isDOMElement($.create('p'))).to.be.true;
+    expect(isDOMElement(testUtils.create('p'))).to.be.true;
 
     // False statements
     expect(isDOMElement(document)).to.be.false;

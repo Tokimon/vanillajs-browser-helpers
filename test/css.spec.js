@@ -1,33 +1,38 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
+
+import { expect, testUtils, describe, it, before, beforeEach, after } from './assets/init-test';
 
 import css from '../css';
 
+
+
 const testID = 'TestNode';
 
+
+
 describe('"css"', () => {
-  before(() => $.html(`
+  before(() => testUtils.html(`
     <style id="style">#${testID} { overflow: hidden; font-size: 15px; } #${testID}:after { content: 'after'; }</style>
     <div id="${testID}"></div>
   `));
 
-  beforeEach(() => $.id(testID).removeAttribute('style'));
+  beforeEach(() => testUtils.id(testID).removeAttribute('style'));
 
   after(() => {
-    $.remove(testID);
-    $.remove('style');
+    testUtils.remove(testID);
+    testUtils.remove('style');
   });
 
   it('Should read the current style of a DOM element', () => {
-    const node = $.id(testID);
+    const node = testUtils.id(testID);
     const styling = css(node);
     expect(styling).to.not.be.null;
     expect(styling.overflow).to.equal('hidden');
   });
 
   it('Should get the value of the given property from the style', () => {
-    const node = $.id(testID);
+    const node = testUtils.id(testID);
     node.style.lineHeight = '15px';
     node.style.fontSize = '15px';
     expect(css(node, 'line-height')).to.equal('15px');
@@ -37,14 +42,14 @@ describe('"css"', () => {
   });
 
   it('Should change the styling of a DOM element', () => {
-    const node = $.id(testID);
+    const node = testUtils.id(testID);
     const newstyling = css(node, { height: '45px' });
     expect(newstyling).to.not.be.null;
     expect(newstyling.height).to.equal('45px');
   });
 
   it('Should accept dashed and camelCase property names', () => {
-    const node = $.id(testID);
+    const node = testUtils.id(testID);
     const newstyling = css(node, { 'line-height': '20px', fontSize: '20px' });
     expect(newstyling).to.not.be.null;
     expect(newstyling.lineHeight).to.equal('20px');
@@ -52,7 +57,7 @@ describe('"css"', () => {
   });
 
   it('Should get the styling of a pseudo element', () => {
-    const node = $.id(testID);
+    const node = testUtils.id(testID);
     const pseudo = css(node, 'after');
     expect(pseudo).to.exist;
     expect(pseudo.content).to.equal('"after"');
@@ -60,7 +65,7 @@ describe('"css"', () => {
   });
 
   // it('Should return null if there is no pseudo element', () => {
-  //   const node = $.id(testID);
+  //   const node = testUtils.id(testID);
   //   const pseudo = css(node, 'before');
   //   expect(pseudo).to.be.null;
   // });

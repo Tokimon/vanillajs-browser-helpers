@@ -1,21 +1,26 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
+
+import { expect, testUtils, describe, it, before, beforeEach, after } from './assets/init-test';
 
 import _before from '../before';
+
+
 
 const testID = 'BeforeTest';
 const nodeID = 'BeforeNode';
 const insertHTML = '<div class="inserted"></div>';
 
-describe('"before"', () => {
-  before(() => $.html(`<div id="${testID}"></div>`));
-  beforeEach(() => { $.id(testID).innerHTML = `<div id="${nodeID}"></div>`; });
 
-  after(() => $.remove(testID));
+
+describe('"before"', () => {
+  before(() => testUtils.html(`<div id="${testID}"></div>`));
+  beforeEach(() => { testUtils.id(testID).innerHTML = `<div id="${nodeID}"></div>`; });
+
+  after(() => testUtils.remove(testID));
 
   it('Should insert plain HTML before a DOM element', () => {
-    const node = $.id(nodeID);
+    const node = testUtils.id(nodeID);
 
     expect(node.previousSibling).to.be.null;
 
@@ -26,8 +31,8 @@ describe('"before"', () => {
   });
 
   it('Should insert DOM element before a DOM element', () => {
-    const node = $.id(nodeID);
-    const div = $.create('div');
+    const node = testUtils.id(nodeID);
+    const div = testUtils.create('div');
     div.className = 'inserted';
 
     expect(node.previousSibling).to.be.null;
@@ -39,9 +44,9 @@ describe('"before"', () => {
   });
 
   it('Should always return the inserted DOM element', () => {
-    const node = $.id(nodeID);
+    const node = testUtils.id(nodeID);
 
-    const div = $.create('div');
+    const div = testUtils.create('div');
     div.className = 'inserted-always-dom';
 
     expect(_before(node, div)).to.have.class('inserted-always-dom');
@@ -50,12 +55,12 @@ describe('"before"', () => {
 
   it('Should ignore and return NULL for the <HTML> element', () => {
     const htmlPrev = document.documentElement.previousSibling;
-    expect(_before(document.documentElement, $.create('div'))).to.be.null;
+    expect(_before(document.documentElement, testUtils.create('div'))).to.be.null;
     expect(document.documentElement.previousSibling).to.equal(htmlPrev);
   });
 
   it('Should ignore DOM elements not inserted into the DOM', () => {
-    const div = $.create('div');
+    const div = testUtils.create('div');
     expect(_before(div, insertHTML)).to.not.fail;
     expect(div.previousSibling).to.be.null;
   });

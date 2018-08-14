@@ -1,8 +1,11 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect */
+
+import { expect, describe, it } from './assets/init-test';
 
 import viewport from '../viewport';
+
+
 
 describe('"viewport"', () => {
   const { body, documentElement: html } = document;

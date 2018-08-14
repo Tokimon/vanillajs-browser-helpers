@@ -1,13 +1,20 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
-import 'polyfills/array-from-polyfill';
+
+import 'babel-polyfill';
+
+import { expect, testUtils, describe, it, before, after } from './assets/init-test';
+
 import findByTagName from '../findByTagName';
+
+
 
 const testID = 'tagNameTest';
 
+
+
 describe('"findByTagName"', () => {
-  before(() => $.html(`
+  before(() => testUtils.html(`
     <div id="${testID}">
       <div></div>
       <div></div>
@@ -16,7 +23,7 @@ describe('"findByTagName"', () => {
     </div>
   `));
 
-  after(() => $.remove(testID));
+  after(() => testUtils.remove(testID));
 
   it('Should always return an Array', () => {
     expect(findByTagName()).to.be.an('array');
@@ -74,7 +81,7 @@ describe('"findByTagName"', () => {
 
   describe('- With defined context', () => {
     it('Should find DOM elements matching given tag name from a given DOM element context', () => {
-      const nodes = findByTagName('div', $.id(testID));
+      const nodes = findByTagName('div', testUtils.id(testID));
       expect(nodes)
         .to.be.a('array')
         .and.to.have.length(3);

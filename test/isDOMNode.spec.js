@@ -1,8 +1,11 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
+
+import { expect, testUtils, describe, it } from './assets/init-test';
 
 import isDOMNode from '../isDOMNode';
+
+
 
 describe('"isDOMNode"', () => {
   it('Should only return true for a HTML nodes', () => {
@@ -10,7 +13,7 @@ describe('"isDOMNode"', () => {
     expect(isDOMNode(document.documentElement)).to.be.true;
     expect(isDOMNode(document.body)).to.be.true;
     expect(isDOMNode(document)).to.be.true;
-    expect(isDOMNode($.create('p'))).to.be.true;
+    expect(isDOMNode(testUtils.create('p'))).to.be.true;
     expect(isDOMNode(document.createDocumentFragment())).to.be.true;
     expect(isDOMNode(document.createTextNode(''))).to.be.true;
     expect(isDOMNode(document.createComment(''))).to.be.true;

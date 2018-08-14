@@ -1,17 +1,22 @@
-/* eslint-env node, mocha, browser */
+/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global expect, $ */
+
+import { expect, testUtils, describe, it, before, after } from './assets/init-test';
 
 import matches from '../matches';
 
+
+
 const testID = 'TestNode';
 
+
+
 describe('"matches"', () => {
-  before(() => $.html(`<div id="${testID}"><span class="class"><b></b></span></div>`));
-  after(() => $.remove(testID));
+  before(() => testUtils.html(`<div id="${testID}"><span class="class"><b></b></span></div>`));
+  after(() => testUtils.remove(testID));
 
   it('Should indicate if a DOM element matches a given CSS selector', () => {
-    const node = $.id(testID);
+    const node = testUtils.id(testID);
 
     // expect(matches(node, '#testID')).to.be.true;
     expect(matches(node, '.class')).to.be.false;
