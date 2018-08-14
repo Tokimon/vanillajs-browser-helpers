@@ -1,7 +1,6 @@
-import iterate from 'vanillajs-helpers/iterate';
+import indexLoop from 'vanillajs-helpers/indexLoop';
 import isString from 'vanillajs-helpers/isString';
 import isArray from 'vanillajs-helpers/isArray';
-import isCollection from 'vanillajs-helpers/isCollection';
 import isDOMNode from './isDOMNode';
 import isDOMDocument from './isDOMDocument';
 
@@ -176,7 +175,7 @@ export default function find(queries, elm) {
     const nodes = _find(elm, query);
 
     if(nodes) {
-      iterate((!isCollection(nodes) || isDOMNode(nodes) ? [nodes] : nodes), (node) => { set.add(node); });
+      indexLoop((isDOMNode(nodes) ? [nodes] : nodes), (node) => { set.add(node); });
     }
 
     return set;

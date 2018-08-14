@@ -1,4 +1,4 @@
-import iterate from 'vanillajs-helpers/iterate';
+import indexLoop from 'vanillajs-helpers/indexLoop';
 import words from 'vanillajs-helpers/eachWord';
 import randomId from 'vanillajs-helpers/randomId';
 import isFunction from 'vanillajs-helpers/isFunction';
@@ -70,7 +70,7 @@ export function getEvents(elm) {
 
 // Internal method to trigger all bound handlers to an event
 function triggerHandlers(e, handlers = [], target = e.target) {
-  iterate(handlers, (handler) => {
+  indexLoop(handlers, (handler) => {
     if(handler.call(target, e) === false) {
       e.preventDefault();
       e.stopPropagation();

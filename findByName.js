@@ -1,6 +1,6 @@
 import isString from 'vanillajs-helpers/isString';
 import isArray from 'vanillajs-helpers/isArray';
-import iterate from 'vanillajs-helpers/iterate';
+import indexLoop from 'vanillajs-helpers/indexLoop';
 
 /**
  * Find DOM elements with the given name
@@ -18,7 +18,7 @@ export default function findByName(names) {
   if(names.length < 2) { return Array.from(document.getElementsByName(names[0])); }
 
   return Array.from(names.reduce((set, name) => {
-    iterate(document.getElementsByName(name), (elm) => set.add(elm));
+    indexLoop(document.getElementsByName(name), (elm) => set.add(elm));
     return set;
   }, new Set()));
 }

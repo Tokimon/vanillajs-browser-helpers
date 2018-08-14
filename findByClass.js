@@ -1,6 +1,6 @@
 import isString from 'vanillajs-helpers/isString';
 import isArray from 'vanillajs-helpers/isArray';
-import iterate from 'vanillajs-helpers/iterate';
+import indexLoop from 'vanillajs-helpers/indexLoop';
 
 
 
@@ -25,7 +25,7 @@ export default function findByClass(classNames, context) {
   // If several expressions have been passed in
   // we need to create an unique array of the found nodes
   return Array.from(classNames.reduce((set, cn) => {
-    iterate(context.getElementsByClassName(cn), (node) => set.add(node));
+    indexLoop(context.getElementsByClassName(cn), (node) => set.add(node));
     return set;
   }, new Set()));
 }
