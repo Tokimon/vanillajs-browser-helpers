@@ -10,5 +10,7 @@ import toDOM from './toDOM';
  * @return {HTMLElement} The converted element
  */
 export default function create(selector) {
-  return toDOM(selectorToHTML(selector))[0];
+  return /^[a-z]+$/i.test(selector)
+    ? document.createElement(selector)
+    : toDOM(selectorToHTML(selector))[0];
 }
