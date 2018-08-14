@@ -1,9 +1,8 @@
-import iterate from 'vanillajs-helpers/iterate';
-import capitalize from 'vanillajs-helpers/capitalize';
+const div = document.createElement('div');
 
 
 
-function supported(div, prop, value) {
+export function supportsProp(prop, value) {
   if(typeof div.style[prop] === 'undefined') { return false; }
   if(!value) { return true; }
 
@@ -22,35 +21,33 @@ function supported(div, prop, value) {
  *                            otherwise a boolean is returned
  */
 export default function supportsCSS(prop, value) {
-  const div = document.createElement('div');
-
   // Property (+ value) is supported natively as is
-  if(supported(div, prop, value)) { return true; }
+  if(supportsProp(prop, value)) { return true; }
 
   // Testing prefixed values
   let prefixed = false;
 
-  iterate(['Moz', 'Webkit', 'ms', 'Khtml', 'O'], (jsPrefix) => {
-    const cssPrefix = `-${jsPrefix.toLowerCase()}-`;
-    const p = jsPrefix + capitalize(prop);
-    const v = cssPrefix + value;
+  ['-moz-', '-webkit-', '-ms-', '-khtml-', '-o-']
+    .some((prefix) => {
+      const prefixedProp = prefix + prop;
+      const prefixedValue = prefix + value;
 
-    // Prefixed prop
-    if(supported(div, p, value)) {
-      prefixed = { prop: p, value, jsPrefix, cssPrefix: false };
+      // Prefixed prop
+      if(supportsProp(prefixedProp, value)) {
+        prefixed = { prop: prefixedProp, value, prefix };
 
-    // Prefixed value
-    } else if(supported(div, prop, v)) {
-      prefixed = { prop, value: v, jsPrefix: false, cssPrefix };
+        // Prefixed value
+      } else if(supportsProp(prop, prefixedValue)) {
+        prefixed = { prop, value: prefixedValue, prefix };
 
-    // Prefixed prop and value
-    } else if(supported(div, p, v)) {
-      prefixed = { prop: p, value: v, jsPrefix, cssPrefix };
-    }
+        // Prefixed prop and value
+      } else if(supportsProp(prefixedProp, prefixedValue)) {
+        prefixed = { prop: prefixedProp, value: prefixedValue, prefix };
+      }
 
-    // Stop iterating?
-    return !prefixed;
-  });
+      // Stop iterating?
+      return !!prefixed;
+    });
 
   return prefixed;
 }
