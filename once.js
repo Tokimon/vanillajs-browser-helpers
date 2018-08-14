@@ -1,11 +1,9 @@
 import isFunction from 'vanillajs-helpers/isFunction';
 import isString from 'vanillajs-helpers/isString';
+import isArray from 'vanillajs-helpers/isArray';
 import isObject from 'vanillajs-helpers/isObject';
 
-import isDOMNode from './isDOMNode';
-import isWindow from './isWindow';
-
-import eventPropsSupported from './eventPropsSupported';
+import eventOptionsSupported from './eventOptionsSupported';
 import _on from './on';
 import _off from './off';
 
@@ -18,43 +16,40 @@ import _off from './off';
  * @param {Function} off - The method to use to remove event handlers
  * @return {Function} The single fire event binder function
  */
-export function onceBuilder({ on, off, condition } = {}) {
-  if(!isFunction(on)) { on = _on; }
-  if(!isFunction(off)) { off = _off; }
-
-  const hasCondition = isFunction(condition);
-  const propsSupported = eventPropsSupported();
+export function onceBuilder({ on = _on, off = _off } = {}) {
+  const optionsSupported = eventOptionsSupported();
 
   return (elm, eventNames, handler, options) => {
-    if(isString(elm)) {
+    if(!elm) { elm = document; }
+
+    if(isString(elm) || isArray(elm)) {
       [elm, eventNames, handler, options] = [document, elm, eventNames, handler];
     }
 
-    if(!isFunction(handler)) { return null; }
+    if(!isFunction(handler) || !eventNames) { return null; }
 
-    if(!isDOMNode(elm) && !isWindow(elm)) { elm = document; }
-    if(!isObject(options)) { options = { capture: !!options }; }
+    const capture = !!options;
+    if(!isObject(options)) { options = { capture }; }
 
-    const offHandler = (e) => {
-      off(elm, e.type, _one);
-      return handler.call(this, e);
-    };
-
-    const conditionHandler = (e) => {
-      return condition() ? offHandler(e) : true;
-    };
-
-    const _one = hasCondition
-      ? conditionHandler
-      : (propsSupported ? handler : offHandler);
-
+    const condition = options.when;
+    const hasCondition = isFunction(condition);
     options.once = !hasCondition;
 
-    if(!propsSupported) { options = false; }
+    if(!optionsSupported) { options = capture; }
 
-    on(elm, eventNames, _one, options);
+    const offHandler = (e) => {
+      if(hasCondition && condition() !== true) { return true; }
+      off(elm, e.type, offHandler);
+      return handler(e);
+    };
 
-    return _one;
+    const eventHandler = hasCondition || !optionsSupported
+      ? offHandler
+      : handler;
+
+    on(elm, eventNames, eventHandler, options);
+
+    return eventHandler;
   };
 }
 
@@ -66,7 +61,9 @@ export function onceBuilder({ on, off, condition } = {}) {
  * @param {HTMLElement} elm - DOM element to unbind the event from
  * @param {String|String[]} eventNames - Event names to bind the handler to
  * @param {Function} handler - Handler to bind to the event
- * @return {Function} The single fire event handler (so it may be removed again)
+ * @param {object} options - Event binding options
+ * @param {Function} options.when - Function to determine if the handler (and removal) should be triggered
+ * @return {Function} The single fire event handler (so it may be removed again before trigger)
  */
 const once = onceBuilder();
 export default once;
