@@ -158,7 +158,7 @@ export default function find(queries, elm) {
   if(!multi) {
     const nodes = _find(elm, queries);
     // Return the found nodes as an Array
-    return nodes ? (!isCollection(nodes) || isDOMNode(nodes) ? [nodes] : Array.from(nodes)) : [];
+    return nodes ? (isDOMNode(nodes) ? [nodes] : Array.from(nodes)) : [];
   }
 
   // We have a multiple queries, so first we just try the query selector
@@ -166,7 +166,7 @@ export default function find(queries, elm) {
     return Array.from(q(elm, array ? queries.join(',') : queries));
 
   // If the querySelector fails, it could mean we have wildcards or bad selectors
-  // in the list, so make sure the queries is an Array som may run through each item
+  // in the list, so make sure the queries is an Array so we may run through each item
   } catch(ex) { queries = array ? queries : queries.split(/\s*,\s*/); }
 
   // We need to create an unique array of the found nodes
@@ -202,7 +202,7 @@ export function findOne(queries, elm) {
   if(!multi) {
     const node = _find(elm, queries, true);
     // Return the found nodes as an Array
-    return node ? (!isCollection(node) || isDOMNode(node) ? node : node[0] || null) : null;
+    return node ? (isDOMNode(node) ? node : node[0] || null) : null;
   }
 
   // We have a multiple queries, so first we just try the query selector
@@ -221,7 +221,7 @@ export function findOne(queries, elm) {
   while(!node && i < max) {
     const query = queries[i++];
     node = _find(elm, query, true);
-    if(isCollection(node) && !isDOMNode(node)) { node = node[0] || null; }
+    if(node && !isDOMNode(node)) { node = node[0] || null; }
   }
 
   return node;
