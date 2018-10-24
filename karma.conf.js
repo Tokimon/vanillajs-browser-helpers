@@ -5,73 +5,15 @@
 const nPath = require('path');
 const yargs = require('yargs');
 
-
-
-const saucelabsBrowsers = {
-  sl_firefox: {
-    base: 'SauceLabs',
-    browserName: 'firefox',
-    platform: 'Linux',
-    version: 'latest'
-  },
-  sl_edge: {
-    base: 'SauceLabs',
-    browserName: 'edge',
-    platform: 'Windows 10',
-    version: 'latest'
-  },
-  sl_chrome: {
-    base: 'SauceLabs',
-    browserName: 'chrome',
-    platform: 'Windows 10',
-    extendedDebugging: true,
-    version: 'latest'
-  },
-  sl_safari: {
-    base: 'SauceLabs',
-    browserName: 'safari',
-    platform: 'macOS 10.13',
-    version: 'latest'
-  },
-  sl_ie11: {
-    base: 'SauceLabs',
-    browserName: 'internet explorer',
-    platform: 'Windows 8.1',
-    version: '11.0'
-  },
-  sl_ie10: {
-    base: 'SauceLabs',
-    browserName: 'internet explorer',
-    platform: 'Windows 8',
-    version: '10.0'
-  },
-  sl_ie9: {
-    base: 'SauceLabs',
-    browserName: 'internet explorer',
-    platform: 'Windows 7',
-    version: '9.0'
-  }
-};
+const webpackConf = require('./webpack.base.config');
 
 
 
 const args = yargs
-  .option('root', {
-    alias: 'r',
-    describe: 'Root path to search for the test directory',
-    type: 'string',
-    choices: ['.', 'es5', 'cjs'],
-    default: '.'
-  })
-  .option('test', {
-    alias: 't',
-    describe: 'Which test to load (* for all)',
+  .option('file', {
+    alias: 'f',
+    describe: 'Which file to test (* for all)',
     type: 'array'
-  })
-  .option('local', {
-    alias: 's',
-    describe: 'Test local browsers',
-    type: 'boolean'
   })
   .help()
   .alias('help', 'h')
@@ -80,42 +22,29 @@ const args = yargs
 
 
 // --- Tests to run ---
-let tests = args.test || [];
-const nameLen = tests.length;
+let tests = args.file || [];
 
-if(tests.indexOf('*') > -1 || !nameLen) { tests = '*'; }
-
-if(Array.isArray(tests)) {
-  tests = nameLen > 1 ? `@(${tests.join('|')})` : tests[0];
+if (Array.isArray(tests)) {
+  tests = tests.length > 1 ? `@(${tests.join('|')})` : tests[0];
 }
 
-const testFiles = nPath.resolve(args.root, `test/${tests}.spec.js`);
-const reporters = ['progress', 'coverage-istanbul', 'saucelabs'];
+const testFiles = nPath.resolve(`test/${tests}.spec.js`);
+const reporters = ['progress', 'coverage-istanbul'];
 
+const include = [`**/${tests}.js`];
 
-function getSauceLabsCredentials() {
-  try {
-    return require('./.saucelabs.json');
-  } catch(e) {
-    const { SAUCE_USERNAME, SAUCE_ACCESS_KEY } = process.env;
-    return { SAUCE_USERNAME, SAUCE_ACCESS_KEY };
-  }
-}
 
 
 // --- Log choices before stat ---
-console.log('Test files:', testFiles);
+console.log('Running tests:', tests);
 
 
 
 // --- The actual config ---
 module.exports = function(config) {
-  const { SAUCE_USERNAME, SAUCE_ACCESS_KEY } = getSauceLabsCredentials();
-  const { TRAVIS_BUILD_NUMBER, TRAVIS_JOB_NUMBER } = process.env;
-
   config.set({
     basePath: '',
-    frameworks: ['mocha', 'chai-dom', 'chai', 'chai-sinon'],
+    frameworks: ['mocha'],
 
     files: [
       { pattern: 'test/assets/style.css', watched: false },
@@ -125,13 +54,10 @@ module.exports = function(config) {
     preprocessors: { [testFiles]: ['webpack'] },
 
     plugins: [
-      'karma-chai',
-      'karma-chai-dom',
-      'karma-chai-sinon',
       'karma-mocha',
       'karma-mocha-reporter',
-      'karma-sauce-launcher',
       'karma-chrome-launcher',
+      'karma-firefox-launcher',
       'karma-webpack',
       'karma-coverage-istanbul-reporter'
     ],
@@ -142,37 +68,7 @@ module.exports = function(config) {
       terminal: true
     },
 
-    webpack: {
-      mode: 'development',
-      stats: 'minimal',
-      output: {
-        path: nPath.resolve('specs'),
-        filename: '[name].spec.js'
-      },
-      devtool: 'inline-source-map',
-      module: {
-        rules: [
-          {
-            test: /\.js/,
-            loader: {
-              loader: 'babel-loader',
-              options: {
-                presets: [
-                  ['env', {
-                    targets: { browsers: ['ie 9'] },
-                    useBuiltIns: 'usage'
-                  }]
-                ],
-                plugins: [
-                  // TODO: Correct to only include selected test files
-                  ['babel-plugin-istanbul', { 'exclude': ['**/*.spec.js', 'test/assets/**'] }]
-                ]
-              }
-            }
-          }
-        ]
-      }
-    },
+    webpack: webpackConf(include),
 
     webpackMiddleware: {
       noInfo: true
@@ -182,23 +78,7 @@ module.exports = function(config) {
     colors: true,
     logLevel: config.LOG_INFO,
 
-    // browsers: Object.keys(customLaunchers),
-    browsers: args.local ? ['Chrome'] : Object.keys(saucelabsBrowsers),
-
-    sauceLabs: {
-      testName: 'VanillaJS Browser Helpers Tests',
-      build: TRAVIS_BUILD_NUMBER,
-      username: SAUCE_USERNAME,
-      accessKey: SAUCE_ACCESS_KEY,
-      tunnelIdentifier: TRAVIS_JOB_NUMBER,
-      connectOptions: {
-        username: SAUCE_USERNAME,
-        accessKey: SAUCE_ACCESS_KEY,
-        tunnelIdentifier: TRAVIS_JOB_NUMBER
-      }
-    },
-
-    customLaunchers: saucelabsBrowsers,
+    browsers: ['ChromeHeadless', 'FirefoxHeadless'],
 
     coverageIstanbulReporter: {
       reports: ['text', 'text-summary', 'lcovonly'],
