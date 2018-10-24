@@ -2,15 +2,15 @@
   "env": {
     "browser": true,
     "es6": true,
+    "mocha": true,
     "node": true
   },
-  "extends": ['eslint:recommended', 'standard'],
+  "extends": ["eslint:recommended", "standard"],
+  "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
-      "jsx": true,
-      "sourceType": module
-    }
+    "sourceType": "module",
+    "allowImportExportEverywhere": false,
+    "codeFrame": false
   },
   "rules": {
     "semi": [2, "always"],
@@ -20,21 +20,8 @@
         "named": "never",
         "asyncArrow": "always"
     }],
-    "keyword-spacing": ["error", {
-      "overrides": {
-        "if": { "after": false },
-        "for": { "after": false },
-        "while": { "after": false },
-        "function": { "after": false },
-        "super": { "after": false },
-        "catch": { "after": false },
-        "switch": { "after": false }
-      }
-    }],
     "no-console": 1,
-    "no-multiple-empty-lines": [2, { max: 3, maxBOF: 0, maxEOF: 1 }],
+    "no-multiple-empty-lines": [2, { "max": 3, "maxBOF": 0, "maxEOF": 1 }],
     "curly": [2, "all"],
-    "no-case-declarations": 0,
-    "generator-star-spacing": ["error", { "before": true, "after": false }]
   }
 }
