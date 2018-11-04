@@ -1,5 +1,3 @@
-'use strict';
-
 /* eslint-disable no-console */
 
 const nPath = require('path');
@@ -25,7 +23,7 @@ const args = yargs
 let tests = args.file || [];
 
 if (Array.isArray(tests)) {
-  tests = tests.length > 1 ? `@(${tests.join('|')})` : tests[0];
+  tests = tests.length > 1 ? `@(${tests.join('|')})` : tests[0] || '*';
 }
 
 const testFiles = nPath.resolve(`test/${tests}.spec.js`);
@@ -36,7 +34,7 @@ const include = [`**/${tests}.js`];
 
 
 // --- Log choices before stat ---
-console.log('Running tests:', tests);
+console.log('Running tests:', tests === '*' ? 'all' : tests);
 
 
 
@@ -71,7 +69,7 @@ module.exports = function(config) {
     webpack: webpackConf(include),
 
     webpackMiddleware: {
-      noInfo: true
+      stats: 'errors-only'
     },
 
     reporters,

@@ -3,7 +3,7 @@ const { resolve } = require('path');
 module.exports = (include) => {
   return {
     mode: 'development',
-    stats: 'minimal',
+    stats: 'errors-only',
     output: {
       path: resolve('specs'),
       filename: '[name].spec.js'
