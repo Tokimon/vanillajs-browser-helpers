@@ -1,14 +1,18 @@
 language: node_js
+dist: trusty
 node_js:
-  - '5'
+  - '10'
 install:
   - npm install
-  - npm run es5
+env:
+  - MOZ_HEADLESS=1
+addons:
+  chrome: stable
+  firefox: latest
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - sleep 2
 script:
-  - npm test -- -b firefox -sc
-  - npm test -- -b firefox -sr es5
+  - npm test -- -sc
 after_success: npm run coveralls
