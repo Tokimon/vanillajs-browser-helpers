@@ -1,5 +1,3 @@
-/* eslint-env node, browser */
-
 import { expect, describe, it } from './assets/init-test';
 
 import prefixed from '../prefixed';

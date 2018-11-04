@@ -1,7 +1,4 @@
-/* eslint-env node, browser */
-/* eslint-disable no-unused-expressions */
-
-import { expect, testUtils, describe, it, before, after } from './assets/init-test';
+import { expect, helpers, describe, it, before, after } from './assets/init-test';
 
 import findById from '../findById';
 
@@ -12,7 +9,7 @@ const testID = 'TestNode';
 
 
 describe('"findById"', () => {
-  before(() => testUtils.html(`
+  before(() => helpers.html(`
     <div id="${testID}"></div>
     <div id="Duplicate" class="first"></div>
     <div id="Duplicate" class="second">
@@ -21,7 +18,7 @@ describe('"findById"', () => {
     </div>
   `));
 
-  after(() => [testID, 'Duplicate', 'Duplicate'].forEach((id) => testUtils.remove(id)));
+  after(() => [testID, 'Duplicate', 'Duplicate'].forEach((id) => helpers.remove(id)));
 
   it('Should find a DOM element with a given ID', () => {
     expect(findById(testID))
@@ -37,10 +34,10 @@ describe('"findById"', () => {
   });
 
   it('Should ignore bad ID values', () => {
-    expect(findById()).to.be.null;
-    expect(findById(null)).to.be.null;
-    expect(findById({})).to.be.null;
-    expect(findById(99)).to.be.null;
+    expect(findById()).to.equal(null);
+    expect(findById(null)).to.equal(null);
+    expect(findById({})).to.equal(null);
+    expect(findById(99)).to.equal(null);
   });
 
   describe('- Multi result', () => {

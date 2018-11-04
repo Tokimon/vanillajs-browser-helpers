@@ -1,7 +1,4 @@
-/* eslint-env node, browser */
-/* eslint-disable no-unused-expressions */
-
-import { expect, testUtils, describe, it, before, after } from './assets/init-test';
+import { expect, helpers, describe, it, before, after } from './assets/init-test';
 
 import inView from '../inView';
 
@@ -47,7 +44,7 @@ describe('"inView"', () => {
   const threshold = 20;
 
   before(() => {
-    testUtils.html(`
+    helpers.html(`
       <div id="View">
         <div id="hidden"></div>
         <div id="${testID}"></div>
@@ -72,22 +69,22 @@ describe('"inView"', () => {
       </div>
     `);
 
-    node = testUtils.id(testID);
+    node = helpers.id(testID);
   });
 
-  after(() => { testUtils.remove('View'); });
+  after(() => { helpers.remove('View'); });
 
   it('Should return false if the given element is hidden or not an element in the DOM', () => {
-    const div = testUtils.create('div');
+    const div = helpers.create('div');
     div.innerHTML = '<p></p>';
 
-    expect(inView()).to.be.false;
-    expect(inView(null)).to.be.false;
-    expect(inView({})).to.be.false;
-    expect(inView(div)).to.be.false;
-    expect(inView(div.firstChild)).to.be.false;
-    expect(inView(testUtils.id('hidden'))).to.be.false;
-    expect(inView(node)).to.not.be.false;
+    expect(inView()).to.equal(false);
+    expect(inView(null)).to.equal(false);
+    expect(inView({})).to.equal(false);
+    expect(inView(div)).to.equal(false);
+    expect(inView(div.firstChild)).to.equal(false);
+    expect(inView(helpers.id('hidden'))).to.equal(false);
+    expect(inView(node)).not.to.equal(false);
   });
 
   it('Should return true if the element is inside the viewport area', () => {
@@ -98,7 +95,7 @@ describe('"inView"', () => {
     expect(inView(node)).to.be.an('object');
 
     scrollY(h / 4);
-    expect(inView(node)).to.be.true;
+    expect(inView(node)).to.equal(true);
   });
 
   describe('- Off screen indications', () => {
@@ -132,7 +129,7 @@ describe('"inView"', () => {
       expect(inView(node)).to.have.property('left', true);
 
       scroll(justLeft - 1, justAbove - 1);
-      expect(inView(node)).to.be.true;
+      expect(inView(node)).to.equal(true);
     });
 
     it('Should indicate that the element is above the viewport area to the right', () => {
@@ -140,14 +137,14 @@ describe('"inView"', () => {
       scroll(justRight, justAbove);
 
       let shown = inView(node);
-      expect(shown.above).to.be.true;
-      expect(shown.right).to.be.true;
+      expect(shown.above).to.equal(true);
+      expect(shown.right).to.equal(true);
 
       // Scroll just into view
       scroll(justRight + 1, justAbove - 1);
 
       shown = inView(node);
-      expect(shown).to.be.true;
+      expect(shown).to.equal(true);
     });
 
     it('Should indicate that the element is below the viewport area', () => {
@@ -164,7 +161,7 @@ describe('"inView"', () => {
       expect(inView(node)).to.have.property('left', true);
 
       scroll(justLeft - 1, justBelow + 1);
-      expect(inView(node)).to.be.true;
+      expect(inView(node)).to.equal(true);
     });
 
     it('Should indicate that the element is below the viewport area to the right', () => {
@@ -173,7 +170,7 @@ describe('"inView"', () => {
       expect(inView(node)).to.have.property('right', true);
 
       scroll(justRight + 1, justBelow + 1);
-      expect(inView(node)).to.be.true;
+      expect(inView(node)).to.equal(true);
     });
   });
 

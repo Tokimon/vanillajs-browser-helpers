@@ -1,8 +1,4 @@
-/* eslint-env node, browser */
-
-import 'babel-polyfill';
-
-import { expect, testUtils, describe, it, before, after } from './assets/init-test';
+import { expect, helpers, describe, it, before, after } from './assets/init-test';
 
 import findByName from '../findByName';
 
@@ -13,7 +9,7 @@ const testID = 'TestNode';
 
 
 describe('"findByName"', () => {
-  before(() => testUtils.html(`
+  before(() => helpers.html(`
     <form id="${testID}">
       <meta name="meta">
       <input name="inputs" id="Input1">
@@ -21,7 +17,7 @@ describe('"findByName"', () => {
     </form>
   `));
 
-  after(() => testUtils.remove(testID));
+  after(() => helpers.remove(testID));
 
   it('Should always return an Array', () => {
     expect(findByName()).to.be.an('array');

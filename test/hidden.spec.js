@@ -1,7 +1,4 @@
-/* eslint-env node, browser */
-/* eslint-disable no-unused-expressions */
-
-import { expect, testUtils, describe, it, before, after } from './assets/init-test';
+import { expect, helpers, describe, it, before, after } from './assets/init-test';
 
 import hidden from '../hidden';
 
@@ -12,7 +9,7 @@ const testID = 'TestNode';
 
 
 describe('"hidden"', () => {
-  before(() => testUtils.html(`
+  before(() => helpers.html(`
   <style id="Style">
   #${testID} { display: none; }
   #NotVisible { visibility: hidden; }
@@ -25,46 +22,46 @@ describe('"hidden"', () => {
 
   after(() => {
     [testID, 'Style', 'NotVisible', 'Visible']
-      .forEach((id) => { testUtils.remove(id); });
+      .forEach((id) => { helpers.remove(id); });
   });
 
   it('Should return true if DOM element is "display: none"', () => {
-    const node = testUtils.id(testID);
-    expect(hidden(node)).to.be.true;
+    const node = helpers.id(testID);
+    expect(hidden(node)).to.equal(true);
   });
 
   it('Should return true if DOM element is a child of an element that is "display: none"', () => {
-    const node = testUtils.id('ChildDisplay');
-    expect(hidden(node)).to.be.true;
+    const node = helpers.id('ChildDisplay');
+    expect(hidden(node)).to.equal(true);
   });
 
   it('Should return true if DOM element is "visibility: hidden"', () => {
-    const node = testUtils.id('NotVisible');
-    expect(hidden(node)).to.be.true;
+    const node = helpers.id('NotVisible');
+    expect(hidden(node)).to.equal(true);
   });
 
   it('Should return true if DOM element is a child of an element that is "visibility: hidden"', () => {
-    const node = testUtils.id('ChildVisibility');
-    expect(hidden(node)).to.be.true;
+    const node = helpers.id('ChildVisibility');
+    expect(hidden(node)).to.equal(true);
   });
 
   it('Should return true if DOM element is not in the DOM', () => {
-    const node = testUtils.create('div');
-    expect(hidden(node)).to.be.true;
+    const node = helpers.create('div');
+    expect(hidden(node)).to.equal(true);
   });
 
   it('Should return true if DOM element is a child of an element that is not in the DOM', () => {
-    const node = testUtils.create('div');
+    const node = helpers.create('div');
     node.innerHTML = '<p></p>';
-    expect(hidden(node.firstChild)).to.be.true;
+    expect(hidden(node.firstChild)).to.equal(true);
   });
 
   it('Should return false if DOM element is in the DOM and is not styled hidden', () => {
-    const node = testUtils.id('Visible');
-    expect(hidden(node)).to.be.false;
+    const node = helpers.id('Visible');
+    expect(hidden(node)).to.equal(false);
   });
 
   it('Should return true for non DOM elements', () => {
-    expect(hidden(null)).to.be.true;
+    expect(hidden(null)).to.equal(true);
   });
 });

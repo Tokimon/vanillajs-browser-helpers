@@ -1,10 +1,6 @@
-/* eslint-env node, browser */
 /* eslint-disable no-unused-expressions */
-/* global sinon */
 
-import 'babel-polyfill';
-
-import { expect, testUtils, describe, it } from './assets/init-test';
+import { expect, helpers, describe, it, spy } from './assets/init-test';
 
 import delegate, { delegateHandler, delegateBuilder } from '../delegate';
 
@@ -17,39 +13,39 @@ describe('"delegate" package', () => {
     });
 
     it('Should return null if not all arguments are given', () => {
-      expect(delegateHandler('body')).to.be.null;
-      expect(delegateHandler()).to.be.null;
+      expect(delegateHandler('body')).to.equal(null);
+      expect(delegateHandler()).to.equal(null);
     });
 
     it('Should call handler if event target matches the delegation', () => {
-      const delegateCb = sinon.spy();
+      const delegateCb = spy();
       const handler = delegateHandler('body', delegateCb);
 
       handler({ target: document.body });
 
-      expect(delegateCb).to.have.been.calledOnce;
+      expect(delegateCb).to.have.callCount(1);
     });
 
     it('Should call handler if event target is a child of delegation target', () => {
-      testUtils.html('<div id="Delegate"><div id="Child"></div></div>');
+      helpers.html('<div id="Delegate"><div id="Child"></div></div>');
 
-      const delegateCb = sinon.spy();
+      const delegateCb = spy();
       const handler = delegateHandler('body', delegateCb);
 
-      handler({ target: testUtils.id('Delegate') });
-      handler({ target: testUtils.id('Child') });
+      handler({ target: helpers.id('Delegate') });
+      handler({ target: helpers.id('Child') });
 
-      expect(delegateCb).to.have.been.calledTwice;
+      expect(delegateCb).to.have.callCount(2);
 
-      testUtils.remove('Delegate');
+      helpers.remove('Delegate');
     });
   });
 
   describe('"delegateBuilder"', () => {
     it('Should return null if no function is given a parameter', () => {
-      expect(delegateBuilder(null)).to.be.null;
-      expect(delegateBuilder('once')).to.be.null;
-      expect(delegateBuilder({})).to.be.null;
+      expect(delegateBuilder(null)).to.equal(null);
+      expect(delegateBuilder('once')).to.equal(null);
+      expect(delegateBuilder({})).to.equal(null);
     });
 
     it('Should return a function if a function is given a parameter', () => {
@@ -63,7 +59,7 @@ describe('"delegate" package', () => {
     });
 
     it('Should use specified event binding method', () => {
-      const _on = sinon.spy();
+      const _on = spy();
       const delegateBinder = delegateBuilder(_on);
 
       expect(delegateBinder).to.be.a('function');
@@ -86,10 +82,10 @@ describe('"delegate" package', () => {
     });
 
     it('Should bind a delagate event handler to an object', () => {
-      const delegateCb = sinon.spy();
+      const delegateCb = spy();
       delegate(document, 'delegate', 'body', delegateCb);
-      testUtils.trigger('delegate', document.body);
-      expect(delegateCb).to.have.been.calledOnce;
+      helpers.trigger('delegate', document.body);
+      expect(delegateCb).to.have.callCount(1);
     });
   });
 });

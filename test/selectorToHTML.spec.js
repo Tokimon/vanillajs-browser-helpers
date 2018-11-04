@@ -1,7 +1,3 @@
-/* eslint-env node, browser */
-
-import 'babel-polyfill';
-
 import { expect, describe, it } from './assets/init-test';
 
 import selectorToHTML from '../selectorToHTML';

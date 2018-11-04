@@ -1,9 +1,4 @@
-/* eslint-env node, browser */
-/* eslint-disable no-unused-expressions */
-
-import 'babel-polyfill';
-
-import { expect, testUtils, describe, it, before, after } from './assets/init-test';
+import { expect, helpers, describe, it, before, after } from './assets/init-test';
 
 import findByTagName from '../findByTagName';
 
@@ -14,7 +9,7 @@ const testID = 'tagNameTest';
 
 
 describe('"findByTagName"', () => {
-  before(() => testUtils.html(`
+  before(() => helpers.html(`
     <div id="${testID}">
       <div></div>
       <div></div>
@@ -23,7 +18,7 @@ describe('"findByTagName"', () => {
     </div>
   `));
 
-  after(() => testUtils.remove(testID));
+  after(() => helpers.remove(testID));
 
   it('Should always return an Array', () => {
     expect(findByTagName()).to.be.an('array');
@@ -37,7 +32,7 @@ describe('"findByTagName"', () => {
       .to.be.a('array')
       .and.to.have.length(4);
 
-    expect(nodes.every((node) => node.nodeName === 'DIV')).to.be.true;
+    expect(nodes.every((node) => node.nodeName === 'DIV')).to.equal(true);
   });
 
   it('Should filter out bad values', () => {
@@ -75,18 +70,18 @@ describe('"findByTagName"', () => {
         .to.be.a('array')
         .and.to.have.length(4);
 
-      expect(nodes.every((node) => node.nodeName === 'DIV')).to.be.true;
+      expect(nodes.every((node) => node.nodeName === 'DIV')).to.equal(true);
     });
   });
 
   describe('- With defined context', () => {
     it('Should find DOM elements matching given tag name from a given DOM element context', () => {
-      const nodes = findByTagName('div', testUtils.id(testID));
+      const nodes = findByTagName('div', helpers.id(testID));
       expect(nodes)
         .to.be.a('array')
         .and.to.have.length(3);
 
-      expect(nodes.every((node) => node.nodeName === 'DIV')).to.be.true;
+      expect(nodes.every((node) => node.nodeName === 'DIV')).to.equal(true);
     });
 
     it('Should fallback to document on non DOM element values', () => {
@@ -95,14 +90,14 @@ describe('"findByTagName"', () => {
         .to.be.a('array')
         .and.to.have.length(4);
 
-      expect(nodes.every((node) => node.nodeName === 'DIV')).to.be.true;
+      expect(nodes.every((node) => node.nodeName === 'DIV')).to.equal(true);
 
       nodes = findByTagName('div', null);
       expect(nodes)
         .to.be.a('array')
         .and.to.have.length(4);
 
-      expect(nodes.every((node) => node.nodeName === 'DIV')).to.be.true;
+      expect(nodes.every((node) => node.nodeName === 'DIV')).to.equal(true);
     });
   });
 });

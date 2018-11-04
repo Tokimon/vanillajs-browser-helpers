@@ -1,9 +1,4 @@
-/* eslint-env node, browser */
-/* eslint-disable no-unused-expressions */
-
-import 'babel-polyfill';
-
-import { expect, testUtils, describe, it, before, beforeEach, after } from './assets/init-test';
+import { expect, helpers, describe, it, before, beforeEach, after } from './assets/init-test';
 
 import addClass from '../addClass';
 
@@ -14,13 +9,13 @@ const testID = 'TestNode';
 
 
 describe('"addClass"', () => {
-  before(() => testUtils.html(`<div id="${testID}"></div>`));
-  beforeEach(() => { testUtils.id(testID).className = ''; });
+  before(() => helpers.html(`<div id="${testID}"></div>`));
+  beforeEach(() => { helpers.id(testID).className = ''; });
 
-  after(() => testUtils.remove(testID));
+  after(() => helpers.remove(testID));
 
   it('Should add a given CSS class to a DOM element', () => {
-    const node = testUtils.id(testID);
+    const node = helpers.id(testID);
 
     expect(node.className).to.equal('');
     addClass(node, 'inserted');
@@ -28,7 +23,7 @@ describe('"addClass"', () => {
   });
 
   it('Should not add a given CSS class twice to a DOM element', () => {
-    const node = testUtils.id(testID);
+    const node = helpers.id(testID);
     node.className = 'inserted';
 
     expect(node.className).to.equal('inserted');
@@ -37,18 +32,18 @@ describe('"addClass"', () => {
   });
 
   it('Should always return the given element', () => {
-    const node = testUtils.id(testID);
+    const node = helpers.id(testID);
 
-    expect(addClass(null, 'always')).to.be.null;
+    expect(addClass(null, 'always')).to.equal(null);
     expect(addClass(node, 'always')).to.equal(node);
 
-    expect(addClass(null)).to.be.null;
+    expect(addClass(null)).to.equal(null);
     expect(addClass(node)).to.equal(node);
   });
 
   describe('- Multiple class names', () => {
     it('Should add several CSS classes to a DOM element', () => {
-      const node = testUtils.id(testID);
+      const node = helpers.id(testID);
 
       expect(node.className).to.equal('');
       addClass(node, 'inserted added class3');
@@ -66,7 +61,7 @@ describe('"addClass"', () => {
     });
 
     it('Should only add unset CSS classes to a DOM element', () => {
-      const node = testUtils.id(testID);
+      const node = helpers.id(testID);
       node.className = 'inserted class3';
 
       expect(node.className).to.equal('inserted class3');

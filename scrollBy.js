@@ -1,22 +1,27 @@
+import isNumber from 'vanillajs-helpers/isNumber';
+
 import isDOMChildNode from './isDOMChildNode';
-import isNumber from './isNumber';
+
 
 
 /**
- * Gather the current scrolling information of a DOM/Window element
- * @function scroll
+ * Scroll an element by this amount compared to its current scrolling position
+ *
+ * @function scrollBy
  * @param {HTMLElement|window} [elm = window] - The element to find the scrolling position from
- * @return {HTMLElement|window} The scrolling element (if no element was given Window is returned)
+ * @param {Number} x - How much to scroll the horisontal scroll by
+ * @param {Number} y - How much to scroll the vertical scroll by
+ * @return {HTMLElement|window} - The scrolling element (if no element was given Window is returned)
  */
-export default function scrollTo(elm, x, y) {
-  if(isNumber(elm)) { [elm, x, y] = [window, elm, x]; }
-  if(!isNumber(x)) { return elm; }
+export default function scrollBy(elm, x, y) {
+  if (isNumber(elm)) { [elm, x, y] = [window, elm, x]; }
+  if (!isNumber(x)) { return elm; }
 
   const orgElm = elm;
-  if(!isDOMChildNode(elm)) { elm = window; }
-  if(!isNumber(y)) { y = elm.scrollY || elm.scrollTop; }
+  if (!isDOMChildNode(elm)) { elm = window; }
+  if (!isNumber(y)) { y = elm.scrollY || elm.scrollTop; }
 
-  if(elm.scrollBy) {
+  if (elm.scrollBy) {
     elm.scrollBy(x, y);
   } else {
     elm.scrollLeft = Math.max(elm.scrollLeft + x, 0);

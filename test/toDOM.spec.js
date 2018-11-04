@@ -1,7 +1,4 @@
-/* eslint-env node, browser */
-/* eslint-disable no-unused-expressions */
-
-import { expect, testUtils, describe, it } from './assets/init-test';
+import { expect, helpers, describe, it } from './assets/init-test';
 
 import toDOM from '../toDOM';
 
@@ -29,8 +26,8 @@ describe('"toDOM"', () => {
   });
 
   it('Should return non String inputs as they were', () => {
-    expect(toDOM()).to.be.undefined;
-    expect(toDOM(null)).to.be.null;
-    expect(toDOM(testUtils.create('p')).tagName).to.equal('P');
+    expect(toDOM()).to.equal(undefined);
+    expect(toDOM(null)).to.equal(null);
+    expect(toDOM(helpers.create('p')).tagName).to.equal('P');
   });
 });

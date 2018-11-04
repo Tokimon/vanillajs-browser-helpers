@@ -1,8 +1,8 @@
-import scroll from './scroll';
-import size from './size';
 import isWindow from './isWindow';
 import isDOMElement from './isDOMElement';
 import isDOMDocument from './isDOMDocument';
+import scrollInfo from './scrollInfo';
+import size from './size';
 
 
 /**
@@ -30,12 +30,12 @@ import isDOMDocument from './isDOMDocument';
  * @return {PositionData} the position information of the element
  */
 export default function position(elm) {
-  if(!elm) { elm = window; }
-  if(isDOMElement(elm, 'html', 'body')) { elm = elm.ownerDocument; }
-  if(isDOMDocument(elm)) { elm = elm.defaultView; }
+  if (!elm) { elm = window; }
+  if (isDOMElement(elm, 'html', 'body')) { elm = elm.ownerDocument; }
+  if (isDOMDocument(elm)) { elm = elm.defaultView; }
 
   // If element is window or the viewport, return the window position
-  if(isWindow(elm)) {
+  if (isWindow(elm)) {
     const top = window.screenLeft || window.screenX || 0;
     const left = window.screenY || window.screenTop || 0;
     const right = window.screen.availWidth - left - window.outerWidth;
@@ -45,7 +45,7 @@ export default function position(elm) {
   }
 
   const rect = elm.getBoundingClientRect();
-  const vpScroll = scroll();
+  const vpScroll = scrollInfo();
   const vpSize = size();
   const parentSize = size(elm.offsetParent);
   const elmSize = size(elm);

@@ -1,15 +1,6 @@
-/* eslint-env node, browser */
-/* eslint-disable no-unused-expressions */
-/* global sinon */
-
-import 'babel-polyfill';
-import { expect, testUtils, describe, it } from './assets/init-test';
+import { expect, helpers, describe, it, spy, stub } from './assets/init-test';
 
 import on, { off, eventListId, getEvents } from '../eventPlus';
-
-
-
-// TODO: Should probably avoid having too tight a connection between on and off methods and not share spys
 
 
 
@@ -56,11 +47,11 @@ describe('"eventPlus" package', () => {
     });
 
     it('Should ignore objects that does not include the "add/removeEventListener" methods', () => {
-      expect(eventListId(null)).to.be.null;
-      expect(eventListId({})).to.be.null;
-      expect(eventListId({ addEventListener() {} })).to.be.null;
-      expect(eventListId({ removeEventListener() {} })).to.be.null;
-      expect(eventListId()).to.be.null;
+      expect(eventListId(null)).to.equal(null);
+      expect(eventListId({})).to.equal(null);
+      expect(eventListId({ addEventListener() {} })).to.equal(null);
+      expect(eventListId({ removeEventListener() {} })).to.equal(null);
+      expect(eventListId()).to.equal(null);
     });
   });
 
@@ -74,12 +65,12 @@ describe('"eventPlus" package', () => {
         on(elm, 'test', cb);
 
         expect(getEvents(elm)).to.have.property('size', 1);
-        expect(getEvents(elm).has('test')).to.be.true;
+        expect(getEvents(elm).has('test')).to.equal(true);
 
         off(elm, 'test', cb);
 
         expect(getEvents(elm)).to.have.property('size', 0);
-        expect(getEvents(elm).has('test')).to.be.false;
+        expect(getEvents(elm).has('test')).to.equal(false);
       };
 
       test(window);
@@ -89,11 +80,11 @@ describe('"eventPlus" package', () => {
     });
 
     it('Should ignore objects that are not eligible for an "eventListId"', () => {
-      expect(getEvents()).to.be.null;
-      expect(getEvents(null)).to.be.null;
-      expect(getEvents({})).to.be.null;
-      expect(getEvents({ addEventListener() {} })).to.be.null;
-      expect(getEvents({ removeEventListener() {} })).to.be.null;
+      expect(getEvents()).to.equal(null);
+      expect(getEvents(null)).to.equal(null);
+      expect(getEvents({})).to.equal(null);
+      expect(getEvents({ addEventListener() {} })).to.equal(null);
+      expect(getEvents({ removeEventListener() {} })).to.equal(null);
     });
   });
 
@@ -102,17 +93,17 @@ describe('"eventPlus" package', () => {
 
   describe('"on"', () => {
     it('Should fallback to document, if the element is not a DOM Node', () => {
-      const cb = sinon.spy();
+      const cb = spy();
 
       expect(on('test-undefined', cb)).to.be.equal(d);
       expect(on(null, 'test-null', cb)).to.be.equal(d);
       expect(on({}, 'test-object', cb)).to.be.equal(d);
       expect(on(123, 'test-number', cb)).to.be.equal(d);
 
-      testUtils.trigger('test-undefined', d);
-      testUtils.trigger('test-null', d);
-      testUtils.trigger('test-object', d);
-      testUtils.trigger('test-number', d);
+      helpers.trigger('test-undefined', d);
+      helpers.trigger('test-null', d);
+      helpers.trigger('test-object', d);
+      helpers.trigger('test-number', d);
 
       expect(cb).to.have.callCount(4);
 
@@ -122,11 +113,11 @@ describe('"eventPlus" package', () => {
     });
 
     it('Should ignore non string/array events argument', () => {
-      const cb = sinon.spy();
+      const cb = spy();
 
       expect(on(cb)).to.be.equal(d);
-      expect(getEvents(d).has(undefined)).to.be.false;
-      expect(getEvents(d).has('undefined')).to.be.false;
+      expect(getEvents(d).has(undefined)).to.equal(false);
+      expect(getEvents(d).has('undefined')).to.equal(false);
 
       expect(on(b, cb)).to.be.equal(b);
       expect(on(b, null, cb)).to.be.equal(b);
@@ -134,14 +125,14 @@ describe('"eventPlus" package', () => {
       expect(on(b, {}, cb)).to.be.equal(b);
 
       const evts = getEvents(b);
-      expect(evts.has(undefined)).to.be.false;
-      expect(evts.has('undefined')).to.be.false;
-      expect(evts.has(null)).to.be.false;
-      expect(evts.has('null')).to.be.false;
-      expect(evts.has(123)).to.be.false;
-      expect(evts.has('123')).to.be.false;
-      expect(evts.has({})).to.be.false;
-      expect(evts.has('[object Object]')).to.be.false;
+      expect(evts.has(undefined)).to.equal(false);
+      expect(evts.has('undefined')).to.equal(false);
+      expect(evts.has(null)).to.equal(false);
+      expect(evts.has('null')).to.equal(false);
+      expect(evts.has(123)).to.equal(false);
+      expect(evts.has('123')).to.equal(false);
+      expect(evts.has({})).to.equal(false);
+      expect(evts.has('[object Object]')).to.equal(false);
     });
 
     it('Should ignore non function event handlers', () => {
@@ -151,13 +142,13 @@ describe('"eventPlus" package', () => {
       expect(on(b, 'nohandler', 123)).to.be.equal(b);
       expect(on(b, 'nohandler', '.delegation')).to.be.equal(b);
 
-      expect(getEvents(b).has('nohandler')).to.be.false;
+      expect(getEvents(b).has('nohandler')).to.equal(false);
       expect(getEvents(b)).to.have.property('size', 0);
     });
 
     it('Should bind an event handler to an object', () => {
-      const cb = sinon.spy();
-      const cbWin = sinon.spy();
+      const cb = spy();
+      const cbWin = spy();
 
       expect(on(window, 'test', cb)).to.equal(window);
 
@@ -165,18 +156,18 @@ describe('"eventPlus" package', () => {
       on(window, 'test-dash', cbWin);
       on(window, 'test:colon', cbWin);
 
-      testUtils.trigger('test', window);
-      testUtils.trigger('test_underscore', window);
-      testUtils.trigger('test-dash', window);
-      testUtils.trigger('test:colon', window);
+      helpers.trigger('test', window);
+      helpers.trigger('test_underscore', window);
+      helpers.trigger('test-dash', window);
+      helpers.trigger('test:colon', window);
 
-      expect(cb).to.have.been.calledOnce;
+      expect(cb).to.have.callCount(1);
       expect(cbWin).to.have.callCount(3);
 
       cb.resetHistory();
       cbWin.resetHistory();
 
-      const cbDoc = sinon.spy();
+      const cbDoc = spy();
 
       expect(on(d, 'test', cb)).to.equal(d);
 
@@ -184,20 +175,20 @@ describe('"eventPlus" package', () => {
       on(d, 'test-dash', cbDoc);
       on(d, 'test:colon', cbDoc);
 
-      testUtils.trigger('test', d);
-      testUtils.trigger('test_underscore', d);
-      testUtils.trigger('test-dash', d);
-      testUtils.trigger('test:colon', d);
+      helpers.trigger('test', d);
+      helpers.trigger('test_underscore', d);
+      helpers.trigger('test-dash', d);
+      helpers.trigger('test:colon', d);
 
-      expect(cb).to.have.been.calledTwice;
-      expect(cbWin).to.have.calledTrice;
-      expect(cbDoc).to.have.calledTrice;
+      expect(cb).to.have.callCount(2);
+      expect(cbWin).to.have.callCount(3);
+      expect(cbDoc).to.have.callCount(3);
 
       cb.resetHistory();
       cbWin.resetHistory();
       cbDoc.resetHistory();
 
-      const cbBody = sinon.spy();
+      const cbBody = spy();
 
       expect(on(b, 'test', cb)).to.equal(b);
 
@@ -205,15 +196,15 @@ describe('"eventPlus" package', () => {
       on(b, 'test-dash', cbBody);
       on(b, 'test:colon', cbBody);
 
-      testUtils.trigger('test', b);
-      testUtils.trigger('test_underscore', b);
-      testUtils.trigger('test-dash', b);
-      testUtils.trigger('test:colon', b);
+      helpers.trigger('test', b);
+      helpers.trigger('test_underscore', b);
+      helpers.trigger('test-dash', b);
+      helpers.trigger('test:colon', b);
 
-      expect(cb).to.have.been.calledTrice;
-      expect(cbWin).to.have.calledTrice;
-      expect(cbDoc).to.have.calledTrice;
-      expect(cbBody).to.have.calledTrice;
+      expect(cb).to.have.callCount(3);
+      expect(cbWin).to.have.callCount(3);
+      expect(cbDoc).to.have.callCount(3);
+      expect(cbBody).to.have.callCount(3);
 
       off(window);
       off(d);
@@ -221,34 +212,34 @@ describe('"eventPlus" package', () => {
     });
 
     it('Should bind a delagate event handler to an object', () => {
-      const cb = sinon.spy();
+      const cb = spy();
 
       on(d, 'delegate', 'body', cb);
-      testUtils.trigger('delegate', b);
-      expect(cb).to.have.been.calledOnce;
+      helpers.trigger('delegate', b);
+      expect(cb).to.have.callCount(1);
 
       off(d);
     });
 
     it('Should bind a namespaced event handler to an object', () => {
-      const cb = sinon.spy();
+      const cb = spy();
 
       on(b, 'name.space', cb);
 
-      testUtils.trigger('name.space', b);
-      testUtils.trigger('name', b);
+      helpers.trigger('name.space', b);
+      helpers.trigger('name', b);
 
-      expect(cb).to.have.been.calledTwice;
+      expect(cb).to.have.callCount(2);
 
       off(b);
     });
 
     it('Should bind multiple event handlers to an object', () => {
-      const cb = sinon.spy();
-      const cb2 = sinon.spy();
-      const cb3 = sinon.spy();
-      const cb4 = sinon.spy();
-      const cb5 = sinon.spy();
+      const cb = spy();
+      const cb2 = spy();
+      const cb3 = spy();
+      const cb4 = spy();
+      const cb5 = spy();
 
       on(b, 'click touch custom', cb);
       on(b, 'click,touch, custom', cb2);
@@ -256,35 +247,35 @@ describe('"eventPlus" package', () => {
       on(b, ['click', 'touch', 'custom'], cb4);
       on(b, ['click, touch', null, 'custom'], cb5);
 
-      testUtils.trigger('click', b);
-      testUtils.trigger('touch', b);
-      testUtils.trigger('custom', b);
+      helpers.trigger('click', b);
+      helpers.trigger('touch', b);
+      helpers.trigger('custom', b);
 
-      expect(cb).to.have.been.calledTrice;
-      expect(cb2).to.have.been.calledTrice;
-      expect(cb3).to.have.been.calledTrice;
-      expect(cb4).to.have.been.calledTrice;
-      expect(cb5).to.have.been.calledTrice;
+      expect(cb).to.have.callCount(3);
+      expect(cb2).to.have.callCount(3);
+      expect(cb3).to.have.callCount(3);
+      expect(cb4).to.have.callCount(3);
+      expect(cb5).to.have.callCount(3);
 
       off(b);
     });
 
     it('Should not fail if event handlers have been removed', () => {
-      const cb = sinon.spy();
+      const cb = spy();
 
       on(b, 'disapeared', cb);
       getEvents(b).delete('disapeared');
-      testUtils.trigger('disapeared', b);
+      helpers.trigger('disapeared', b);
 
-      expect(cb).not.to.have.been.called;
+      expect(cb).to.have.callCount(0);
 
       off(b);
     });
 
     it('Should stop all subsequent handlers if false is returned from a handler', () => {
-      const stopCb = sinon.stub();
-      const stopCb2 = sinon.spy();
-      const stopCb3 = sinon.spy();
+      const stopCb = stub();
+      const stopCb2 = spy();
+      const stopCb3 = spy();
 
       stopCb.onCall(0).returns(false);
 
@@ -292,11 +283,11 @@ describe('"eventPlus" package', () => {
       on(b, 'stop', stopCb2);
       on(b, 'stop', stopCb3);
 
-      testUtils.trigger('stop', b);
+      helpers.trigger('stop', b);
 
-      expect(stopCb).to.have.been.calledOnce;
-      expect(stopCb2).not.to.have.been.called;
-      expect(stopCb3).not.to.have.been.called;
+      expect(stopCb).to.have.callCount(1);
+      expect(stopCb2).to.have.callCount(0);
+      expect(stopCb3).to.have.callCount(0);
 
       off(b);
     });
@@ -304,17 +295,17 @@ describe('"eventPlus" package', () => {
 
   describe('"off"', () => {
     it('Should fallback to document, if the element is not a DOM Node', () => {
-      const cb = sinon.spy();
+      const cb = spy();
 
       on('test-undefined', cb);
       on(null, 'test-null', cb);
       on({}, 'test-object', cb);
       on(123, 'test-number', cb);
 
-      testUtils.trigger('test-undefined', d);
-      testUtils.trigger('test-null', d);
-      testUtils.trigger('test-object', d);
-      testUtils.trigger('test-number', d);
+      helpers.trigger('test-undefined', d);
+      helpers.trigger('test-null', d);
+      helpers.trigger('test-object', d);
+      helpers.trigger('test-number', d);
 
       expect(cb).to.have.callCount(4);
 
@@ -325,19 +316,19 @@ describe('"eventPlus" package', () => {
 
       cb.resetHistory();
 
-      testUtils.trigger('test-undefined', d);
-      testUtils.trigger('test-null', d);
-      testUtils.trigger('test-object', d);
-      testUtils.trigger('test-number', d);
+      helpers.trigger('test-undefined', d);
+      helpers.trigger('test-null', d);
+      helpers.trigger('test-object', d);
+      helpers.trigger('test-number', d);
 
-      expect(cb).not.to.have.been.called;
+      expect(cb).to.have.callCount(0);
     });
 
     it('Should remove an given event handler from an object', () => {
-      const cb = sinon.spy();
-      const cb2 = sinon.spy();
-      const cb3 = sinon.spy();
-      const cb4 = sinon.spy();
+      const cb = spy();
+      const cb2 = spy();
+      const cb3 = spy();
+      const cb4 = spy();
 
       on(window, 'test', cb);
       on(window, 'test_underscore', cb2);
@@ -355,10 +346,10 @@ describe('"eventPlus" package', () => {
       on(b, 'test:colon', cb4);
 
       const trigger = () => {
-        testUtils.trigger('test', b);
-        testUtils.trigger('test_underscore', b);
-        testUtils.trigger('test-dash', b);
-        testUtils.trigger('test:colon', b);
+        helpers.trigger('test', b);
+        helpers.trigger('test_underscore', b);
+        helpers.trigger('test-dash', b);
+        helpers.trigger('test:colon', b);
       };
 
       const remove = (elm) => {
@@ -409,35 +400,35 @@ describe('"eventPlus" package', () => {
     });
 
     it('Should remove an given delegate event handler from an object', () => {
-      const cb = sinon.spy();
+      const cb = spy();
 
       on(d, 'delegate', 'body', cb);
 
-      testUtils.trigger('delegate', b);
-      expect(cb).to.have.been.calledOnce;
+      helpers.trigger('delegate', b);
+      expect(cb).to.have.callCount(1);
 
       cb.resetHistory();
 
       off(d, 'delegate', 'body', cb);
 
-      testUtils.trigger('delegate', b);
-      expect(cb).to.not.have.been.called;
+      helpers.trigger('delegate', b);
+      expect(cb).to.have.callCount(0);
     });
 
     it('Should remove all delegate event handlers with a given delegate selector from an object', () => {
-      const cb = sinon.spy();
-      const cb2 = sinon.spy();
-      const cb3 = sinon.spy();
+      const cb = spy();
+      const cb2 = spy();
+      const cb3 = spy();
 
       on(d, 'delegate', cb);
       on(d, 'delegate', 'body', cb2);
       on(d, 'delegate', 'body', cb3);
 
-      testUtils.trigger('delegate', b);
+      helpers.trigger('delegate', b);
 
-      expect(cb).to.have.been.calledOnce;
-      expect(cb2).to.have.been.calledOnce;
-      expect(cb3).to.have.been.calledOnce;
+      expect(cb).to.have.callCount(1);
+      expect(cb2).to.have.callCount(1);
+      expect(cb3).to.have.callCount(1);
 
       cb.resetHistory();
       cb2.resetHistory();
@@ -445,56 +436,56 @@ describe('"eventPlus" package', () => {
 
       off(d, 'delegate', 'body');
 
-      testUtils.trigger('delegate', b);
+      helpers.trigger('delegate', b);
 
-      expect(cb).to.have.been.calledOnce;
-      expect(cb2).to.not.have.been.called;
-      expect(cb3).to.not.have.been.called;
+      expect(cb).to.have.callCount(1);
+      expect(cb2).to.have.callCount(0);
+      expect(cb3).to.have.callCount(0);
     });
 
     it('Should remove a namespaced event handler from an object', () => {
-      const cb = sinon.spy();
+      const cb = spy();
 
       on(b, 'name.space', cb);
 
-      testUtils.trigger('name.space', b);
-      testUtils.trigger('name', b);
-      testUtils.trigger('space', b);
+      helpers.trigger('name.space', b);
+      helpers.trigger('name', b);
+      helpers.trigger('space', b);
 
-      expect(cb).to.have.been.calledTwice;
+      expect(cb).to.have.callCount(2);
 
       off(b, 'name.space', cb);
 
       cb.resetHistory();
 
-      testUtils.trigger('name.space', b);
-      testUtils.trigger('name', b);
-      testUtils.trigger('space', b);
+      helpers.trigger('name.space', b);
+      helpers.trigger('name', b);
+      helpers.trigger('space', b);
 
-      expect(cb).to.not.have.been.called;
+      expect(cb).to.have.callCount(0);
     });
 
     it('Should remove multiple event handlers from an object', () => {
       const test = (evts) => {
-        const cb = sinon.spy();
+        const cb = spy();
 
         on(b, 'click touch custom', cb);
 
-        testUtils.trigger('click', b);
-        testUtils.trigger('touch', b);
-        testUtils.trigger('custom', b);
+        helpers.trigger('click', b);
+        helpers.trigger('touch', b);
+        helpers.trigger('custom', b);
 
-        expect(cb).to.have.been.calledTrice;
+        expect(cb).to.have.callCount(3);
 
         off(b, evts, cb);
 
         cb.resetHistory();
 
-        testUtils.trigger('click', b);
-        testUtils.trigger('touch', b);
-        testUtils.trigger('custom', b);
+        helpers.trigger('click', b);
+        helpers.trigger('touch', b);
+        helpers.trigger('custom', b);
 
-        expect(cb).to.not.have.been.called;
+        expect(cb).to.have.callCount(0);
       };
 
       test('click touch custom');
@@ -505,19 +496,19 @@ describe('"eventPlus" package', () => {
     });
 
     it('Should remove all event handlers of a given event type from an object', () => {
-      const cb = sinon.spy();
-      const cb2 = sinon.spy();
-      const cb3 = sinon.spy();
+      const cb = spy();
+      const cb2 = spy();
+      const cb3 = spy();
 
       on(b, 'test', cb);
       on(b, 'test', cb2);
       on(b, 'test', cb3);
 
-      testUtils.trigger('test', b);
+      helpers.trigger('test', b);
 
-      expect(cb).to.have.been.calledOnce;
-      expect(cb2).to.have.been.calledOnce;
-      expect(cb3).to.have.been.calledOnce;
+      expect(cb).to.have.callCount(1);
+      expect(cb2).to.have.callCount(1);
+      expect(cb3).to.have.callCount(1);
 
       off(b, 'test');
 
@@ -525,26 +516,26 @@ describe('"eventPlus" package', () => {
       cb2.resetHistory();
       cb3.resetHistory();
 
-      testUtils.trigger('test', b);
+      helpers.trigger('test', b);
 
-      expect(cb).not.to.have.been.called;
-      expect(cb2).not.to.have.been.called;
-      expect(cb3).not.to.have.been.called;
+      expect(cb).to.have.callCount(0);
+      expect(cb2).to.have.callCount(0);
+      expect(cb3).to.have.callCount(0);
     });
 
     it('Should remove all event handlers of multiple event types from an object', () => {
-      const cb = sinon.spy();
-      const cb2 = sinon.spy();
-      const cb3 = sinon.spy();
+      const cb = spy();
+      const cb2 = spy();
+      const cb3 = spy();
 
       const test = (evts) => {
         on(b, 'click touch custom', cb);
         on(b, 'click touch custom', cb2);
         on(b, 'click touch custom', cb3);
 
-        testUtils.trigger('click', b);
-        testUtils.trigger('touch', b);
-        testUtils.trigger('custom', b);
+        helpers.trigger('click', b);
+        helpers.trigger('touch', b);
+        helpers.trigger('custom', b);
 
         expect(cb).to.have.been.callCount(3);
         expect(cb2).to.have.been.callCount(3);
@@ -556,13 +547,13 @@ describe('"eventPlus" package', () => {
         cb2.resetHistory();
         cb3.resetHistory();
 
-        testUtils.trigger('click', b);
-        testUtils.trigger('touch', b);
-        testUtils.trigger('custom', b);
+        helpers.trigger('click', b);
+        helpers.trigger('touch', b);
+        helpers.trigger('custom', b);
 
-        expect(cb).not.to.have.been.called;
-        expect(cb2).not.to.have.been.called;
-        expect(cb3).not.to.have.been.called;
+        expect(cb).to.have.callCount(0);
+        expect(cb2).to.have.callCount(0);
+        expect(cb3).to.have.callCount(0);
       };
 
       test('click touch custom');
@@ -573,17 +564,17 @@ describe('"eventPlus" package', () => {
     });
 
     it('Should remove all event handlers from an object', () => {
-      const cb = sinon.spy();
-      const cb2 = sinon.spy();
-      const cb3 = sinon.spy();
+      const cb = spy();
+      const cb2 = spy();
+      const cb3 = spy();
 
       on(b, 'click touch custom', cb);
       on(b, 'click touch custom', cb2);
       on(b, 'click touch custom', cb3);
 
-      testUtils.trigger('click', b);
-      testUtils.trigger('touch', b);
-      testUtils.trigger('custom', b);
+      helpers.trigger('click', b);
+      helpers.trigger('touch', b);
+      helpers.trigger('custom', b);
 
       expect(getEvents(b).size).to.equal(3);
 
@@ -597,13 +588,13 @@ describe('"eventPlus" package', () => {
       cb2.resetHistory();
       cb3.resetHistory();
 
-      testUtils.trigger('click', b);
-      testUtils.trigger('touch', b);
-      testUtils.trigger('custom', b);
+      helpers.trigger('click', b);
+      helpers.trigger('touch', b);
+      helpers.trigger('custom', b);
 
-      expect(cb).not.to.have.been.called;
-      expect(cb2).not.to.have.been.called;
-      expect(cb3).not.to.have.been.called;
+      expect(cb).to.have.callCount(0);
+      expect(cb2).to.have.callCount(0);
+      expect(cb3).to.have.callCount(0);
 
       expect(getEvents(b).size).to.equal(0);
     });

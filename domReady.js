@@ -16,8 +16,8 @@ function docComplete() {
  * @param {Function} handler - Function to execute once the document has finished loading
  * @return {Function} The 'once' event handler (so it may be removed again)
  */
-export default function domReadyBuilder(handler) {
-  if(!isFunction(handler)) { return; }
-  if(docComplete()) { return handler(); }
+export default function domReady(handler) {
+  if (!isFunction(handler)) { return; }
+  if (docComplete()) { return handler(); }
   return once('readystatechange', handler, { when: docComplete });
 }

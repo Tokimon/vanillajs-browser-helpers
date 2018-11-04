@@ -10,8 +10,8 @@ import isArray from 'vanillajs-helpers/isArray';
  * @return {HTMLElement} The given `elm`
  */
 export default function addClass(elm, classNames) {
-  if(isString(classNames)) { classNames = classNames.split(/[ ,]+/); }
-  if(!isDOMElement(elm) || !isArray(classNames)) { return elm; }
+  if (isString(classNames)) { classNames = classNames.split(/[ ,]+/); }
+  if (!isDOMElement(elm) || !isArray(classNames)) { return elm; }
   classNames.forEach(cn => elm.classList.add(cn));
   return elm;
 }

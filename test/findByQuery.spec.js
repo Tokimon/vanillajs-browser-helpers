@@ -1,16 +1,11 @@
-/* eslint-env node, browser */
-/* eslint-disable no-unused-expressions */
-
-import 'babel-polyfill';
-
-import { expect, testUtils, describe, it, before, after } from './assets/init-test';
+import { expect, helpers, describe, it, before, after } from './assets/init-test';
 
 import findByQuery from '../findByQuery';
 
 
 
 describe('"findByQuery"', () => {
-  before(() => testUtils.html(`
+  before(() => helpers.html(`
     <div id='Item1' class="item"></div>
     <div id='Item2' class="item second">
       <div class='item child'></div>
@@ -18,7 +13,7 @@ describe('"findByQuery"', () => {
     </div>
   `));
 
-  after(() => ['Item1', 'Item2'].forEach((id) => testUtils.remove(id)));
+  after(() => ['Item1', 'Item2'].forEach((id) => helpers.remove(id)));
 
   describe('- find ALL', () => {
     it('Should always return an Array', () => {
@@ -95,7 +90,7 @@ describe('"findByQuery"', () => {
 
     describe('- With defined context', () => {
       it('Should find DOM elements matching given CSS selector from a given DOM element context', () => {
-        const nodes = findByQuery(['.item.child', '.second-child'], testUtils.id('Item2'));
+        const nodes = findByQuery(['.item.child', '.second-child'], helpers.id('Item2'));
         expect(nodes)
           .to.be.a('array')
           .and.to.have.length(2);
@@ -120,24 +115,24 @@ describe('"findByQuery"', () => {
   describe('- find FIRST', () => {
     it('Should find DOM elements from a given CSS selector', () => {
       let node = findByQuery('#Item2.item', true);
-      expect(node).to.not.be.null;
+      expect(node).to.not.equal(null);
       expect(node).to.have.id('Item2');
 
       node = findByQuery('#Item2 .item', true);
-      expect(node).to.not.be.null;
+      expect(node).to.not.equal(null);
       expect(node.className).to.equal('item child');
 
       node = findByQuery('.item', true);
-      expect(node).to.not.be.null;
+      expect(node).to.not.equal(null);
       expect(node).to.have.id('Item1');
     });
 
     it('Should filter out non string values', () => {
       let node = findByQuery(99, true);
-      expect(node).to.be.null;
+      expect(node).to.equal(null);
 
       node = findByQuery(undefined, true);
-      expect(node).to.be.null;
+      expect(node).to.equal(null);
     });
 
     it('Should fail on bad queries', () => {
@@ -147,35 +142,35 @@ describe('"findByQuery"', () => {
     describe('- With multiple queries', () => {
       it('Should find a unique DOM element collection from a list of CSS seletors', () => {
         let node = findByQuery('.item, .item.child', true);
-        expect(node).to.not.be.null;
+        expect(node).to.not.equal(null);
         expect(node).to.have.id('Item1');
 
         node = findByQuery(['.item', '.item.child'], true);
-        expect(node).to.not.be.null;
+        expect(node).to.not.equal(null);
         expect(node).to.have.id('Item1');
       });
 
       it('Should filter out non string values', () => {
         const node = findByQuery([null, 123, '.item.child'], true);
-        expect(node).to.not.be.null;
+        expect(node).to.not.equal(null);
         expect(node.className).to.equal('item child');
       });
     });
 
     describe('- With defined context', () => {
       it('Should find DOM elements matching given CSS selector from a given DOM element context', () => {
-        const node = findByQuery(['.item.child', '.second-child'], testUtils.id('Item2'), true);
-        expect(node).to.not.be.null;
+        const node = findByQuery(['.item.child', '.second-child'], helpers.id('Item2'), true);
+        expect(node).to.not.equal(null);
         expect(node.className).to.equal('item child');
       });
 
       it('Should fallback to document on non DOM element values', () => {
         let node = findByQuery('.item', {}, true);
-        expect(node).to.not.be.null;
+        expect(node).to.not.equal(null);
         expect(node).to.have.id('Item1');
 
         node = findByQuery('.item', null, true);
-        expect(node).to.not.be.null;
+        expect(node).to.not.equal(null);
         expect(node).to.have.id('Item1');
       });
     });

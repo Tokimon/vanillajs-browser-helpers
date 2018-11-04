@@ -1,8 +1,4 @@
-/* eslint-env node, browser */
-/* eslint-disable no-unused-expressions */
-/* global sinon */
-
-import { expect, testUtils, describe, it } from './assets/init-test';
+import { expect, helpers, describe, it, spy } from './assets/init-test';
 
 import off from '../off';
 
@@ -14,17 +10,17 @@ import off from '../off';
 
 describe('"off"', () => {
   it('Should fallback to document, if the element is not a DOM Node', () => {
-    const cb = sinon.spy();
+    const cb = spy();
 
-    testUtils.on(document, 'test-undefined', cb);
-    testUtils.on(document, 'test-null', cb);
-    testUtils.on(document, 'test-object', cb);
-    testUtils.on(document, 'test-number', cb);
+    helpers.on(document, 'test-undefined', cb);
+    helpers.on(document, 'test-null', cb);
+    helpers.on(document, 'test-object', cb);
+    helpers.on(document, 'test-number', cb);
 
-    testUtils.trigger('test-undefined', document);
-    testUtils.trigger('test-null', document);
-    testUtils.trigger('test-object', document);
-    testUtils.trigger('test-number', document);
+    helpers.trigger('test-undefined', document);
+    helpers.trigger('test-null', document);
+    helpers.trigger('test-object', document);
+    helpers.trigger('test-number', document);
 
     expect(cb).to.have.callCount(4);
 
@@ -35,71 +31,71 @@ describe('"off"', () => {
     expect(off({}, 'test-object', cb)).to.be.equal(document);
     expect(off(123, 'test-number', cb)).to.be.equal(document);
 
-    testUtils.trigger('test-undefined', document);
-    testUtils.trigger('test-null', document);
-    testUtils.trigger('test-object', document);
-    testUtils.trigger('test-number', document);
+    helpers.trigger('test-undefined', document);
+    helpers.trigger('test-null', document);
+    helpers.trigger('test-object', document);
+    helpers.trigger('test-number', document);
 
-    expect(cb).to.not.have.called;
+    expect(cb).to.have.callCount(0);
   });
 
   it('Should not remove event if handler is not defined', () => {
-    const cb = sinon.spy();
+    const cb = spy();
     const b = document.body;
 
-    testUtils.on(b, 'test', cb);
-    testUtils.trigger('test', b);
+    helpers.on(b, 'test', cb);
+    helpers.trigger('test', b);
 
-    expect(cb).to.have.been.calledOnce;
+    expect(cb).to.have.callCount(1);
 
     cb.resetHistory();
 
     off(b, 'test');
 
-    testUtils.trigger('test', b);
-    testUtils.off(document, 'test', cb);
+    helpers.trigger('test', b);
+    helpers.off(document, 'test', cb);
 
-    expect(cb).to.have.been.calledOnce;
+    expect(cb).to.have.callCount(1);
   });
 
   it('Should remove an given event handler from an object', () => {
-    const cb = sinon.spy();
+    const cb = spy();
     const d = document;
     const b = d.body;
 
-    testUtils.on(d, 'test', cb);
-    testUtils.on(b, 'test', cb);
-    testUtils.trigger('test', b);
+    helpers.on(d, 'test', cb);
+    helpers.on(b, 'test', cb);
+    helpers.trigger('test', b);
 
-    expect(cb).to.have.been.calledTwice;
+    expect(cb).to.have.callCount(2);
     cb.resetHistory();
 
     expect(off(d, 'test', cb)).to.equal(d);
 
-    testUtils.trigger('test', b);
-    expect(cb).to.have.been.calledOnce;
+    helpers.trigger('test', b);
+    expect(cb).to.have.callCount(1);
     cb.resetHistory();
 
     expect(off(b, 'test', cb)).to.equal(b);
 
-    testUtils.trigger('test', b);
-    expect(cb).to.not.have.been.called;
+    helpers.trigger('test', b);
+    expect(cb).to.have.callCount(0);
   });
 
   it('Should remove multiple event handlers from an object', () => {
-    const cb = sinon.spy();
+    const cb = spy();
     const b = document.body;
 
     const addEvents = () => {
-      testUtils.on(b, 'test', cb);
-      testUtils.on(b, 'test2', cb);
-      testUtils.on(b, 'test3', cb);
+      helpers.on(b, 'test', cb);
+      helpers.on(b, 'test2', cb);
+      helpers.on(b, 'test3', cb);
     };
 
     const triggerEvents = () => {
-      testUtils.trigger('test', b);
-      testUtils.trigger('test2', b);
-      testUtils.trigger('test3', b);
+      helpers.trigger('test', b);
+      helpers.trigger('test2', b);
+      helpers.trigger('test3', b);
     };
 
     addEvents();
@@ -111,7 +107,7 @@ describe('"off"', () => {
     expect(off(b, 'test test2 test3', cb)).to.be.equal(b);
 
     triggerEvents();
-    expect(cb).to.not.have.been.called;
+    expect(cb).to.have.callCount(0);
 
     cb.resetHistory();
 
@@ -124,7 +120,7 @@ describe('"off"', () => {
     expect(off(b, 'test, test2, test3', cb)).to.be.equal(b);
 
     triggerEvents();
-    expect(cb).to.not.have.been.called;
+    expect(cb).to.have.callCount(0);
 
     cb.resetHistory();
 
@@ -145,6 +141,6 @@ describe('"off"', () => {
     expect(off(b, ['test test2', null, 'test3'], cb)).to.be.equal(b);
 
     triggerEvents();
-    expect(cb).to.not.have.been.called;
+    expect(cb).to.have.callCount(0);
   });
 });

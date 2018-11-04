@@ -13,16 +13,16 @@ import dashed from 'vanillajs-helpers/dashed';
  *                               null if undefined, false if data attributes are not supported on the element
  */
 export default function data(elm, dataName, value) {
-  if(!isDOMElement(elm)) { return false; }
-  if(!dataName) { return null; }
+  if (!isDOMElement(elm)) { return false; }
+  if (!dataName) { return null; }
 
-  if(value === true) { value = ''; }
+  if (value === true) { value = ''; }
 
   let oldVal;
 
   // Fallback to attr (dataset polyfill doesn't really work as intended)
   // - Use removeSttribute to delete the data attribute
-  if(!elm.dataset || value === false) {
+  if (!elm.dataset || value === false) {
     // Make sure the names are dashed
     dataName = dashed(dataName);
     oldVal = attr(elm, `data-${dataName}`, value);
@@ -30,7 +30,7 @@ export default function data(elm, dataName, value) {
     // Make sure the names are camel cased
     dataName = camelCase({ numbers: false })(dataName);
     oldVal = elm.dataset[dataName];
-    if(typeof value !== 'undefined') { elm.dataset[dataName] = value; }
+    if (typeof value !== 'undefined') { elm.dataset[dataName] = value; }
   }
 
   // Empty string = true all other falsy values = null

@@ -1,9 +1,4 @@
-/* eslint-env node, browser */
-/* eslint-disable no-unused-expressions */
-
-import 'babel-polyfill';
-
-import { expect, testUtils, describe, it, before, beforeEach, after } from './assets/init-test';
+import { expect, helpers, describe, it, before, beforeEach, after } from './assets/init-test';
 
 import toggleClass from '../toggleClass';
 
@@ -14,13 +9,13 @@ const testID = 'TestNode';
 
 
 describe('"toggleClass"', () => {
-  before(() => testUtils.html(`<div id="${testID}"></div>`));
-  beforeEach(() => { testUtils.id(testID).className = ''; });
+  before(() => helpers.html(`<div id="${testID}"></div>`));
+  beforeEach(() => { helpers.id(testID).className = ''; });
 
-  after(() => testUtils.remove(testID));
+  after(() => helpers.remove(testID));
 
   it('Should toggle a given class name on a DOM element', () => {
-    const node = testUtils.id(testID);
+    const node = helpers.id(testID);
     node.className = '';
 
     expect(node.className).to.equal('');
@@ -31,7 +26,7 @@ describe('"toggleClass"', () => {
   });
 
   it('Should add a given class name to a DOM element if `force` is true', () => {
-    const node = testUtils.id(testID);
+    const node = helpers.id(testID);
 
     expect(node.className).to.equal('');
     toggleClass(node, 'added', true);
@@ -41,7 +36,7 @@ describe('"toggleClass"', () => {
   });
 
   it('Should remove a given class name from a DOM element if `force` is false', () => {
-    const node = testUtils.id(testID);
+    const node = helpers.id(testID);
     node.className = 'removed';
 
     expect(node.className).to.equal('removed');
@@ -52,8 +47,8 @@ describe('"toggleClass"', () => {
   });
 
   it('Should always return given element', () => {
-    const div = testUtils.create('div');
-    expect(toggleClass(null, 'inserted')).to.be.null;
+    const div = helpers.create('div');
+    expect(toggleClass(null, 'inserted')).to.equal(null);
     expect(toggleClass({}, 'inserted')).to.be.an('object');
     expect(toggleClass(div)).to.equal(div);
     expect(toggleClass(div, 'inserted')).to.equal(div);
@@ -61,7 +56,7 @@ describe('"toggleClass"', () => {
 
   describe('- class names as Array', () => {
     it('Should toggle given class names on a DOM element', () => {
-      const node = testUtils.id(testID);
+      const node = helpers.id(testID);
       node.className = 'removed';
 
       expect(node.className).to.equal('removed');
@@ -72,7 +67,7 @@ describe('"toggleClass"', () => {
     });
 
     it('Should add a given class names to a DOM element if `force` is true', () => {
-      const node = testUtils.id(testID);
+      const node = helpers.id(testID);
 
       expect(node.className).to.equal('');
       toggleClass(node, ['added', 'class3'], true);
@@ -82,7 +77,7 @@ describe('"toggleClass"', () => {
     });
 
     it('Should remove a given class names from a DOM element if `force` is false', () => {
-      const node = testUtils.id(testID);
+      const node = helpers.id(testID);
       node.className = 'removed class3';
 
       expect(node.className).to.equal('removed class3');
@@ -95,7 +90,7 @@ describe('"toggleClass"', () => {
 
   describe('- class names as space separated String', () => {
     it('Should toggle given class names on a DOM element', () => {
-      const node = testUtils.id(testID);
+      const node = helpers.id(testID);
       node.className = 'removed';
 
       expect(node.className).to.equal('removed');
@@ -106,7 +101,7 @@ describe('"toggleClass"', () => {
     });
 
     it('Should add a given class names to a DOM element if `force` is true', () => {
-      const node = testUtils.id(testID);
+      const node = helpers.id(testID);
 
       expect(node.className).to.equal('');
       toggleClass(node, 'added class3', true);
@@ -116,7 +111,7 @@ describe('"toggleClass"', () => {
     });
 
     it('Should remove a given class names from a DOM element if `force` is false', () => {
-      const node = testUtils.id(testID);
+      const node = helpers.id(testID);
       node.className = 'removed class3';
 
       expect(node.className).to.equal('removed class3');
