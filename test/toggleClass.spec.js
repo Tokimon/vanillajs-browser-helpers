@@ -9,116 +9,82 @@ const testID = 'TestNode';
 
 
 describe('"toggleClass"', () => {
-  before(() => helpers.html(`<div id="${testID}"></div>`));
-  beforeEach(() => { helpers.id(testID).className = ''; });
+  let testNode;
+
+  before(() => {
+    helpers.html(`<div id="${testID}"></div>`);
+    testNode = helpers.id(testID);
+  });
+
+  beforeEach(() => { testNode.className = ''; });
 
   after(() => helpers.remove(testID));
 
   it('Should toggle a given class name on a DOM element', () => {
-    const node = helpers.id(testID);
-    node.className = '';
+    testNode.className = '';
 
-    expect(node.className).to.equal('');
-    toggleClass(node, 'removed');
-    expect(node.className).to.equal('removed');
-    toggleClass(node, 'removed');
-    expect(node.className).to.equal('');
+    toggleClass(testNode, 'toggled');
+    expect(testNode.className).to.equal('toggled');
+
+    toggleClass(testNode, 'toggled');
+    expect(testNode.className).to.equal('');
   });
 
   it('Should add a given class name to a DOM element if `force` is true', () => {
-    const node = helpers.id(testID);
+    toggleClass(testNode, 'added', true);
+    expect(testNode.className).to.equal('added');
 
-    expect(node.className).to.equal('');
-    toggleClass(node, 'added', true);
-    expect(node.className).to.equal('added');
-    toggleClass(node, 'added', true);
-    expect(node.className).to.equal('added');
+    toggleClass(testNode, 'added', true);
+    expect(testNode.className).to.equal('added');
   });
 
   it('Should remove a given class name from a DOM element if `force` is false', () => {
-    const node = helpers.id(testID);
-    node.className = 'removed';
+    testNode.className = 'removed';
 
-    expect(node.className).to.equal('removed');
-    toggleClass(node, 'removed', false);
-    expect(node.className).to.equal('');
-    toggleClass(node, 'removed', false);
-    expect(node.className).to.equal('');
+    toggleClass(testNode, 'removed', false);
+    expect(testNode.className).to.equal('');
+
+    toggleClass(testNode, 'removed', false);
+    expect(testNode.className).to.equal('');
   });
 
   it('Should always return given element', () => {
     const div = helpers.create('div');
+    const obj = {};
+
     expect(toggleClass(null, 'inserted')).to.equal(null);
-    expect(toggleClass({}, 'inserted')).to.be.an('object');
-    expect(toggleClass(div)).to.equal(div);
+    expect(toggleClass(obj, 'inserted')).to.be.equal(obj);
     expect(toggleClass(div, 'inserted')).to.equal(div);
+    expect(toggleClass(div)).to.equal(div);
   });
 
   describe('- class names as Array', () => {
     it('Should toggle given class names on a DOM element', () => {
-      const node = helpers.id(testID);
-      node.className = 'removed';
+      testNode.className = 'toggled';
 
-      expect(node.className).to.equal('removed');
-      toggleClass(node, ['removed', 'added', 'class3']);
-      expect(node.className).to.equal('added class3');
-      toggleClass(node, ['removed', 'class3']);
-      expect(node.className).to.equal('added removed');
+      toggleClass(testNode, ['toggled', 'added', 'class3']);
+      expect(testNode.className).to.equal('added class3');
+
+      toggleClass(testNode, ['toggled', 'class3']);
+      expect(testNode.className).to.equal('added toggled');
     });
 
     it('Should add a given class names to a DOM element if `force` is true', () => {
-      const node = helpers.id(testID);
+      toggleClass(testNode, ['added', 'class3'], true);
+      expect(testNode.className).to.equal('added class3');
 
-      expect(node.className).to.equal('');
-      toggleClass(node, ['added', 'class3'], true);
-      expect(node.className).to.equal('added class3');
-      toggleClass(node, ['added', 'class3'], true);
-      expect(node.className).to.equal('added class3');
+      toggleClass(testNode, ['added', 'class3'], true);
+      expect(testNode.className).to.equal('added class3');
     });
 
     it('Should remove a given class names from a DOM element if `force` is false', () => {
-      const node = helpers.id(testID);
-      node.className = 'removed class3';
+      testNode.className = 'removed class3';
 
-      expect(node.className).to.equal('removed class3');
-      toggleClass(node, ['removed', 'class3'], false);
-      expect(node.className).to.equal('');
-      toggleClass(node, ['removed', 'class3'], false);
-      expect(node.className).to.equal('');
-    });
-  });
+      toggleClass(testNode, ['removed', 'class3'], false);
+      expect(testNode.className).to.equal('');
 
-  describe('- class names as space separated String', () => {
-    it('Should toggle given class names on a DOM element', () => {
-      const node = helpers.id(testID);
-      node.className = 'removed';
-
-      expect(node.className).to.equal('removed');
-      toggleClass(node, 'removed added class3');
-      expect(node.className).to.equal('added class3');
-      toggleClass(node, 'removed class3');
-      expect(node.className).to.equal('added removed');
-    });
-
-    it('Should add a given class names to a DOM element if `force` is true', () => {
-      const node = helpers.id(testID);
-
-      expect(node.className).to.equal('');
-      toggleClass(node, 'added class3', true);
-      expect(node.className).to.equal('added class3');
-      toggleClass(node, 'added class3', true);
-      expect(node.className).to.equal('added class3');
-    });
-
-    it('Should remove a given class names from a DOM element if `force` is false', () => {
-      const node = helpers.id(testID);
-      node.className = 'removed class3';
-
-      expect(node.className).to.equal('removed class3');
-      toggleClass(node, 'removed class3', false);
-      expect(node.className).to.equal('');
-      toggleClass(node, 'removed class3', false);
-      expect(node.className).to.equal('');
+      toggleClass(testNode, ['removed', 'class3'], false);
+      expect(testNode.className).to.equal('');
     });
   });
 });
