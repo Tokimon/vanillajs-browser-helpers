@@ -8,24 +8,23 @@ import selectorToHTML from './selectorToHTML';
 
 /**
  * Inserts DOM element or plain HTML after a given DOM element
- * @function addClass
- * @param {HTMLElement} elm - The DOM element to insert after
+ * @function insertAfter
+ * @param {HTMLElement} elm - The DOM element to insert elements after
  * @param {String|HTMLElement} insertElm - DOM element or HTML to insert
- * @return {HTMLElement|null} The inserted element
+ * @return {HTMLElement} The inserted element
  */
-export default function after(elm, insertElm) {
-  if(!isDOMChildNode(elm)) { return null; }
+export default function insertAfter(elm, insertElm) {
+  const node = isDOMNode(insertElm);
+  if (!isDOMChildNode(elm) || (!isString(insertElm) && !node)) { return; }
 
-  if(isDOMNode(insertElm)) {
+  if (node) {
     elm.parentNode.insertBefore(insertElm, elm.nextSibling);
-  } else if(isString(insertElm)) {
-    if(insertElm.indexOf('<') < 0) {
+  } else {
+    if (insertElm.indexOf('<') < 0) {
       insertElm = selectorToHTML(insertElm);
     }
 
     elm.insertAdjacentHTML('afterend', insertElm);
-  } else {
-    return null;
   }
 
   return elm.nextSibling;

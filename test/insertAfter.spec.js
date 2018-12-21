@@ -1,6 +1,6 @@
 import { expect, helpers, describe, it, before, beforeEach, after } from './assets/init-test';
 
-import _after from '../after';
+import _after from '../insertAfter';
 
 
 
