@@ -33,6 +33,8 @@ function _createEvent(eventName, data) {
 export const helpers = {
   id(id) { return document.getElementById(id); },
 
+  one(query, elm) { return (elm || document).querySelector(query); },
+
   query(query, elm) { return (elm || document).querySelectorAll(query); },
 
   remove(id, elm) { try { (elm || document.body).removeChild(id); } catch (ex) { /* Fail silently */ } },
