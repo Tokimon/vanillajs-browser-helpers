@@ -1,6 +1,6 @@
 import { expect, describe, it } from './assets/init-test';
 
-import prefixed from '../prefixed';
+import vendorPrefixed from '../vendorPrefixed';
 
 
 
@@ -14,18 +14,18 @@ function expectArrayInput(arr, input) {
 
 
 
-describe('"prefixed"', () => {
+describe('"vendorPrefixed"', () => {
   it('Should prefix a word with vendor prefixes', () => {
-    expectArrayInput(prefixed('prefixed'), 'Prefixed');
+    expectArrayInput(vendorPrefixed('vendorPrefixed'), 'VendorPrefixed');
   });
 
   it('Should prefix a phrase with vendor prefixes and convert it into PascalCased word', () => {
-    expectArrayInput(prefixed('prefix this phrase'), 'PrefixThisPhrase');
+    expectArrayInput(vendorPrefixed('prefix this phrase'), 'PrefixThisPhrase');
   });
 
   it('Should always return array with prefixes', () => {
-    expectArrayInput(prefixed(9), '9');
-    expectArrayInput(prefixed(null), 'Null');
-    expectArrayInput(prefixed(), '');
+    expectArrayInput(vendorPrefixed(9), '9');
+    expectArrayInput(vendorPrefixed(null), 'Null');
+    expectArrayInput(vendorPrefixed(), '');
   });
 });
