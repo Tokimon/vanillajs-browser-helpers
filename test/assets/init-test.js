@@ -3,11 +3,13 @@
 import { expect, use } from 'chai';
 import chaiDom from 'chai-dom';
 import sinonChai from 'sinon-chai';
+import chaiArrays from 'chai-arrays';
 
 
 // --- Chai setup ---
 use(chaiDom);
 use(sinonChai);
+use(chaiArrays);
 export { expect };
 
 // --- Mocha exports ---
