@@ -1,9 +1,10 @@
 import isFunction from 'vanillajs-helpers/isFunction';
+
 import once from './once';
 
 
 
-function docComplete() {
+export function docComplete() {
   const { readyState } = document;
   return readyState === 'interactive' || readyState === 'complete';
 }

@@ -1,47 +1,52 @@
 /* eslint-disable no-unused-expressions */
 
-import { expect, describe, it, spy } from './assets/init-test';
+import { expect, describe, it, spy, stub, helpers } from './assets/init-test';
 
-import domReady from '../domReady';
-
-
-
-const domreadyCb = spy();
-let domLoaded = false;
+import domReady, { docComplete } from '../domReady';
 
 
-function afterDomLoad(cb) {
-  return domLoaded ? cb() : setTimeout(() => afterDomLoad(cb), 100);
+
+function afterDomLoad() {
+  return new Promise((resolve) => {
+    if (docComplete()) {
+      resolve();
+    } else {
+      helpers.on(document, 'readystatechange', () => {
+        if (docComplete()) {
+          resolve();
+          helpers.off(document, 'readystatechange');
+        }
+      });
+    }
+  });
 }
-
-document.addEventListener('DOMContentLoaded', (e) => {
-  domLoaded = true;
-}, true);
-
-
-
-// We have to build the dom ready handlers here as we otherwise will be to late
-// to test the dom ready event
-domReady(domreadyCb);
 
 
 
 describe('"domReady"', () => {
   it('Should not fail if no handler is given', () => {
-    expect(domReady()).to.not.fail;
+    expect(domReady()).to.equal(undefined);
+    expect(domReady(null)).to.equal(undefined);
+    expect(domReady('handler')).to.equal(undefined);
   });
 
-  afterDomLoad(() => {
-    it('Should trigger the handler on the document ready event', (done) => {
-      expect(domreadyCb).to.have.callCount(1);
-      done();
-    });
+  it('Should trigger the handler on the document ready event', async () => {
+    await afterDomLoad();
 
-    it('Should trigger the handler if the method is bound after the DOM has finished loading', (done) => {
-      const cb = spy();
-      domReady(cb);
-      expect(cb).to.have.callCount(1);
-      done();
-    });
+    const domreadyCb = spy();
+    const fakeReadyState = stub(document, 'readyState').get(() => 'loading');
+
+    domReady(domreadyCb);
+    fakeReadyState.restore();
+    helpers.trigger('readystatechange');
+
+    expect(domreadyCb).to.have.callCount(1);
+  });
+
+  it('Should trigger the handler if the method is bound after the DOM has finished loading', async () => {
+    await afterDomLoad();
+    const cb = spy();
+    domReady(cb);
+    expect(cb).to.have.callCount(1);
   });
 });
