@@ -1,5 +1,7 @@
-import isDOMChildNode from './isDOMChildNode';
 import children from './children';
+import isDOMChildNode from './isDOMChildNode';
+
+
 
 /**
  * Find the index of a DOM element amongst its siblings
@@ -8,5 +10,7 @@ import children from './children';
  * @return {Number} The index of `elm`
  */
 export default function elmIndex(elm) {
-  return isDOMChildNode(elm) ? children(elm.parentNode).indexOf(elm) : -1;
+  return isDOMChildNode(elm)
+    ? children(elm.parentNode).indexOf(elm)
+    : -1;
 }
