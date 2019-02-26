@@ -1,28 +1,27 @@
 import isString from 'vanillajs-helpers/isString';
 import isArray from 'vanillajs-helpers/isArray';
+import uniqueArray from 'vanillajs-helpers/uniqueArray';
+
+
+
+const byTag = (elm, tag) => Array.from(elm.getElementsByTagName(tag));
+
+
 
 /**
  * Find elements by given tag name
  * @function findByTagName
- * @param {String|String[]} tags - Tag name to find the elements by
  * @param {HTMLElement} [elm=document] - The DOM element to start the search from
+ * @param {String|String[]} tags - Tag name to find the elements by
  * @return {HTMLElement[]} List of found DOM elements
  */
-export default function findByTagName(tags, elm) {
-  // Is it is a string split by comma (convert to Array)
-  if(isString(tags)) { tags = tags.split(/[\s,]+/); }
+export default function findByTagName(elm, tags) {
+  if (isString(elm) || isArray(elm)) {
+    [elm, tags] = [document, elm];
+  }
 
-  // Tag names has to be an Array
-  if(!isArray(tags)) { return []; }
+  if (isString(tags)) { return byTag(elm, tags); }
+  if (!isArray(tags)) { return []; }
 
-  // 'elm' must be an object with the 'getElementsByTagName' implementation
-  if(!elm || !elm.getElementsByTagName) { elm = document; }
-
-  // Find results for each tag
-  return tags.reduce((arr, tag) => {
-    // The [...elm.getElementsByTagName(tag)] seems to filter out identical tags,
-    // so Array.from is preferred
-    if(!isString(tag)) { return arr; }
-    return arr.concat(Array.from(elm.getElementsByTagName(tag)));
-  }, []);
+  return uniqueArray(tags).reduce((arr, tag) => arr.concat(byTag(elm, tag)), []);
 }

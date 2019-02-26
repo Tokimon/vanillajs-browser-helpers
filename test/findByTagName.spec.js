@@ -23,7 +23,6 @@ describe('"findByTagName"', () => {
   it('Should always return an Array', () => {
     expect(findByTagName()).to.be.an('array');
     expect(findByTagName(null)).to.be.an('array');
-    expect(findByTagName('div')).to.be.an('array');
   });
 
   it('Should find DOM elements with a given tag name', () => {
@@ -49,14 +48,7 @@ describe('"findByTagName"', () => {
 
   describe('- With multiple queries', () => {
     it('Should find a unique DOM element collection from a list of tag names', () => {
-      let nodes = findByTagName('div, span');
-      expect(nodes)
-        .to.be.a('array')
-        .and.to.have.length(5);
-
-      expect(nodes[4].nodeName).to.equal('SPAN');
-
-      nodes = findByTagName(['div', 'span']);
+      const nodes = findByTagName(['div', 'span']);
       expect(nodes)
         .to.be.a('array')
         .and.to.have.length(5);
@@ -76,26 +68,10 @@ describe('"findByTagName"', () => {
 
   describe('- With defined context', () => {
     it('Should find DOM elements matching given tag name from a given DOM element context', () => {
-      const nodes = findByTagName('div', helpers.id(testID));
+      const nodes = findByTagName(helpers.id(testID), 'div');
       expect(nodes)
         .to.be.a('array')
         .and.to.have.length(3);
-
-      expect(nodes.every((node) => node.nodeName === 'DIV')).to.equal(true);
-    });
-
-    it('Should fallback to document on non DOM element values', () => {
-      let nodes = findByTagName('div', {});
-      expect(nodes)
-        .to.be.a('array')
-        .and.to.have.length(4);
-
-      expect(nodes.every((node) => node.nodeName === 'DIV')).to.equal(true);
-
-      nodes = findByTagName('div', null);
-      expect(nodes)
-        .to.be.a('array')
-        .and.to.have.length(4);
 
       expect(nodes.every((node) => node.nodeName === 'DIV')).to.equal(true);
     });
