@@ -58,39 +58,23 @@ describe('"findByQuery"', () => {
     });
 
     it('Should fail on bad queries', () => {
-      expect(() => findByQuery(':badquery')).to.throw(Error, /bad query given/);
+      expect(() => findByQuery(':badquery')).to.throw(Error);
     });
 
     describe('- With multiple queries', () => {
       it('Should find a unique DOM element collection from a list of CSS seletors', () => {
-        let nodes = findByQuery('.item, .item.child');
+        const nodes = findByQuery(['.item', '.item.child']);
         expect(nodes)
           .to.be.a('array')
           .and.to.have.length(4);
 
         expect(nodes[3]).to.have.class('second-child');
-
-        nodes = findByQuery(['.item', '.item.child']);
-        expect(nodes)
-          .to.be.a('array')
-          .and.to.have.length(4);
-
-        expect(nodes[3]).to.have.class('second-child');
-      });
-
-      it('Should filter out non string values', () => {
-        const nodes = findByQuery([null, 123, '.item.child']);
-        expect(nodes)
-          .to.be.a('array')
-          .and.to.have.length(2);
-
-        expect(nodes[1]).to.have.class('second-child');
       });
     });
 
-    describe('- With defined context', () => {
-      it('Should find DOM elements matching given CSS selector from a given DOM element context', () => {
-        const nodes = findByQuery(['.item.child', '.second-child'], helpers.id('Item2'));
+    describe('- With defined elm', () => {
+      it('Should find DOM elements starting from the given elm', () => {
+        const nodes = findByQuery(helpers.id('Item2'), ['.item.child', '.second-child']);
         expect(nodes)
           .to.be.a('array')
           .and.to.have.length(2);
@@ -98,16 +82,11 @@ describe('"findByQuery"', () => {
         expect(nodes[1]).to.have.class('second-child');
       });
 
-      it('Should fallback to document on non DOM element values', () => {
-        let nodes = findByQuery('.item', {});
+      it('Should return empty array if selector is not given', () => {
+        const nodes = findByQuery(helpers.id('Item2'));
         expect(nodes)
           .to.be.a('array')
-          .and.to.have.length(4);
-
-        nodes = findByQuery('.item', null);
-        expect(nodes)
-          .to.be.a('array')
-          .and.to.have.length(4);
+          .and.to.have.length(0);
       });
     });
   });
@@ -127,16 +106,8 @@ describe('"findByQuery"', () => {
       expect(node).to.have.id('Item1');
     });
 
-    it('Should filter out non string values', () => {
-      let node = findByQuery(99, true);
-      expect(node).to.equal(null);
-
-      node = findByQuery(undefined, true);
-      expect(node).to.equal(null);
-    });
-
     it('Should fail on bad queries', () => {
-      expect(() => findByQuery(':badquery', true)).to.throw(Error, /bad query given/);
+      expect(() => findByQuery(':badquery', true)).to.throw(Error);
     });
 
     describe('- With multiple queries', () => {
@@ -149,29 +120,18 @@ describe('"findByQuery"', () => {
         expect(node).to.not.equal(null);
         expect(node).to.have.id('Item1');
       });
-
-      it('Should filter out non string values', () => {
-        const node = findByQuery([null, 123, '.item.child'], true);
-        expect(node).to.not.equal(null);
-        expect(node.className).to.equal('item child');
-      });
     });
 
-    describe('- With defined context', () => {
-      it('Should find DOM elements matching given CSS selector from a given DOM element context', () => {
+    describe('- With defined elm', () => {
+      it('Should find DOM elements starting from the given elm', () => {
         const node = findByQuery(['.item.child', '.second-child'], helpers.id('Item2'), true);
         expect(node).to.not.equal(null);
         expect(node.className).to.equal('item child');
       });
 
-      it('Should fallback to document on non DOM element values', () => {
-        let node = findByQuery('.item', {}, true);
-        expect(node).to.not.equal(null);
-        expect(node).to.have.id('Item1');
-
-        node = findByQuery('.item', null, true);
-        expect(node).to.not.equal(null);
-        expect(node).to.have.id('Item1');
+      it('Should return null if selector is not given', () => {
+        const node = findByQuery(helpers.id('Item2'), 99, true);
+        expect(node).to.equal(null);
       });
     });
   });
