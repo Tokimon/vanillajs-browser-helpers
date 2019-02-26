@@ -1,6 +1,11 @@
 import isString from 'vanillajs-helpers/isString';
 import isArray from 'vanillajs-helpers/isArray';
-import indexLoop from 'vanillajs-helpers/indexLoop';
+
+
+
+const byName = (name) => document.getElementsByName(name);
+
+
 
 /**
  * Find DOM elements with the given name
@@ -9,16 +14,14 @@ import indexLoop from 'vanillajs-helpers/indexLoop';
  * @return {HTMLElement[]} List of found DOM elements
  */
 export default function findByName(names) {
-  // Is it is a string split by comma (convert to Array)
-  if(isString(names)) { names = names.split(/[\s,]+/); }
+  if (isString(names)) { return Array.from(byName(names)); }
+  if (!isArray(names)) { return []; }
 
-  // 'names' has to be an Array at this point
-  if(!isArray(names)) { return []; }
+  const nodes = names
+    .reduce((set, name) => {
+      for (let node of byName(name)) { set.add(node); }
+      return set;
+    }, new Set());
 
-  if(names.length < 2) { return Array.from(document.getElementsByName(names[0])); }
-
-  return Array.from(names.reduce((set, name) => {
-    indexLoop(document.getElementsByName(name), (elm) => set.add(elm));
-    return set;
-  }, new Set()));
+  return Array.from(nodes);
 }

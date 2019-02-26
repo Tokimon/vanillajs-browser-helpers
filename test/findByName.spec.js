@@ -58,14 +58,7 @@ describe('"findByName"', () => {
 
   describe('- Multi result', () => {
     it('Should find DOM elements with a name attribute from a list', () => {
-      let nodes = findByName('meta, inputs');
-      expect(nodes)
-        .to.be.a('array')
-        .and.to.have.length(3);
-
-      expect(nodes[1]).to.have.id('Input1');
-
-      nodes = findByName(['meta', 'inputs']);
+      const nodes = findByName(['meta', 'inputs']);
       expect(nodes)
         .to.be.a('array')
         .and.to.have.length(3);
