@@ -1,6 +1,12 @@
 import isString from 'vanillajs-helpers/isString';
 import isArray from 'vanillajs-helpers/isArray';
 
+
+
+const byId = (id) => document.getElementById(id);
+
+
+
 /**
  * Find a DOM element with the given ID
  * @function findById
@@ -8,17 +14,12 @@ import isArray from 'vanillajs-helpers/isArray';
  * @return {HTMLElement|HTMLElement[]} The found element
  */
 export default function findById(ids) {
-  // Is it is a string split by comma and/or space (convert to Array)
-  if(isString(ids)) { ids = ids.split(/[\s,]+/); }
+  if (isString(ids)) { return byId(ids); }
+  if (!isArray(ids)) { return null; }
 
-  // 'ids' has to be an Array at this point
-  if(!isArray(ids)) { return null; }
-
-  // If we have only one query, just find and return that
-  if(ids.length < 2) { return document.getElementById(ids[0]); }
-
-  // Search elements from each ID and filter out results that returned NULL
-  return ids
-    .map((id) => document.getElementById(id))
-    .filter((elm) => !!elm);
+  return ids.reduce((nodes, id) => {
+    const node = byId(id);
+    if (node) { nodes.push(node); }
+    return nodes;
+  }, []);
 }

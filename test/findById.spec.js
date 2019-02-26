@@ -42,14 +42,7 @@ describe('"findById"', () => {
 
   describe('- Multi result', () => {
     it('Should find DOM elements with a given ID from a list', () => {
-      let nodes = findById(`${testID}, Duplicate`);
-      expect(nodes)
-        .to.be.a('array')
-        .and.to.have.length(2);
-
-      expect(nodes[0]).to.have.id(testID);
-
-      nodes = findById([testID, 'Duplicate']);
+      const nodes = findById([testID, 'Duplicate']);
       expect(nodes)
         .to.be.a('array')
         .and.to.have.length(2);
