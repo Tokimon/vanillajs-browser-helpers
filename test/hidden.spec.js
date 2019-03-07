@@ -10,14 +10,14 @@ const testID = 'TestNode';
 
 describe('"hidden"', () => {
   before(() => helpers.html(`
-  <style id="Style">
-  #${testID} { display: none; }
-  #NotVisible { visibility: hidden; }
-  div { height: 10px; }
-  </style>
-  <div id="${testID}"><div id="ChildDisplay"></div></div>
-  <div id="NotVisible"><div id="ChildVisibility"></div></div>
-  <div id="Visible"></div>
+    <style id="Style">
+    #${testID} { display: none; }
+    #NotVisible { visibility: hidden; }
+    div { height: 10px; }
+    </style>
+    <div id="${testID}"><div id="ChildDisplay"></div></div>
+    <div id="NotVisible"><div id="ChildVisibility"></div></div>
+    <div id="Visible"></div>
   `));
 
   after(() => {
