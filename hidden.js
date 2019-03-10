@@ -14,6 +14,6 @@ import inDOM from './inDOM';
  */
 export default function hidden(elm) {
   return !inDOM(elm) ||
-    !(elm.offsetHeight || elm.offsetWidth) ||
+    (!elm.offsetHeight && !elm.offsetWidth) ||
     getComputedStyle(elm).visibility === 'hidden';
 }
