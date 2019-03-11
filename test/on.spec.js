@@ -1,103 +1,117 @@
-import { expect, helpers, describe, it, spy } from './assets/init-test';
+import { expect, helpers, describe, it, spy, beforeEach, afterEach } from './assets/init-test';
 
 import on from '../on';
 
 
 
-// TODO: add test for events on window
+// TODO: add test for when event options are not supported
 
 
 
-describe('"on"', () => {
-  it('Should fallback to document, if the element is not a DOM Node', () => {
-    const cb = spy();
+describe('"on" >', () => {
+  describe('Default behaviour >', () => {
+    beforeEach(() => spy(document, 'addEventListener'));
+    afterEach(() => document.addEventListener.restore());
 
-    expect(on('test-undefined', cb)).to.be.equal(document);
-    expect(on(null, 'test-null', cb)).to.be.equal(document);
-    expect(on({}, 'test-object', cb)).to.be.equal(document);
-    expect(on(123, 'test-number', cb)).to.be.equal(document);
+    it('Should fallback to document, if the element is not a valid EventTarget', () => {
+      const cb = () => {};
 
-    helpers.trigger('test-undefined', document);
-    helpers.trigger('test-null', document);
-    helpers.trigger('test-object', document);
-    helpers.trigger('test-number', document);
+      expect(on('undefined', cb)).to.be.equal(document);
+      expect(on(null, 'null', cb)).to.be.equal(document);
+      expect(on({}, 'object', cb)).to.be.equal(document);
+      expect(on(123, 'number', cb)).to.be.equal(document);
 
-    expect(cb).to.have.callCount(4);
+      expect(document.addEventListener).to.have.callCount(4);
 
-    helpers.off(document, 'test-undefined', cb);
-    helpers.off(document, 'test-null', cb);
-    helpers.off(document, 'test-object', cb);
-    helpers.off(document, 'test-number', cb);
+      helpers.off(document, 'undefined', cb);
+      helpers.off(document, 'null', cb);
+      helpers.off(document, 'object', cb);
+      helpers.off(document, 'number', cb);
+    });
+
+    it('Should not add event when eventNames is not defined', () => {
+      on(document);
+      on(document, null, () => {});
+
+      expect(document.addEventListener).to.have.callCount(0);
+    });
+
+    it('Should not add event when handler is not defined', () => {
+      on(document);
+      on(document, null, () => {});
+
+      expect(document.addEventListener).to.have.callCount(0);
+    });
+
+    it('Should add event with elaborate name', () => {
+      const cb = () => {};
+
+      on(document, 'test', cb);
+      on(document, 'test_underscore', cb);
+      on(document, 'test-dash', cb);
+      on(document, 'test.dot', cb);
+      on(document, 'test:colon', cb);
+
+      expect(document.addEventListener).to.have.callCount(5);
+
+      helpers.off(document, 'test', cb);
+      helpers.off(document, 'test_underscore', cb);
+      helpers.off(document, 'test-dash', cb);
+      helpers.off(document, 'test.dot', cb);
+      helpers.off(document, 'test:colon', cb);
+    });
+
+    describe('Multiple event handlers >', () => {
+      it('Should call addEventListener for each event name', () => {
+        const cb = () => {};
+
+        on(document, ['test', 'test2', 'test3'], cb);
+
+        expect(document.addEventListener).to.have.callCount(3);
+
+        helpers.off(document, 'test', cb);
+        helpers.off(document, 'test2', cb);
+        helpers.off(document, 'test3', cb);
+      });
+
+      it('Should filter out non string event names', () => {
+        const cb = () => {};
+
+        on(document, ['test', 123, null, undefined], cb);
+
+        expect(document.addEventListener).to.have.callCount(1);
+
+        helpers.off(document, 'test', cb);
+      });
+    });
   });
 
-  it('Should not add event neither handler nor eventNames are not defined', () => {
-    const cb = spy();
-
-    helpers.on(document, 'test', cb);
-
-    expect(on(document, undefined, cb)).to.be.equal(document);
-    expect(on(undefined, cb)).to.be.equal(document);
-    expect(on(document, null, cb)).to.be.equal(document);
-
-    helpers.trigger('123', document);
-    helpers.trigger('null', document);
-
-    expect(cb).to.have.callCount(0);
-  });
-
-  it.skip('Should add an given event handler to an object', () => {
-    const cb = spy();
+  it('Should add an given event handler to an element', () => {
     const b = document.body;
+    spy(b, 'addEventListener');
+
+    const cb = () => {};
 
     expect(on(b, 'test', cb)).to.be.equal(b);
-    expect(on(b, 'test_underscore', cb)).to.be.equal(b);
-    expect(on(b, 'test-dash', cb)).to.be.equal(b);
-    expect(on(b, 'test.dot', cb)).to.be.equal(b);
-    expect(on(b, 'test:colon', cb)).to.be.equal(b);
-
-    helpers.trigger('test', b);
-    helpers.trigger('test_underscore', b);
-    helpers.trigger('test-dash', b);
-    helpers.trigger('test.dot', b);
-    helpers.trigger('test:colon', b);
-
-    expect(cb).to.have.callCount(5);
+    expect(b.addEventListener).to.have.callCount(1);
 
     helpers.off(b, 'test', cb);
-    helpers.off(b, 'test_underscore', cb);
-    helpers.off(b, 'test-dash', cb);
-    helpers.off(b, 'test.dot', cb);
-    helpers.off(b, 'test:colon', cb);
+
+    b.addEventListener.restore();
   });
 
-  it.skip('Should add multiple event handlers to an object', () => {
-    const cb = spy();
-    const b = document.body;
+  it('Should add an given event handler to window', () => {
+    const w = window;
 
-    const test = () => {
-      helpers.trigger('test', b);
-      helpers.trigger('test2', b);
-      helpers.trigger('test3', b);
+    spy(w, 'addEventListener');
 
-      helpers.off(b, 'test', cb);
-      helpers.off(b, 'test2', cb);
-      helpers.off(b, 'test3', cb);
+    const cb = () => {};
 
-      expect(cb).to.have.callCount(3);
+    expect(on(w, 'test', cb)).to.be.equal(w);
+    expect(w.addEventListener).to.have.callCount(1);
 
-      cb.resetHistory();
-    };
+    helpers.off(w, 'test', cb);
 
-    expect(on(b, 'test test2 test3', cb)).to.be.equal(b);
-    test();
-
-    expect(on(b, 'test, test2, test3', cb)).to.be.equal(b);
-    test();
-
-    expect(on(b, ['test', 'test2', 'test3'], cb)).to.be.equal(b);
-    test();
-
-    expect(on(b, ['test test2', null, 'test3'], cb)).to.be.equal(b);
-    test();
+    w.addEventListener.restore();
   });
 });
