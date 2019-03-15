@@ -1,10 +1,14 @@
 import isFunction from 'vanillajs-helpers/isFunction';
 import isString from 'vanillajs-helpers/isString';
 import isArray from 'vanillajs-helpers/isArray';
-import isBoolean from 'vanillajs-helpers/isBoolean';
+import isObject from 'vanillajs-helpers/isObject';
 
 import isEventTarget from './isEventTarget';
 import eventOptionsSupported from './eventOptionsSupported';
+
+
+
+const _on = (elm, evt, handler, options) => elm.addEventListener(evt, handler, options);
 
 
 
@@ -23,29 +27,17 @@ export default function on(elm, eventNames, handler, options) {
     [elm, eventNames, handler, options] = [document, elm, eventNames, handler];
   }
 
-  if (!isEventTarget(elm)) {
-    elm = document;
+  if (!isEventTarget(elm)) { elm = document; }
+  if (isString(eventNames)) { eventNames = [eventNames]; }
+
+  if (isFunction(handler) && isArray(eventNames)) {
+    if (!eventOptionsSupported()) {
+      options = !!(isObject(options) ? options.capture : options);
+    }
+
+    eventNames.forEach((evt) => isString(evt) && _on(elm, evt, handler, options));
   }
 
-  const evtIsString = isString(eventNames);
-
-  if (!isFunction(handler) || !(isArray(eventNames) || evtIsString)) {
-    return elm;
-  }
-
-  if (!eventOptionsSupported()) {
-    options = isBoolean(options) ? options : !!options.capture;
-  }
-
-  if (evtIsString) {
-    elm.addEventListener(eventNames, handler, options);
-  } else {
-    eventNames.forEach((evt) => {
-      if (isString(evt)) {
-        elm.addEventListener(evt, handler, options);
-      }
-    });
-  }
 
   return elm;
 }

@@ -4,143 +4,95 @@ import off from '../off';
 
 
 
-// TODO: add test for events on window
-
-
-
 describe('"off"', () => {
-  it('Should fallback to document, if the element is not a DOM Node', () => {
-    const cb = spy();
+  describe('Default behaviour >', () => {
+    beforeEach(() => spy(document, 'removeEventListener'));
+    afterEach(() => document.removeEventListener.restore());
 
-    helpers.on(document, 'test-undefined', cb);
-    helpers.on(document, 'test-null', cb);
-    helpers.on(document, 'test-object', cb);
-    helpers.on(document, 'test-number', cb);
+    it('Should fallback to document, if the element is not a valid EventTarget', () => {
+      const cb = () => {};
 
-    helpers.trigger('test-undefined', document);
-    helpers.trigger('test-null', document);
-    helpers.trigger('test-object', document);
-    helpers.trigger('test-number', document);
+      expect(off('undefined', cb)).to.be.equal(document);
+      expect(off(null, 'null', cb)).to.be.equal(document);
+      expect(off({}, 'object', cb)).to.be.equal(document);
+      expect(off(123, 'number', cb)).to.be.equal(document);
 
-    expect(cb).to.have.callCount(4);
+      expect(document.removeEventListener).to.have.callCount(4);
+    });
 
-    cb.resetHistory();
+    it('Should not remove event when eventNames is not defined', () => {
+      off(document);
+      off(document, null, () => {});
 
-    expect(off('test-undefined', cb)).to.be.equal(document);
-    expect(off(null, 'test-null', cb)).to.be.equal(document);
-    expect(off({}, 'test-object', cb)).to.be.equal(document);
-    expect(off(123, 'test-number', cb)).to.be.equal(document);
+      expect(document.removeEventListener).to.have.callCount(0);
+    });
 
-    helpers.trigger('test-undefined', document);
-    helpers.trigger('test-null', document);
-    helpers.trigger('test-object', document);
-    helpers.trigger('test-number', document);
+    it('Should not add event when handler is not defined', () => {
+      off(document);
+      off(document, null, () => {});
 
-    expect(cb).to.have.callCount(0);
+      expect(document.removeEventListener).to.have.callCount(0);
+    });
+
+    it('Should remove event with elaborate name', () => {
+      const cb = () => {};
+
+      off(document, 'test', cb);
+      off(document, 'test_underscore', cb);
+      off(document, 'test-dash', cb);
+      off(document, 'test.dot', cb);
+      off(document, 'test:colon', cb);
+
+      expect(document.removeEventListener).to.have.callCount(5);
+    });
+
+    describe('Multiple event handlers >', () => {
+      it('Should call removeEventListener for each event name', () => {
+        const cb = () => {};
+
+        off(document, ['test', 'test2', 'test3'], cb);
+
+        expect(document.removeEventListener).to.have.callCount(3);
+      });
+
+      it('Should filter out non string event names', () => {
+        const cb = () => {};
+
+        off(document, ['test', 123, null, undefined], cb);
+
+        expect(document.removeEventListener).to.have.callCount(1);
+
+        helpers.off(document, 'test', cb);
+      });
+    });
   });
 
-  it('Should not remove event if handler is not defined', () => {
-    const cb = spy();
+  it('Should remove a given event handler from an element', () => {
     const b = document.body;
+    spy(b, 'removeEventListener');
 
-    helpers.on(b, 'test', cb);
-    helpers.trigger('test', b);
+    const cb = () => {};
 
-    expect(cb).to.have.callCount(1);
+    expect(off(b, 'test', cb)).to.be.equal(b);
+    expect(b.removeEventListener).to.have.callCount(1);
 
-    cb.resetHistory();
+    helpers.off(b, 'test', cb);
 
-    off(b, 'test');
-
-    helpers.trigger('test', b);
-    helpers.off(document, 'test', cb);
-
-    expect(cb).to.have.callCount(1);
+    b.removeEventListener.restore();
   });
 
-  it('Should remove an given event handler from an object', () => {
-    const cb = spy();
-    const d = document;
-    const b = d.body;
+  it('Should remove a given event handler from window', () => {
+    const w = window;
 
-    helpers.on(d, 'test', cb);
-    helpers.on(b, 'test', cb);
-    helpers.trigger('test', b);
+    spy(w, 'removeEventListener');
 
-    expect(cb).to.have.callCount(2);
-    cb.resetHistory();
+    const cb = () => {};
 
-    expect(off(d, 'test', cb)).to.equal(d);
+    expect(off(w, 'test', cb)).to.be.equal(w);
+    expect(w.removeEventListener).to.have.callCount(1);
 
-    helpers.trigger('test', b);
-    expect(cb).to.have.callCount(1);
-    cb.resetHistory();
+    helpers.off(w, 'test', cb);
 
-    expect(off(b, 'test', cb)).to.equal(b);
-
-    helpers.trigger('test', b);
-    expect(cb).to.have.callCount(0);
-  });
-
-  it('Should remove multiple event handlers from an object', () => {
-    const cb = spy();
-    const b = document.body;
-
-    const addEvents = () => {
-      helpers.on(b, 'test', cb);
-      helpers.on(b, 'test2', cb);
-      helpers.on(b, 'test3', cb);
-    };
-
-    const triggerEvents = () => {
-      helpers.trigger('test', b);
-      helpers.trigger('test2', b);
-      helpers.trigger('test3', b);
-    };
-
-    addEvents();
-    triggerEvents();
-    expect(cb).to.have.been.callCount(3);
-
-    cb.resetHistory();
-
-    expect(off(b, 'test test2 test3', cb)).to.be.equal(b);
-
-    triggerEvents();
-    expect(cb).to.have.callCount(0);
-
-    cb.resetHistory();
-
-    addEvents();
-    triggerEvents();
-    expect(cb).to.have.been.callCount(3);
-
-    cb.resetHistory();
-
-    expect(off(b, 'test, test2, test3', cb)).to.be.equal(b);
-
-    triggerEvents();
-    expect(cb).to.have.callCount(0);
-
-    cb.resetHistory();
-
-    addEvents();
-    triggerEvents();
-    expect(cb).to.have.been.callCount(3);
-
-    cb.resetHistory();
-
-    expect(off(b, ['test', 'test2', 'test3'], cb)).to.be.equal(b);
-
-    addEvents();
-    triggerEvents();
-    expect(cb).to.have.been.callCount(3);
-
-    cb.resetHistory();
-
-    expect(off(b, ['test test2', null, 'test3'], cb)).to.be.equal(b);
-
-    triggerEvents();
-    expect(cb).to.have.callCount(0);
+    w.removeEventListener.restore();
   });
 });

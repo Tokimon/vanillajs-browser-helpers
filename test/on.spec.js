@@ -86,7 +86,7 @@ describe('"on" >', () => {
     });
   });
 
-  it('Should add an given event handler to an element', () => {
+  it('Should add a given event handler to an element', () => {
     const b = document.body;
     spy(b, 'addEventListener');
 
@@ -100,7 +100,7 @@ describe('"on" >', () => {
     b.addEventListener.restore();
   });
 
-  it('Should add an given event handler to window', () => {
+  it('Should add a given event handler to window', () => {
     const w = window;
 
     spy(w, 'addEventListener');
