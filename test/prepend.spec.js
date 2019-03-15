@@ -10,27 +10,35 @@ const insertHTML = '<div class="inserted"></div>';
 
 
 describe('"prepend"', () => {
-  before(() => helpers.html(`<div id="${testID}"></div>`));
+  let testNode;
+
+  before(() => {
+    helpers.html(`<div id="${testID}"></div>`);
+    testNode = helpers.id(testID);
+  });
+
   beforeEach(() => { helpers.id(testID).innerHTML = `<span></span>`; });
 
   after(() => helpers.remove(testID));
 
-  it('Should prepend plain HTML to a DOM element', () => {
-    const node = helpers.id(testID);
+  it('Should return null when DOM element to append to is not a container element', () => {
+    // This test is in honor of FireFox where document.parentNode is 'HTMLDocument' (nodeType 9)
+    expect(prepend(document.parentNode, insertHTML)).to.equal(null);
+    expect(prepend(null, insertHTML)).to.equal(null);
+    expect(prepend({}, insertHTML)).to.equal(null);
+  });
 
-    expect(node.firstChild).not.to.have.attribute('class', 'inserted');
-    prepend(node, insertHTML);
-    expect(node.firstChild).to.have.attribute('class', 'inserted');
+  it('Should prepend plain HTML to a DOM element', () => {
+    prepend(testNode, insertHTML);
+    expect(testNode.firstChild.className).to.equal('inserted');
   });
 
   it('Should prepend DOM element to a DOM element', () => {
-    const node = helpers.id(testID);
     const div = helpers.create('div');
     div.className = 'inserted';
 
-    expect(node.firstChild).not.to.have.attribute('class', 'inserted');
-    prepend(node, div);
-    expect(node.firstChild).to.have.attribute('class', 'inserted');
+    prepend(testNode, div);
+    expect(testNode.firstChild.className).to.equal('inserted');
   });
 
   it('Should prepend to DOM elements not inserted into the DOM', () => {
@@ -39,40 +47,28 @@ describe('"prepend"', () => {
     prepend(div, insertHTML);
 
     expect(div.firstChild).not.to.equal(null);
-    expect(div.firstChild).to.have.attribute('class', 'inserted');
+    expect(div.firstChild.className).to.equal('inserted');
   });
 
   it('Should move element from one DOM element to another', () => {
-    const node = helpers.id(testID);
-    node.innerHTML = `<div id="Moved"></div><div id="NewContainer"></div>`;
+    testNode.innerHTML = `<div class="insert-container"></div><div class="moved"></div>`;
 
-    const moveDiv = helpers.id('Moved');
-    const newCont = helpers.id('NewContainer');
+    const insertContainer = helpers.one('.insert-container', testNode);
+    const moved = helpers.one('.moved', testNode);
 
-    expect(node.firstChild).to.have.id('Moved');
-    expect(newCont.firstChild).to.equal(null);
+    prepend(insertContainer, moved);
 
-    prepend(newCont, moveDiv);
-
-    expect(node.firstChild).to.have.id('NewContainer');
-    expect(newCont.firstChild).not.to.equal(null);
-    expect(newCont.firstChild).to.have.id('Moved');
+    expect(testNode.firstChild).to.equal(insertContainer);
+    expect(insertContainer.firstChild.className).to.equal('moved');
   });
 
   it('Should always return the inserted DOM element', () => {
-    const node = helpers.id(testID);
-
     const div = helpers.create('div');
-    div.className = 'inserted-always-dom';
+    div.className = 'node';
 
-    expect(prepend(node, div)).to.have.class('inserted-always-dom');
-    expect(prepend(node, '<div class="inserted-always-html"></div>')).to.have.class('inserted-always-html');
-  });
+    const html = '<div class="html"></div>';
 
-  it('Should return null when ister fails DOM elements', () => {
-    // This test is in honor of FireFox where document.parentNode is 'HTMLDocument' (nodeType 9)
-    expect(prepend(document.parentNode, insertHTML)).to.equal(null);
-    expect(prepend(null, insertHTML)).to.equal(null);
-    expect(prepend({}, insertHTML)).to.equal(null);
+    expect(prepend(testNode, div)).to.have.class('node');
+    expect(prepend(testNode, html).className).to.equal('html');
   });
 });

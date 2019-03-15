@@ -2,7 +2,6 @@ import isString from 'vanillajs-helpers/isString';
 
 import isDOMNode from './isDOMNode';
 import isDOMContainer from './isDOMContainer';
-import selectorToHTML from './selectorToHTML';
 
 
 
@@ -14,22 +13,17 @@ import selectorToHTML from './selectorToHTML';
  * @return {HTMLElement|null} The inserted child element
  */
 export default function prepend(elm, insertElm) {
-  if(!isDOMContainer(elm)) { return null; }
+  const node = isDOMNode(insertElm);
+  if (!isDOMContainer(elm) || (!isString(insertElm) && !node)) { return null; }
 
-  if(isDOMNode(insertElm)) {
-    if(elm.prepend) {
+  if (node) {
+    if (elm.prepend) {
       elm.prepend(insertElm);
     } else {
       elm.insertBefore(insertElm, elm.firstChild);
     }
-  } else if(isString(insertElm)) {
-    if(insertElm.indexOf('<') < 0) {
-      insertElm = selectorToHTML(insertElm);
-    }
-
-    elm.insertAdjacentHTML('afterbegin', insertElm);
   } else {
-    return null;
+    elm.insertAdjacentHTML('afterbegin', insertElm);
   }
 
   return elm.firstChild;
