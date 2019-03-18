@@ -1,56 +1,17 @@
-'use strict';
-
 /* eslint-disable no-console */
 
 const nPath = require('path');
-
-const rollupBabel = require('rollup-plugin-babel');
-const rollupNode = require('rollup-plugin-node-resolve');
-const rollupIstanbul = require('rollup-plugin-istanbul');
-const rollupCJS = require('rollup-plugin-commonjs');
-const rollupIncludePaths = require('rollup-plugin-includepaths');
-
 const yargs = require('yargs');
 
-const browserTypes = {
-  chrome: 'Chrome',
-  firefox: 'Firefox',
-  edge: 'Edge',
-  ie: 'IE',
-  ie10: 'IE10',
-  ie9: 'IE9'
-};
+const webpackConf = require('./webpack.base.config');
 
-let browsers = Object.keys(browserTypes);
+
 
 const args = yargs
-  .option('root', {
-    alias: 'r',
-    describe: 'Root path to search for the test directory',
-    type: 'string',
-    choices: ['.', 'es5'],
-    default: '.'
-  })
-  .option('test', {
-    alias: 't',
-    describe: 'Which test to load (* for all)',
+  .option('file', {
+    alias: 'f',
+    describe: 'Which file to test (* for all)',
     type: 'array'
-  })
-  .option('browser', {
-    alias: 'b',
-    describe: 'Which browser to test',
-    type: 'array',
-    choices: browsers
-  })
-  .option('coverage', {
-    alias: 'c',
-    describe: 'Add coverage report',
-    type: 'boolean'
-  })
-  .option('simple', {
-    alias: 's',
-    describe: 'Use a simple repoter',
-    type: 'boolean'
   })
   .help()
   .alias('help', 'h')
@@ -58,112 +19,75 @@ const args = yargs
 
 
 
-let tests = args.test || [];
-const nameLen = tests.length;
+// --- Tests to run ---
+let tests = args.file || [];
 
-if(tests.indexOf('*') > -1 || !nameLen) { tests = '*'; }
-
-if(Array.isArray(tests)) {
-  tests = nameLen > 1 ? `@(${tests.join('|')})` : tests[0];
+if (Array.isArray(tests)) {
+  tests = tests.length > 1 ? `@(${tests.join('|')})` : tests[0] || '*';
 }
 
-if(args.browser && args.browser.length) {
-  browsers = args.browser;
-}
+const testFiles = nPath.resolve(`test/${tests}.spec.js`);
+const reporters = ['progress', 'coverage-istanbul'];
 
-browsers = browsers.map((browser) => browserTypes[browser.toLowerCase()]);
+const include = [`**/${tests}.js`];
 
-const testFiles = nPath.resolve(args.root, `test/${tests}.spec.js`);
 
-const babelConfig = {
-  plugins: []
-};
 
-babelConfig.plugins = babelConfig.plugins.concat([
-  'transform-strict-mode',
-  'transform-es2015-arrow-functions',
-  'transform-es2015-block-scoped-functions',
-  'transform-es2015-block-scoping',
-  'transform-es2015-computed-properties',
-  'transform-es2015-destructuring',
-  'transform-es2015-duplicate-keys',
-  'transform-es2015-parameters',
-  'transform-es2015-spread',
-  'transform-es2015-template-literals',
-  'transform-proto-to-assign',
-  'transform-es2015-shorthand-properties'
-]);
+// --- Log choices before stat ---
+console.log('Running tests:', tests === '*' ? 'all' : tests);
 
-const reporters = [args.simple ? 'progress' : 'mocha'];
 
-const rollupPlugins = [
-  rollupIncludePaths({ paths: [''], include: {} }),
-  rollupNode({ jsnext: true, main: true }),
-  rollupCJS({ sourceMap: false }),
-  rollupBabel(babelConfig)
-];
 
-if(args.coverage) {
-  if(args.root !== 'es5') {
-    rollupPlugins.push(rollupIstanbul({ include: [`./${tests}.js`], embedSource: true }));
-    reporters.push('istanbul');
-    console.log('ADDING COVERAGE REPORT');
-  } else {
-    console.log('COVERAGE REPORTING IS NOT AVAILABLE FOR CJS TESTS');
-  }
-}
-
-console.log('Browsers:', browsers.join(', '));
-console.log('Test files:', testFiles);
-
+// --- The actual config ---
 module.exports = function(config) {
   config.set({
     basePath: '',
-    frameworks: ['mocha', 'chai-dom', 'chai', 'chai-sinon'],
+    frameworks: ['mocha'],
 
     files: [
-      'test/assets/style.css',
-      'test/assets/init-test.js',
-      // 'test/assets/polyfills/*.js',
-      testFiles
+      { pattern: 'test/assets/style.css', watched: false },
+      { pattern: testFiles, watched: false }
     ],
 
-    preprocessors: { [testFiles]: ['rollup'] },
+    preprocessors: { [testFiles]: ['webpack'] },
 
-    rollupPreprocessor: {
-      plugins: rollupPlugins,
-      format: 'iife',
-      exports: 'named',
-      moduleName: 'test',
-      sourceMap: false
+    plugins: [
+      'karma-mocha',
+      'karma-mocha-reporter',
+      'karma-chrome-launcher',
+      'karma-firefox-launcher',
+      'karma-webpack',
+      'karma-coverage-istanbul-reporter'
+    ],
+
+    browserConsoleLogOptions: {
+      level: 'log',
+      format: '%b %T: %m',
+      terminal: true
+    },
+
+    webpack: webpackConf(include),
+
+    webpackMiddleware: {
+      stats: 'errors-only'
     },
 
     reporters,
     colors: true,
     logLevel: config.LOG_INFO,
 
-    browsers,
+    browsers: ['ChromeHeadless', 'FirefoxHeadless'],
 
-    customLaunchers: {
-      IE10: {
-        base: 'IE',
-        'x-ua-compatible': 'IE=EmulateIE10'
-      },
-
-      IE9: {
-        base: 'IE',
-        'x-ua-compatible': 'IE=EmulateIE9'
+    coverageIstanbulReporter: {
+      reports: ['text', 'text-summary', 'lcovonly'],
+      dir: nPath.resolve('coverage'),
+      combineBrowserReports: true,
+      'report-config': {
+        lcovonly: {
+          dir: 'coverage',
+          subdir: 'lcov'
+        }
       }
-    },
-
-    istanbulReporter: {
-      dir: './coverage',
-
-      reporters: [
-        { type: 'text' },
-        { type: 'text-summary' },
-        { type: 'lcovonly', dir: 'coverage', subdir: 'lcov' }
-      ]
     },
 
     // Continuous Integration mode
@@ -172,6 +96,6 @@ module.exports = function(config) {
 
     // Concurrency level
     // how many browser should be started simultanous
-    concurrency: 10
+    concurrency: 5
   });
 };

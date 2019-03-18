@@ -1,15 +1,15 @@
-/* eslint-env node, mocha, browser */
-/* global expect, $ */
-
-import 'polyfills/array-from-polyfill';
-import 'polyfills/Set';
+import { expect, helpers, describe, it, before, after } from './assets/init-test';
 
 import findByName from '../findByName';
 
+
+
 const testID = 'TestNode';
 
+
+
 describe('"findByName"', () => {
-  before(() => $.html(`
+  before(() => helpers.html(`
     <form id="${testID}">
       <meta name="meta">
       <input name="inputs" id="Input1">
@@ -17,7 +17,7 @@ describe('"findByName"', () => {
     </form>
   `));
 
-  after(() => $.remove(testID));
+  after(() => helpers.remove(testID));
 
   it('Should always return an Array', () => {
     expect(findByName()).to.be.an('array');
@@ -58,14 +58,7 @@ describe('"findByName"', () => {
 
   describe('- Multi result', () => {
     it('Should find DOM elements with a name attribute from a list', () => {
-      let nodes = findByName('meta, inputs');
-      expect(nodes)
-        .to.be.a('array')
-        .and.to.have.length(3);
-
-      expect(nodes[1]).to.have.id('Input1');
-
-      nodes = findByName(['meta', 'inputs']);
+      const nodes = findByName(['meta', 'inputs']);
       expect(nodes)
         .to.be.a('array')
         .and.to.have.length(3);

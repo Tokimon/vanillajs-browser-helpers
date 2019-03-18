@@ -1,94 +1,81 @@
-/* eslint-env node, mocha, browser */
-/* eslint-disable no-unused-expressions */
-/* global expect, $ */
-
-import 'polyfills/domtokenlist-polyfill';
+import { expect, helpers, describe, it, before, after } from './assets/init-test';
 
 import hasClass, { hasAnyClass } from '../hasClass';
 
+
+
 const testID = 'TestNode';
 
+
+
 describe('"hasClass" package', () => {
-  before(() => $.html(`<div id="${testID}" class="class1 class2"></div>`));
-  after(() => $.remove(testID));
+  let testNode;
+
+  before(() => {
+    helpers.html(`<div id="${testID}"></div>`);
+    testNode = helpers.id(testID);
+  });
+
+  beforeEach(() => { testNode.className = 'class1 class2'; });
+
+  after(() => helpers.remove(testID));
 
   describe('"hasClass"', () => {
     it('Should detect if a DOM element has a given class name', () => {
-      const node = $.id(testID);
-      expect(hasClass(node, 'class1')).to.be.true;
-      expect(hasClass(node, 'class3')).to.be.false;
+      expect(hasClass(testNode, 'class1')).to.equal(true);
+      expect(hasClass(testNode, 'class3')).to.equal(false);
     });
 
-    it('Should return false if no DOM element or class name was given', () => {
-      const node = $.id(testID);
-      expect(hasClass(null, 'class1 class2')).to.be.false;
-      expect(hasClass(node)).to.be.false;
-      expect(hasClass()).to.be.false;
+    it('Should return false if no DOM element was given', () => {
+      expect(hasClass(null, 'class')).to.equal(false);
+      expect(hasClass(undefined, 'class')).to.equal(false);
+      expect(hasClass({ className: 'class' }, 'class')).to.equal(false);
+      expect(hasClass([], 'class')).to.equal(false);
+    });
+
+    it('Should return false if no class name was given', () => {
+      expect(hasClass(testNode)).to.equal(false);
+      expect(hasClass()).to.equal(false);
     });
 
     describe('- class names as Array', () => {
       it('Should detect if a DOM element all of the given class names', () => {
-        const node = $.id(testID);
-        expect(hasClass(node, ['class1', 'class2'])).to.be.true;
-        expect(hasClass(node, ['class1', 'class3'])).to.be.false;
-        expect(hasClass(node, ['class3', 'class4'])).to.be.false;
+        expect(hasClass(testNode, ['class1', 'class2'])).to.equal(true);
+        expect(hasClass(testNode, ['class1', 'class3'])).to.equal(false);
+        expect(hasClass(testNode, ['class3', 'class4'])).to.equal(false);
       });
 
       it('Should detect if a DOM element any of the given class names (any = true)', () => {
-        const node = $.id(testID);
-        expect(hasClass(node, ['class1', 'class2'], true)).to.be.true;
-        expect(hasClass(node, ['class1', 'class3'], true)).to.be.true;
-        expect(hasClass(node, ['class3', 'class4'], true)).to.be.false;
-      });
-    });
-
-    describe('- class names as space separated String', () => {
-      it('Should detect if a DOM element all of the given class names', () => {
-        const node = $.id(testID);
-        expect(hasClass(node, 'class1 class2')).to.be.true;
-        expect(hasClass(node, 'class1 class3')).to.be.false;
-        expect(hasClass(node, 'class3 class4')).to.be.false;
-      });
-
-      it('Should detect if a DOM element any of the given class names (any = true)', () => {
-        const node = $.id(testID);
-        expect(hasClass(node, 'class1 class2', true)).to.be.true;
-        expect(hasClass(node, 'class1 class3', true)).to.be.true;
-        expect(hasClass(node, 'class3 class4', true)).to.be.false;
+        expect(hasClass(testNode, ['class1', 'class2'], true)).to.equal(true);
+        expect(hasClass(testNode, ['class1', 'class3'], true)).to.equal(true);
+        expect(hasClass(testNode, ['class3', 'class4'], true)).to.equal(false);
       });
     });
   });
 
   describe('"hasAnyClass"', () => {
     it('Should detect if a DOM element has a given class name', () => {
-      const node = $.id(testID);
-      expect(hasAnyClass(node, 'class1')).to.be.true;
-      expect(hasAnyClass(node, 'class3')).to.be.false;
+      expect(hasAnyClass(testNode, 'class1')).to.equal(true);
+      expect(hasAnyClass(testNode, 'class3')).to.equal(false);
     });
 
-    it('Should return false if no DOM element or class name was given', () => {
-      const node = $.id(testID);
-      expect(hasAnyClass(null, 'class1 class2')).to.be.false;
-      expect(hasAnyClass({}, 'class1 class2')).to.be.false;
-      expect(hasAnyClass(node)).to.be.false;
-      expect(hasAnyClass()).to.be.false;
+    it('Should return false if no DOM element was given', () => {
+      expect(hasClass(null, 'class')).to.equal(false);
+      expect(hasClass(undefined, 'class')).to.equal(false);
+      expect(hasClass({ className: 'class' }, 'class')).to.equal(false);
+      expect(hasClass([], 'class')).to.equal(false);
+    });
+
+    it('Should return false if no class name was given', () => {
+      expect(hasClass(testNode)).to.equal(false);
+      expect(hasClass()).to.equal(false);
     });
 
     describe('- class names as Array', () => {
       it('Should detect if a DOM element any of the given class names', () => {
-        const node = $.id(testID);
-        expect(hasAnyClass(node, ['class1', 'class2'], true)).to.be.true;
-        expect(hasAnyClass(node, ['class1', 'class3'], true)).to.be.true;
-        expect(hasAnyClass(node, ['class3', 'class4'], true)).to.be.false;
-      });
-    });
-
-    describe('- class names as space separated String', () => {
-      it('Should detect if a DOM element any of the given class names', () => {
-        const node = $.id(testID);
-        expect(hasAnyClass(node, 'class1 class2', true)).to.be.true;
-        expect(hasAnyClass(node, 'class1 class3', true)).to.be.true;
-        expect(hasAnyClass(node, 'class3 class4', true)).to.be.false;
+        expect(hasAnyClass(testNode, ['class1', 'class2'], true)).to.equal(true);
+        expect(hasAnyClass(testNode, ['class1', 'class3'], true)).to.equal(true);
+        expect(hasAnyClass(testNode, ['class3', 'class4'], true)).to.equal(false);
       });
     });
   });

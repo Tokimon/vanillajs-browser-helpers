@@ -1,8 +1,8 @@
-/* eslint-env node, mocha, browser */
-/* eslint-disable no-unused-expressions */
-/* global expect, $ */
+import { expect, helpers, describe, it } from './assets/init-test';
 
 import toDOM from '../toDOM';
+
+
 
 describe('"toDOM"', () => {
   it('Should generate DOM elements from a HTML string', () => {
@@ -26,8 +26,8 @@ describe('"toDOM"', () => {
   });
 
   it('Should return non String inputs as they were', () => {
-    expect(toDOM()).to.be.undefined;
-    expect(toDOM(null)).to.be.null;
-    expect(toDOM($.create('p')).tagName).to.equal('P');
+    expect(toDOM()).to.equal(undefined);
+    expect(toDOM(null)).to.equal(null);
+    expect(toDOM(helpers.create('p')).tagName).to.equal('P');
   });
 });

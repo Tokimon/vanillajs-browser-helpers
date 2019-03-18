@@ -1,13 +1,18 @@
-import words from 'vanillajs-helpers/eachWord';
 import isArray from 'vanillajs-helpers/isArray';
 import isFunction from 'vanillajs-helpers/isFunction';
 import isString from 'vanillajs-helpers/isString';
 
-import isDOMNode from './isDOMNode';
-import isWindow from './isWindow';
+import isEventTarget from './isEventTarget';
+
+
+
+const _off = (elm, evt, handler) => elm.removeEventListener(evt, handler, false);
+
+
 
 /**
  * Removed an event handler from one or more event names on a DOM element.
+ *
  * @function off
  * @param {HTMLElement} [elm=document] - DOM element to unbind the event from
  * @param {String|String[]} eventNames - Event names to remove the handler from
@@ -15,12 +20,15 @@ import isWindow from './isWindow';
  * @return {HTMLElement} The 'elm' (or document)
  */
 export default function off(elm, eventNames, handler) {
-  if(isString(elm)) { [elm, eventNames, handler] = [document, elm, eventNames]; }
-  if(!isDOMNode(elm) && !isWindow(elm)) { elm = document; }
+  if (isArray(elm) || isString(elm)) {
+    [elm, eventNames, handler] = [document, elm, eventNames];
+  }
 
-  if(isFunction(handler)) {
-    if(isArray(eventNames)) { eventNames = eventNames.join(); }
-    words(eventNames, (name) => elm.removeEventListener(name, handler, false), /[, ]+/);
+  if (!isEventTarget(elm)) { elm = document; }
+  if (isString(eventNames)) { eventNames = [eventNames]; }
+
+  if (isFunction(handler) && isArray(eventNames)) {
+    eventNames.forEach((evt) => isString(evt) && _off(elm, evt, handler));
   }
 
   return elm;

@@ -1,13 +1,15 @@
-/* eslint-env node, mocha, browser */
-/* eslint-disable no-unused-expressions */
-/* global expect, $ */
+import { expect, helpers, describe, it, before, after } from './assets/init-test';
 
 import visible from '../visible';
 
+
+
 const testID = 'TestNode';
 
+
+
 describe('"visible"', () => {
-  before(() => $.html(`
+  before(() => helpers.html(`
   <style id="Style">
   #${testID} { display: none; }
   #NotVisible { visibility: hidden; }
@@ -24,66 +26,66 @@ describe('"visible"', () => {
 
   after(() => {
     [testID, 'Style', 'NotVisible', 'Visible', 'Collapsed', 'Transparent']
-      .forEach((id) => { $.remove(id); });
+      .forEach((id) => { helpers.remove(id); });
   });
 
   it('Should return false if DOM element is "display: none"', () => {
-    const node = $.id(testID);
-    expect(visible(node)).to.be.false;
+    const node = helpers.id(testID);
+    expect(visible(node)).to.equal(false);
   });
 
   it('Should return false if DOM element is a child of an element that is "display: none"', () => {
-    const node = $.id('ChildDisplay');
-    expect(visible(node)).to.be.false;
+    const node = helpers.id('ChildDisplay');
+    expect(visible(node)).to.equal(false);
   });
 
   it('Should return false if DOM element is "visibility: hidden"', () => {
-    const node = $.id('NotVisible');
-    expect(visible(node)).to.be.false;
+    const node = helpers.id('NotVisible');
+    expect(visible(node)).to.equal(false);
   });
 
   it('Should return false if DOM element is a child of an element that is "visibility: hidden"', () => {
-    const node = $.id('ChildVisibility');
-    expect(visible(node)).to.be.false;
+    const node = helpers.id('ChildVisibility');
+    expect(visible(node)).to.equal(false);
   });
 
   it('Should return false if DOM element is Collapsed', () => {
-    const node = $.id('Collapsed');
-    expect(visible(node)).to.be.false;
+    const node = helpers.id('Collapsed');
+    expect(visible(node)).to.equal(false);
   });
 
   it('Should return false if DOM element is a child of an element that is Collapsed', () => {
-    const node = $.id('Collapsed');
-    expect(visible(node.firstChild)).to.be.false;
+    const node = helpers.id('Collapsed');
+    expect(visible(node.firstChild)).to.equal(false);
   });
 
   it('Should return false if DOM element is Transparent', () => {
-    const node = $.id('Transparent');
-    expect(visible(node)).to.be.false;
+    const node = helpers.id('Transparent');
+    expect(visible(node)).to.equal(false);
   });
 
   it('Should return false if DOM element is a child of an element that is Transparent', () => {
-    const node = $.id('Transparent');
-    expect(visible(node.firstChild)).to.be.false;
+    const node = helpers.id('Transparent');
+    expect(visible(node.firstChild)).to.equal(false);
   });
 
   it('Should return false if DOM element is not in the DOM', () => {
-    const node = $.create('div');
-    expect(visible(node)).to.be.false;
+    const node = helpers.create('div');
+    expect(visible(node)).to.equal(false);
   });
 
   it('Should return false if DOM element is a child of an element that is not in the DOM', () => {
-    const node = $.create('div');
+    const node = helpers.create('div');
     node.innerHTML = '<p></p>';
-    expect(visible(node.firstChild)).to.be.false;
+    expect(visible(node.firstChild)).to.equal(false);
   });
 
   it('Should return true if DOM element is in the DOM and is not styled invisible', () => {
-    const node = $.id('Visible');
-    expect(visible(node)).to.be.true;
+    const node = helpers.id('Visible');
+    expect(visible(node)).to.equal(true);
   });
 
   it('Should return false for non DOM elements', () => {
-    expect(visible(null)).to.be.false;
+    expect(visible(null)).to.equal(false);
   });
 });

@@ -1,13 +1,15 @@
-/* eslint-env node, mocha, browser */
-/* eslint-disable no-unused-expressions */
-/* global expect, $ */
+import { expect, helpers, describe, it, before, after } from './assets/init-test';
 
 import findById from '../findById';
 
+
+
 const testID = 'TestNode';
 
+
+
 describe('"findById"', () => {
-  before(() => $.html(`
+  before(() => helpers.html(`
     <div id="${testID}"></div>
     <div id="Duplicate" class="first"></div>
     <div id="Duplicate" class="second">
@@ -16,7 +18,7 @@ describe('"findById"', () => {
     </div>
   `));
 
-  after(() => [testID, 'Duplicate', 'Duplicate'].forEach((id) => $.remove(id)));
+  after(() => [testID, 'Duplicate', 'Duplicate'].forEach((id) => helpers.remove(id)));
 
   it('Should find a DOM element with a given ID', () => {
     expect(findById(testID))
@@ -32,22 +34,15 @@ describe('"findById"', () => {
   });
 
   it('Should ignore bad ID values', () => {
-    expect(findById()).to.be.null;
-    expect(findById(null)).to.be.null;
-    expect(findById({})).to.be.null;
-    expect(findById(99)).to.be.null;
+    expect(findById()).to.equal(null);
+    expect(findById(null)).to.equal(null);
+    expect(findById({})).to.equal(null);
+    expect(findById(99)).to.equal(null);
   });
 
   describe('- Multi result', () => {
     it('Should find DOM elements with a given ID from a list', () => {
-      let nodes = findById(`${testID}, Duplicate`);
-      expect(nodes)
-        .to.be.a('array')
-        .and.to.have.length(2);
-
-      expect(nodes[0]).to.have.id(testID);
-
-      nodes = findById([testID, 'Duplicate']);
+      const nodes = findById([testID, 'Duplicate']);
       expect(nodes)
         .to.be.a('array')
         .and.to.have.length(2);

@@ -1,73 +1,55 @@
-/* eslint-env node, mocha, browser */
-/* eslint-disable no-unused-expressions */
-/* global expect, $ */
-
-import 'polyfills/domtokenlist-polyfill';
+import { expect, helpers, describe, it, before, beforeEach, after } from './assets/init-test';
 
 import removeClass from '../removeClass';
 
+
+
 const testID = 'TestNode';
 
-describe('"removeClass"', () => {
-  before(() => $.html(`<div id="${testID}"></div>`));
-  beforeEach(() => { $.id(testID).className = ''; });
 
-  after(() => $.remove(testID));
+
+describe('"removeClass"', () => {
+  let testNode;
+
+  before(() => {
+    helpers.html(`<div id="${testID}"></div>`);
+    testNode = helpers.id(testID);
+  });
+
+  beforeEach(() => { testNode.className = ''; });
+
+  after(() => helpers.remove(testID));
 
   it('Should remove a given CSS class from a DOM element', () => {
-    const node = $.id(testID);
-    node.className = 'removed';
+    testNode.className = 'removed';
 
-    expect(node.className).to.equal('removed');
-    removeClass(node, 'removed');
-    expect(node.className).to.equal('');
+    removeClass(testNode, 'removed');
+    expect(testNode.className).to.equal('');
   });
 
   it('Should always return given element', () => {
-    const div = $.create('div');
-    expect(removeClass(null, 'inserted')).to.be.null;
-    expect(removeClass({}, 'inserted')).to.be.an('object');
-    expect(removeClass(div)).to.equal(div);
+    const div = helpers.create('div');
+    const obj = {};
+
+    expect(removeClass(null, 'inserted')).to.equal(null);
+    expect(removeClass(obj, 'inserted')).to.equal(obj);
     expect(removeClass(div, 'inserted')).to.equal(div);
+    expect(removeClass(div)).to.equal(div);
   });
 
   describe('- class names as Array', () => {
     it('Should remove several CSS classes from a DOM element', () => {
-      const node = $.id(testID);
-      node.className = 'removed erased class3';
+      testNode.className = 'removed erased class3';
 
-      expect(node.className).to.equal('removed erased class3');
-      removeClass(node, ['removed', 'erased', 'class3']);
-      expect(node.className).to.equal('');
+      removeClass(testNode, ['removed', 'erased', 'class3']);
+      expect(testNode.className).to.equal('');
     });
 
     it('Should only remove specified CSS classes from a DOM element', () => {
-      const node = $.id(testID);
-      node.className = 'removed class3 not-removed';
+      testNode.className = 'removed class3 not-removed';
 
-      expect(node.className).to.equal('removed class3 not-removed');
-      removeClass(node, ['removed', 'class3']);
-      expect(node.className).to.equal('not-removed');
-    });
-  });
-
-  describe('- class names as space separated String', () => {
-    it('Should remove several CSS classes from a DOM element', () => {
-      const node = $.id(testID);
-      node.className = 'removed erased class3';
-
-      expect(node.className).to.equal('removed erased class3');
-      removeClass(node, 'removed erased class3');
-      expect(node.className).to.equal('');
-    });
-
-    it('Should only remove specified CSS classes from a DOM element', () => {
-      const node = $.id(testID);
-      node.className = 'removed class3 not-removed';
-
-      expect(node.className).to.equal('removed class3 not-removed');
-      removeClass(node, 'removed class3');
-      expect(node.className).to.equal('not-removed');
+      removeClass(testNode, ['removed', 'class3']);
+      expect(testNode.className).to.equal('not-removed');
     });
   });
 });

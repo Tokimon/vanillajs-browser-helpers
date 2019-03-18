@@ -1,7 +1,9 @@
-import _on from './on';
-import matches from './matches';
 import isString from 'vanillajs-helpers/isString';
 import isFunction from 'vanillajs-helpers/isFunction';
+
+import isEventTarget from './isEventTarget';
+import on from './on';
+import matches from './matches';
 
 
 
@@ -11,22 +13,22 @@ import isFunction from 'vanillajs-helpers/isFunction';
  * @function delegateHandler
  * @param {String} delegation - CSS Selector that matches the element to delegate the event to
  * @param {Funciton} handler - Handler to triger if delegation selector match
- * @return {Function} The delegate event handler
+ * @return {Function|undefined} The delegate event handler
  */
 export function delegateHandler(delegation, handler) {
-  if(!isString(delegation) || !isFunction(handler)) { return null; }
+  if (!isString(delegation) || !isFunction(handler)) { return; }
 
   return (e) => {
     let target = e.target;
 
     // The target matches the delegation selector, so execute the handler
-    if(matches(target, delegation)) { return handler.call(target, e); }
+    if (matches(target, delegation)) { return handler.call(target, e); }
 
     // Taget is a child of the delegation selector target, so loop up the parents
     // to find the right target
-    if(matches(target, `${delegation} *`)) {
+    if (matches(target, `${delegation} *`)) {
       target = target.parentElement;
-      while(!matches(target, delegation)) { target = target.parentElement; }
+      while (!matches(target, delegation)) { target = target.parentElement; }
       handler.call(target, e);
     }
   };
@@ -34,34 +36,21 @@ export function delegateHandler(delegation, handler) {
 
 
 /**
- * Build an event binder that will bind delegated event handlers
- * @function delegateBuilder
- * @param {Function} on - The method to use bind event handlers
- * @param {Function} off - The method to use to remove event handlers
- * @return {Function} The delegate event binder
- */
-export function delegateBuilder(on = _on) {
-  if(!isFunction(on)) { return null; }
-
-  return (elm, eventNames, delegation, handler) => {
-    const delHandler = delegateHandler(delegation, handler);
-    if(!delHandler) { return null; }
-
-    on(elm, eventNames, delHandler);
-    // We return the delegation handler so you might unbind it again
-    return delHandler;
-  };
-}
-
-
-/**
  * Bind a delegated event handler for one or more event names on a DOM element.
  *
+ * @function delegate
  * @param {HTMLElement} elm - DOM element to unbind the event from
  * @param {String|String[]} eventNames - Event names to bind the handler to
  * @param {String} delegation - CSS Selector that matches the element to delegate the event to
  * @param {Function} handler - Handler to bind to the event
  * @return {Function} The delegation event handler (so it may be removed again)
  */
-const delegate = delegateBuilder();
-export default delegate;
+export default function delegate(target, eventNames, delegation, handler) {
+  if (!isEventTarget(target)) {
+    [target, eventNames, delegation, handler] = [document, target, eventNames, delegation];
+  }
+
+  const delHandler = delegateHandler(delegation, handler);
+  if (delHandler) { on(target, eventNames, delHandler); }
+  return delHandler;
+}

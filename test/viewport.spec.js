@@ -1,8 +1,8 @@
-/* eslint-env node, mocha, browser */
-/* eslint-disable no-unused-expressions */
-/* global expect */
+import { expect, describe, it } from './assets/init-test';
 
 import viewport from '../viewport';
+
+
 
 describe('"viewport"', () => {
   const { body, documentElement: html } = document;
@@ -12,9 +12,9 @@ describe('"viewport"', () => {
     const fakeDocCompat = { nodeType: 9, compatMode: 'BackCompat', body };
     const fakeDoc = { nodeType: 9, documentElement: html };
 
-    expect(viewport({})).to.be.null;
-    expect(viewport(fakeDoc)).to.be.null;
-    expect(viewport(fakeDocCompat)).to.be.null;
+    expect(viewport({})).to.equal(null);
+    expect(viewport(fakeDoc)).to.equal(null);
+    expect(viewport(fakeDocCompat)).to.equal(null);
   });
 
   it('Should return either the Body or DOM element', () => {

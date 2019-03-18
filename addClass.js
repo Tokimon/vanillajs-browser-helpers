@@ -1,6 +1,9 @@
-import isDOMElement from './isDOMElement';
 import isString from 'vanillajs-helpers/isString';
 import isArray from 'vanillajs-helpers/isArray';
+
+import isDOMElement from './isDOMElement';
+
+
 
 /**
  * Adds one or multiple class names to a DOM element
@@ -10,8 +13,13 @@ import isArray from 'vanillajs-helpers/isArray';
  * @return {HTMLElement} The given `elm`
  */
 export default function addClass(elm, classNames) {
-  if(isString(classNames)) { classNames = classNames.split(/[ ,]+/); }
-  if(!isDOMElement(elm) || !isArray(classNames)) { return elm; }
-  classNames.forEach(cn => elm.classList.add(cn));
+  if (!isDOMElement(elm)) { return elm; }
+
+  if (isString(classNames)) { classNames = [classNames]; }
+
+  if (isArray(classNames)) {
+    elm.classList.add(...classNames);
+  }
+
   return elm;
 }

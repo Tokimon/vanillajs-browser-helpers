@@ -1,4 +1,4 @@
 es5
 specs
-polyfills
-test/assets
+coverage
+node_modules

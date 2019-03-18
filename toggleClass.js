@@ -4,20 +4,28 @@ import isBoolean from 'vanillajs-helpers/isBoolean';
 
 import isDOMElement from './isDOMElement';
 
+
+
 /**
  * Toggles (add/remove) one or multiple class names on a DOM element
  * @function toggle
  * @param {HTMLElement} elm - DOM element to toggle class names from
  * @param {String|String[]} classNames - Class names to toggle
- * @param {Boolean} force - Force to add or remove (true = add, false = remove)
+ * @param {Boolean} force - Force to add/remove the given class names (true = add, false = remove)
+ * @return {HTMLElement} The given `elm`
  */
-export default function toggle(elm, classNames, force) {
-  if(isString(classNames)) { classNames = classNames.split(/\s+/); }
-  if(!isDOMElement(elm) || !isArray(classNames)) { return elm; }
+export default function toggleClass(elm, classNames, force) {
+  if (!isDOMElement(elm)) { return elm; }
 
-  // Some Browsers requires the method to not be called with the force paramter if it is not a boolean
-  force = isBoolean(force) ? [force] : [];
-  classNames.forEach((cn) => elm.classList.toggle(cn, ...force));
+  const toggle = isBoolean(force)
+    ? (cn) => elm.classList.toggle(cn, force)
+    : (cn) => elm.classList.toggle(cn);
+
+  if (isString(classNames)) {
+    toggle(classNames);
+  } else if (isArray(classNames)) {
+    classNames.forEach(toggle);
+  }
 
   return elm;
 }

@@ -1,144 +1,98 @@
-/* eslint-env node, mocha, browser */
-/* eslint-disable no-unused-expressions */
-/* global expect, $, sinon */
+import { expect, helpers, describe, it, spy } from './assets/init-test';
 
 import off from '../off';
 
-// TODO: add test for events on window
+
 
 describe('"off"', () => {
-  it('Should fallback to document, if the element is not a DOM Node', () => {
-    const cb = sinon.spy();
+  describe('Default behaviour >', () => {
+    beforeEach(() => spy(document, 'removeEventListener'));
+    afterEach(() => document.removeEventListener.restore());
 
-    $.on(document, 'test-undefined', cb);
-    $.on(document, 'test-null', cb);
-    $.on(document, 'test-object', cb);
-    $.on(document, 'test-number', cb);
+    it('Should fallback to document, if the element is not a valid EventTarget', () => {
+      const cb = () => {};
 
-    $.trigger('test-undefined', document);
-    $.trigger('test-null', document);
-    $.trigger('test-object', document);
-    $.trigger('test-number', document);
+      expect(off('undefined', cb)).to.be.equal(document);
+      expect(off(null, 'null', cb)).to.be.equal(document);
+      expect(off({}, 'object', cb)).to.be.equal(document);
+      expect(off(123, 'number', cb)).to.be.equal(document);
 
-    expect(cb).to.have.callCount(4);
+      expect(document.removeEventListener).to.have.callCount(4);
+    });
 
-    cb.reset();
+    it('Should not remove event when eventNames is not defined', () => {
+      off(document);
+      off(document, null, () => {});
 
-    expect(off('test-undefined', cb)).to.be.equal(document);
-    expect(off(null, 'test-null', cb)).to.be.equal(document);
-    expect(off({}, 'test-object', cb)).to.be.equal(document);
-    expect(off(123, 'test-number', cb)).to.be.equal(document);
+      expect(document.removeEventListener).to.have.callCount(0);
+    });
 
-    $.trigger('test-undefined', document);
-    $.trigger('test-null', document);
-    $.trigger('test-object', document);
-    $.trigger('test-number', document);
+    it('Should not add event when handler is not defined', () => {
+      off(document);
+      off(document, null, () => {});
 
-    expect(cb).to.not.have.called;
+      expect(document.removeEventListener).to.have.callCount(0);
+    });
+
+    it('Should remove event with elaborate name', () => {
+      const cb = () => {};
+
+      off(document, 'test', cb);
+      off(document, 'test_underscore', cb);
+      off(document, 'test-dash', cb);
+      off(document, 'test.dot', cb);
+      off(document, 'test:colon', cb);
+
+      expect(document.removeEventListener).to.have.callCount(5);
+    });
+
+    describe('Multiple event handlers >', () => {
+      it('Should call removeEventListener for each event name', () => {
+        const cb = () => {};
+
+        off(document, ['test', 'test2', 'test3'], cb);
+
+        expect(document.removeEventListener).to.have.callCount(3);
+      });
+
+      it('Should filter out non string event names', () => {
+        const cb = () => {};
+
+        off(document, ['test', 123, null, undefined], cb);
+
+        expect(document.removeEventListener).to.have.callCount(1);
+
+        helpers.off(document, 'test', cb);
+      });
+    });
   });
 
-  it('Should not remove event if handler is not defined', () => {
-    const cb = sinon.spy();
+  it('Should remove a given event handler from an element', () => {
     const b = document.body;
+    spy(b, 'removeEventListener');
 
-    $.on(b, 'test', cb);
-    $.trigger('test', b);
+    const cb = () => {};
 
-    expect(cb).to.have.been.calledOnce;
+    expect(off(b, 'test', cb)).to.be.equal(b);
+    expect(b.removeEventListener).to.have.callCount(1);
 
-    cb.reset();
+    helpers.off(b, 'test', cb);
 
-    off(b, 'test');
-
-    $.trigger('test', b);
-    $.off(document, 'test', cb);
-
-    expect(cb).to.have.been.calledOnce;
+    b.removeEventListener.restore();
   });
 
-  it('Should remove an given event handler from an object', () => {
-    const cb = sinon.spy();
-    const d = document;
-    const b = d.body;
+  it('Should remove a given event handler from window', () => {
+    const w = window;
 
-    $.on(d, 'test', cb);
-    $.on(b, 'test', cb);
-    $.trigger('test', b);
+    spy(w, 'removeEventListener');
 
-    expect(cb).to.have.been.calledTwice;
-    cb.reset();
+    const cb = () => {};
 
-    expect(off(d, 'test', cb)).to.equal(d);
+    expect(off(w, 'test', cb)).to.be.equal(w);
+    expect(w.removeEventListener).to.have.callCount(1);
 
-    $.trigger('test', b);
-    expect(cb).to.have.been.calledOnce;
-    cb.reset();
+    helpers.off(w, 'test', cb);
 
-    expect(off(b, 'test', cb)).to.equal(b);
-
-    $.trigger('test', b);
-    expect(cb).to.not.have.been.called;
-  });
-
-  it('Should remove multiple event handlers from an object', () => {
-    const cb = sinon.spy();
-    const b = document.body;
-
-    const addEvents = () => {
-      $.on(b, 'test', cb);
-      $.on(b, 'test2', cb);
-      $.on(b, 'test3', cb);
-    };
-
-    const triggerEvents = () => {
-      $.trigger('test', b);
-      $.trigger('test2', b);
-      $.trigger('test3', b);
-    };
-
-    addEvents();
-    triggerEvents();
-    expect(cb).to.have.been.calledTrice;
-
-    cb.reset();
-
-    expect(off(b, 'test test2 test3', cb)).to.be.equal(b);
-
-    triggerEvents();
-    expect(cb).to.not.have.been.called;
-
-    cb.reset();
-
-    addEvents();
-    triggerEvents();
-    expect(cb).to.have.been.calledTrice;
-
-    cb.reset();
-
-    expect(off(b, 'test, test2, test3', cb)).to.be.equal(b);
-
-    triggerEvents();
-    expect(cb).to.not.have.been.called;
-
-    cb.reset();
-
-    addEvents();
-    triggerEvents();
-    expect(cb).to.have.been.calledTrice;
-
-    cb.reset();
-
-    expect(off(b, ['test', 'test2', 'test3'], cb)).to.be.equal(b);
-
-    addEvents();
-    triggerEvents();
-    expect(cb).to.have.been.calledTrice;
-
-    cb.reset();
-
-    expect(off(b, ['test test2', null, 'test3'], cb)).to.be.equal(b);
-
-    triggerEvents();
-    expect(cb).to.not.have.been.called;
+    w.removeEventListener.restore();
   });
 });

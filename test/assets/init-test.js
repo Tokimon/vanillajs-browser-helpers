@@ -1,44 +1,59 @@
-/* global chai */
+/* global  describe, it, before, beforeEach, after, afterEach */
 
-var expect = chai.expect;
+import { expect, use } from 'chai';
+import chaiDom from 'chai-dom';
+import sinonChai from 'sinon-chai';
+import chaiArrays from 'chai-arrays';
 
-var $ = (function(win, doc) {
-  function _id(id) { return doc.getElementById(id); }
-  function _query(query, elm) { return (elm || doc).querySelectorAll(query); }
-  function _remove(id, elm) { try { (elm || doc.body).removeChild(_id(id)); } catch(ex) { /* Fail silently */ } }
-  function _create(tagName) { return document.createElement(tagName); }
-  function _html(html, elm) { (elm || doc.body).insertAdjacentHTML('beforeend', html); }
 
-  function _createEvent(eventName, data) {
-    if(typeof win.CustomEvent === 'function') {
-      return new win.CustomEvent(eventName, { detail: data, bubbles: true });
-    } else {
-      var evt = doc.createEvent('CustomEvent');
-      evt.initCustomEvent(eventName, true, true, data);
-      return evt;
-    }
+// --- Chai setup ---
+use(chaiDom);
+use(sinonChai);
+use(chaiArrays);
+export { expect };
+
+// --- Mocha exports ---
+const { describe, it, before, beforeEach, after, afterEach } = window;
+export { describe, it, before, beforeEach, after, afterEach };
+
+// --- Sinon exports ---
+export { spy, stub, fake, match as sinonMatch } from 'sinon';
+
+
+
+// --- Test Utils ---
+function _createEvent(eventName, data) {
+  if ('CustomEvent' in window) {
+    return new window.CustomEvent(eventName, { detail: data, bubbles: true });
+  } else {
+    const evt = document.createEvent('CustomEvent');
+    evt.initCustomEvent(eventName, true, true, data);
+    return evt;
   }
+}
 
-  function _trigger(eventName, elm) {
-    (elm || doc).dispatchEvent(_createEvent(eventName));
-  }
+export const helpers = {
+  id(id) { return document.getElementById(id); },
 
-  function _on(elm, evt, handler) {
+  one(query, elm) { return (elm || document).querySelector(query); },
+
+  query(query, elm) { return (elm || document).querySelectorAll(query); },
+
+  remove(id, elm) { try { (elm || document.body).removeChild(id); } catch (ex) { /* Fail silently */ } },
+
+  create(tagName) { return document.createElement(tagName); },
+
+  html(html, elm) { (elm || document.body).insertAdjacentHTML('beforeend', html); },
+
+  trigger(eventName, elm) {
+    (elm || document).dispatchEvent(_createEvent(eventName));
+  },
+
+  on(elm, evt, handler) {
     elm.addEventListener(evt, handler, false);
-  }
+  },
 
-  function _off(elm, evt, handler) {
+  off(elm, evt, handler) {
     elm.removeEventListener(evt, handler, false);
   }
-
-  return {
-    id: _id,
-    query: _query,
-    remove: _remove,
-    create: _create,
-    html: _html,
-    trigger: _trigger,
-    on: _on,
-    off: _off
-  };
-})(window, document);
+};

@@ -1,77 +1,74 @@
-/* eslint-env node, mocha, browser */
-/* eslint-disable no-unused-expressions */
-/* global expect, $ */
+import { expect, helpers, describe, it, before, beforeEach, after } from './assets/init-test';
 
 import append from '../append';
+
+
 
 const testID = 'AppendTest';
 const insertHTML = '<div class="inserted"></div>';
 
-describe('"append"', () => {
-  before(() => $.html(`<div id="${testID}"></div>`));
-  beforeEach(() => { $.id(testID).innerHTML = `<span></span>`; });
 
-  after(() => $.remove(testID));
+
+describe('"append"', () => {
+  let testNode;
+
+  before(() => {
+    helpers.html(`<div id="${testID}"></div>`);
+    testNode = helpers.id(testID);
+  });
+
+  beforeEach(() => { testNode.innerHTML = `<span></span>`; });
+
+  after(() => helpers.remove(testID));
+
+  it('Should return null when DOM element to append to is not a container element', () => {
+    // This test is in honor of FireFox where document.parentNode is 'HTMLDocument' (nodeType 9)
+    expect(append(document.parentNode, insertHTML)).to.equal(null);
+    expect(append(null, insertHTML)).to.equal(null);
+    expect(append({}, insertHTML)).to.equal(null);
+  });
 
   it('Should append plain HTML to a DOM element', () => {
-    const node = $.id(testID);
-
-    expect(node.lastChild).not.to.have.attribute('class', 'inserted');
-    append(node, insertHTML);
-    expect(node.lastChild).to.have.attribute('class', 'inserted');
+    append(testNode, insertHTML);
+    expect(testNode.lastChild.className).to.equal('inserted');
   });
 
   it('Should append DOM element to a DOM element', () => {
-    const node = $.id(testID);
-    const div = $.create('div');
+    const div = helpers.create('div');
     div.className = 'inserted';
 
-    expect(node.lastChild).not.to.have.attribute('class', 'inserted');
-    append(node, div);
-    expect(node.lastChild).to.have.attribute('class', 'inserted');
+    append(testNode, div);
+    expect(testNode.lastChild.className).to.equal('inserted');
   });
 
   it('Should append to DOM elements not inserted into the DOM', () => {
-    const div = $.create('div');
+    const div = helpers.create('div');
 
     append(div, insertHTML);
 
-    expect(div.lastChild).not.to.be.null;
-    expect(div.lastChild).to.have.attribute('class', 'inserted');
+    expect(div.lastChild).not.to.equal(null);
+    expect(div.lastChild.className).to.equal('inserted');
   });
 
   it('Should move element from one DOM element to another', () => {
-    const node = $.id(testID);
-    node.innerHTML = `<div id="NewContainer"></div><div id="Moved"></div>`;
+    testNode.innerHTML = `<div class="insert-container"></div><div class="moved"></div>`;
 
-    const moveDiv = $.id('Moved');
-    const newCont = $.id('NewContainer');
+    const insertContainer = helpers.one('.insert-container', testNode);
+    const moved = helpers.one('.moved', testNode);
 
-    expect(node.lastChild).to.have.id('Moved');
-    expect(newCont.lastChild).to.be.null;
+    append(insertContainer, moved);
 
-    // Append the "move div" to the "new container"
-    append(newCont, moveDiv);
-
-    expect(node.lastChild).to.have.id('NewContainer');
-    expect(newCont.lastChild).not.to.be.null;
-    expect(newCont.lastChild).to.have.id('Moved');
+    expect(testNode.lastChild).to.equal(insertContainer);
+    expect(insertContainer.lastChild.className).to.equal('moved');
   });
 
   it('Should always return the inserted DOM element', () => {
-    const node = $.id(testID);
+    const div = helpers.create('div');
+    div.className = 'node';
 
-    const div = $.create('div');
-    div.className = 'inserted-always-dom';
+    const html = '<div class="html"></div>';
 
-    expect(append(node, div)).to.have.class('inserted-always-dom');
-    expect(append(node, '<div class="inserted-always-html"></div>')).to.have.class('inserted-always-html');
-  });
-
-  it('Should return null when ister fails DOM elements', () => {
-    // This test is in honor of FireFox where document.parentNode is 'HTMLDocument' (nodeType 9)
-    expect(append(document.parentNode, insertHTML)).to.be.null;
-    expect(append(null, insertHTML)).to.be.null;
-    expect(append({}, insertHTML)).to.be.null;
+    expect(append(testNode, div)).to.have.class('node');
+    expect(append(testNode, html).className).to.equal('html');
   });
 });

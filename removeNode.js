@@ -4,9 +4,8 @@ import isDOMChildNode from './isDOMChildNode';
  * Remove a given DOM element from the DOM
  * @function remove
  * @param {HTMLElement} elm - The DOM element to remove
- * @return {HTMLElement} The given `elm` value
+ * @return {HTMLElement} The given `elm`
  */
-export default function remove(elm) {
-  if(isDOMChildNode(elm)) { return elm.parentNode.removeChild(elm); }
-  return elm;
+export default function removeNode(elm) {
+  return isDOMChildNode(elm) ? elm.parentNode.removeChild(elm) : elm;
 }

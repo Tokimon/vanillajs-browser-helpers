@@ -1,6 +1,9 @@
 import isString from 'vanillajs-helpers/isString';
+
 import isDOMNode from './isDOMNode';
 import isDOMContainer from './isDOMContainer';
+
+
 
 /**
  * Prepend DOM element or plain HTML into a given DOM element
@@ -10,14 +13,17 @@ import isDOMContainer from './isDOMContainer';
  * @return {HTMLElement|null} The inserted child element
  */
 export default function prepend(elm, insertElm) {
-  if(!isDOMContainer(elm)) { return null; }
+  const node = isDOMNode(insertElm);
+  if (!isDOMContainer(elm) || (!isString(insertElm) && !node)) { return null; }
 
-  if(isDOMNode(insertElm)) {
-    elm.insertBefore(insertElm, elm.firstChild);
-  } else if(isString(insertElm)) {
-    elm.insertAdjacentHTML('afterbegin', insertElm);
+  if (node) {
+    if (elm.prepend) {
+      elm.prepend(insertElm);
+    } else {
+      elm.insertBefore(insertElm, elm.firstChild);
+    }
   } else {
-    return null;
+    elm.insertAdjacentHTML('afterbegin', insertElm);
   }
 
   return elm.firstChild;

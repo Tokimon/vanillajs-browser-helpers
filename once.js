@@ -1,41 +1,12 @@
-import isFunction from 'vanillajs-helpers/isFunction';
 import isString from 'vanillajs-helpers/isString';
+import isArray from 'vanillajs-helpers/isArray';
+import isFunction from 'vanillajs-helpers/isFunction';
+import isObject from 'vanillajs-helpers/isObject';
 
-import isDOMNode from './isDOMNode';
-import isWindow from './isWindow';
-
-import _on from './on';
-import _off from './off';
-
-
-
-/**
- * Build an event binder that will bind event handlers that are triggered only once
- * @function onceBuilder
- * @param {Function} on - The method to use bind event handlers
- * @param {Function} off - The method to use to remove event handlers
- * @return {Function} The single fire event binder function
- */
-export function onceBuilder(on, off) {
-  if(!isFunction(on)) { on = _on; }
-  if(!isFunction(off)) { off = _off; }
-
-  return (elm, eventNames, handler) => {
-    if(isString(elm)) { [elm, eventNames, handler] = [document, elm, eventNames]; }
-    if(!isDOMNode(elm) && !isWindow(elm)) { elm = document; }
-
-    if(!isFunction(handler)) { return null; }
-
-    const _one = function(e) {
-      off(elm, e.type, _one);
-      return handler.call(this, e);
-    };
-
-    on(elm, eventNames, _one);
-
-    return _one;
-  };
-}
+import isEventTarget from './isEventTarget';
+import eventOptionsSupported from './eventOptionsSupported';
+import on from './on';
+import off from './off';
 
 
 
@@ -45,7 +16,48 @@ export function onceBuilder(on, off) {
  * @param {HTMLElement} elm - DOM element to unbind the event from
  * @param {String|String[]} eventNames - Event names to bind the handler to
  * @param {Function} handler - Handler to bind to the event
- * @return {Function} The single fire event handler (so it may be removed again)
+ * @param {object} options - Event binding options
+ * @param {Function} options.when - Function to determine if the handler (and removal) should be triggered
+ * @return {Function} The single fire event handler (so it may be removed again before trigger)
  */
-const once = onceBuilder();
+function once(elm, eventNames, handler, options) {
+  if (isArray(elm) || isString(elm)) {
+    [elm, eventNames, handler, options] = [document, elm, eventNames, handler];
+  }
+
+  if (!isEventTarget(elm)) { elm = document; }
+  if (isString(eventNames)) { eventNames = [eventNames]; }
+
+  if (!isFunction(handler) || !isArray(eventNames)) {
+    return null;
+  }
+
+  let eventHandler = handler;
+
+  if (!isObject(options)) { options = { capture: !!options }; }
+
+  const noOptions = !eventOptionsSupported();
+  let { when, ...eventOptions } = options;
+  const hasWhen = isFunction(when);
+  eventOptions.once = !hasWhen;
+
+  if (hasWhen || noOptions) {
+    const offHandler = (e) => {
+      if (hasWhen && when() !== true) { return true; }
+      off(elm, e.type, offHandler);
+      return handler(e);
+    };
+
+    eventHandler = offHandler;
+  }
+
+  if (noOptions) {
+    eventOptions = eventOptions.capture === true;
+  }
+
+  on(elm, eventNames, eventHandler, eventOptions);
+
+  return eventHandler;
+}
+
 export default once;
