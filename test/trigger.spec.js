@@ -1,4 +1,4 @@
-import { expect, helpers, describe, it, spy, sinonMatch } from './assets/init-test';
+import { expect, helpers, describe, it, sinon } from './assets/init-test';
 
 import trigger from '../trigger';
 
@@ -10,7 +10,7 @@ import trigger from '../trigger';
 
 describe('"Trigger"', () => {
   it('Should fallback to document, if the element is not a DOM Node', () => {
-    const cb = spy();
+    const cb = sinon.spy();
     helpers.on(document, 'test', cb);
 
     expect(trigger(null, 'test')).to.be.equal(document);
@@ -27,7 +27,7 @@ describe('"Trigger"', () => {
   });
 
   it('Should not trigger handler if event name is not a string or an array given', () => {
-    const cb = spy();
+    const cb = sinon.spy();
 
     helpers.on(document, 'test', cb);
 
@@ -46,7 +46,7 @@ describe('"Trigger"', () => {
   });
 
   it('Should trigger given event', () => {
-    const cb = spy();
+    const cb = sinon.spy();
     const b = document.body;
 
     helpers.on(b, 'test', cb);
@@ -71,7 +71,7 @@ describe('"Trigger"', () => {
   });
 
   it('Should trigger multiple event', () => {
-    const cb = spy();
+    const cb = sinon.spy();
     const b = document.body;
 
     helpers.on(b, 'test', cb);
@@ -91,7 +91,7 @@ describe('"Trigger"', () => {
   });
 
   it('Should trigger given event with extra data', () => {
-    const cb = spy();
+    const cb = sinon.spy();
     const b = document.body;
     const fn = () => {};
 
@@ -102,10 +102,10 @@ describe('"Trigger"', () => {
     trigger(b, 'test', fn);
     trigger(b, 'test');
 
-    expect(cb.getCall(0)).to.have.been.calledWith(sinonMatch.has('detail', { extra: 'test' }));
-    expect(cb.getCall(1)).to.have.been.calledWith(sinonMatch.has('detail', 'test'));
-    expect(cb.getCall(2)).to.have.been.calledWith(sinonMatch.has('detail', fn));
-    expect(cb.getCall(3)).to.have.been.calledWith(sinonMatch.has('detail'));
+    expect(cb.getCall(0)).to.have.been.calledWith(sinon.match.has('detail', { extra: 'test' }));
+    expect(cb.getCall(1)).to.have.been.calledWith(sinon.match.has('detail', 'test'));
+    expect(cb.getCall(2)).to.have.been.calledWith(sinon.match.has('detail', fn));
+    expect(cb.getCall(3)).to.have.been.calledWith(sinon.match.has('detail'));
 
     helpers.off(b, 'test', cb);
   });

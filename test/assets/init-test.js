@@ -4,6 +4,7 @@ import { expect, use } from 'chai';
 import chaiDom from 'chai-dom';
 import sinonChai from 'sinon-chai';
 import chaiArrays from 'chai-arrays';
+import sinon from 'sinon';
 
 
 // --- Chai setup ---
@@ -17,7 +18,7 @@ const { describe, it, before, beforeEach, after, afterEach } = window;
 export { describe, it, before, beforeEach, after, afterEach };
 
 // --- Sinon exports ---
-export { spy, stub, fake, match as sinonMatch } from 'sinon';
+export { sinon };
 
 
 

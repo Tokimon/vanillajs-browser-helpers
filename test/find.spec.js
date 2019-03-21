@@ -1,4 +1,4 @@
-import { expect, describe, it, before, beforeEach, after, spy } from './assets/init-test';
+import { expect, describe, it, before, beforeEach, after, sinon } from './assets/init-test';
 
 import find from '../find';
 
@@ -8,7 +8,7 @@ describe('"Find" package', () => {
   describe('"find"', () => {
     describe('With only selector defined', () => {
       it('Uses `getElementsByTagName` when selector is a tag name ', () => {
-        const tagnameSpy = spy(document, 'getElementsByTagName');
+        const tagnameSpy = sinon.spy(document, 'getElementsByTagName');
 
         find('div');
         expect(tagnameSpy).to.be.calledOnceWith('div');
@@ -17,7 +17,7 @@ describe('"Find" package', () => {
       });
 
       it('Uses `getElementById` when selecor is an ID', () => {
-        const idSpy = spy(document, 'getElementById');
+        const idSpy = sinon.spy(document, 'getElementById');
 
         find('#MyId');
         expect(idSpy).to.be.calledOnceWith('MyId');
@@ -29,7 +29,7 @@ describe('"Find" package', () => {
         let classSpy;
 
         before(() => {
-          classSpy = spy(document, 'getElementsByClassName');
+          classSpy = sinon.spy(document, 'getElementsByClassName');
         });
 
         beforeEach(() => classSpy.resetHistory());
@@ -56,7 +56,7 @@ describe('"Find" package', () => {
         };
 
         before(() => {
-          querySpy = spy(document, 'querySelectorAll');
+          querySpy = sinon.spy(document, 'querySelectorAll');
         });
 
         after(() => querySpy.restore());
@@ -80,7 +80,7 @@ describe('"Find" package', () => {
       const { body } = document;
 
       it('Uses `getElementsByTagName` when selector is a tag name ', () => {
-        const tagnameSpy = spy(body, 'getElementsByTagName');
+        const tagnameSpy = sinon.spy(body, 'getElementsByTagName');
 
         find(body, 'div');
         expect(tagnameSpy).to.be.calledOnceWith('div');
@@ -89,7 +89,7 @@ describe('"Find" package', () => {
       });
 
       it('Uses `getElementById` when selecor is an ID (does not use element)', () => {
-        const idSpy = spy(document, 'getElementById');
+        const idSpy = sinon.spy(document, 'getElementById');
 
         find(body, '#MyId');
         expect(idSpy).to.be.calledOnceWith('MyId');
@@ -101,7 +101,7 @@ describe('"Find" package', () => {
         let classSpy;
 
         before(() => {
-          classSpy = spy(body, 'getElementsByClassName');
+          classSpy = sinon.spy(body, 'getElementsByClassName');
         });
 
         beforeEach(() => classSpy.resetHistory());
@@ -128,7 +128,7 @@ describe('"Find" package', () => {
         };
 
         before(() => {
-          querySpy = spy(body, 'querySelectorAll');
+          querySpy = sinon.spy(body, 'querySelectorAll');
         });
 
         after(() => querySpy.restore());

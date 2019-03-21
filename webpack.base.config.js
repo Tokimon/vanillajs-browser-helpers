@@ -31,7 +31,8 @@ module.exports = (include) => {
                 ]
               ],
               plugins: [
-                ['babel-plugin-istanbul', { include }]
+                ['babel-plugin-istanbul', { include }],
+                'babel-plugin-rewire-exports'
               ]
             }
           }
