@@ -19,7 +19,6 @@ describe('"isDOMChildNode"', () => {
 
   it('Should return true for DOM nodes in the DOM below the DOM root element', () => {
     expect(isDOMChildNode(document.body)).to.equal(true);
-    expect(isDOMChildNode(document.documentElement)).to.equal(false);
     expect(isDOMChildNode(helpers.id(testID).firstChild)).to.equal(true);
   });
 
@@ -29,6 +28,11 @@ describe('"isDOMChildNode"', () => {
     expect(isDOMChildNode(div)).to.equal(false);
     expect(isDOMChildNode(div.firstChild)).to.equal(true);
     expect(isDOMChildNode(div.firstChild.nextSibling)).to.equal(true);
+  });
+
+  it('Should return false for DOM root elements', () => {
+    expect(isDOMChildNode(document)).to.equal(false);
+    expect(isDOMChildNode(document.documentElement)).to.equal(false);
   });
 
   it('Should return false for non DOM elements', () => {
