@@ -44,6 +44,7 @@
     "chai-things": "^0.2.0",
     "coveralls": "^3.0.3",
     "fs-promise": "^2.0.3",
+    "glob-promise": "^3.4.0",
     "globby": "^9.1.0",
     "karma": "^4.0.1",
     "karma-chai": "^0.1.0",

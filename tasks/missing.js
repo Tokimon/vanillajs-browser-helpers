@@ -4,7 +4,11 @@ const path = require('path');
 const glob = require('glob-promise');
 
 const files = glob('./!(karma)*.js')
-  .then((files) => files.map((f) => path.basename(f, '.js')));
+  .then(
+    (files) => files
+      .filter((f) => !/webpack\.\w+\.config\.js/.test(f))
+      .map((f) => path.basename(f, '.js'))
+  );
 
 const tests = glob('./test/*.spec.js')
   .then((files) => files.map((f) => path.basename(f, '.spec.js')));
