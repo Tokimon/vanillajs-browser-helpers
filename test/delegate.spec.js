@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 
-import { expect, helpers, describe, it, spy } from './assets/init-test';
+import { expect, helpers, describe, it, sinon } from './assets/init-test';
 
 import delegate, { delegateHandler } from '../delegate';
 
@@ -18,7 +18,7 @@ describe('"delegate" package', () => {
     });
 
     it('Should call handler if event target matches the delegation', () => {
-      const delegateCb = spy();
+      const delegateCb = sinon.spy();
       const handler = delegateHandler('body', delegateCb);
 
       handler({ target: document.body });
@@ -29,7 +29,7 @@ describe('"delegate" package', () => {
     it('Should call handler if event target is a child of delegation target', () => {
       helpers.html('<div id="Delegate"><div id="Child"></div></div>');
 
-      const delegateCb = spy();
+      const delegateCb = sinon.spy();
       const handler = delegateHandler('body', delegateCb);
 
       handler({ target: helpers.id('Delegate') });
@@ -55,14 +55,14 @@ describe('"delegate" package', () => {
     });
 
     it('Should bind a delagate event handler to an object', () => {
-      const delegateCb = spy();
+      const delegateCb = sinon.spy();
       delegate(document, 'delegate', 'body', delegateCb);
       helpers.trigger('delegate', document.body);
       expect(delegateCb).to.have.callCount(1);
     });
 
     it('Should default to document if no valid event target is given', () => {
-      const delegateCb = spy();
+      const delegateCb = sinon.spy();
       delegate('delegate', 'body', delegateCb);
       helpers.trigger('delegate', document.body);
       expect(delegateCb).to.have.callCount(1);

@@ -1,4 +1,4 @@
-import { expect, helpers, describe, it, spy, beforeEach, afterEach } from './assets/init-test';
+import { expect, helpers, describe, it, sinon, beforeEach, afterEach } from './assets/init-test';
 
 import on from '../on';
 
@@ -10,7 +10,7 @@ import on from '../on';
 
 describe('"on" >', () => {
   describe('Default behaviour >', () => {
-    beforeEach(() => spy(document, 'addEventListener'));
+    beforeEach(() => sinon.spy(document, 'addEventListener'));
     afterEach(() => document.addEventListener.restore());
 
     it('Should fallback to document, if the element is not a valid EventTarget', () => {
@@ -88,7 +88,7 @@ describe('"on" >', () => {
 
   it('Should add a given event handler to an element', () => {
     const b = document.body;
-    spy(b, 'addEventListener');
+    sinon.spy(b, 'addEventListener');
 
     const cb = () => {};
 
@@ -103,7 +103,7 @@ describe('"on" >', () => {
   it('Should add a given event handler to window', () => {
     const w = window;
 
-    spy(w, 'addEventListener');
+    sinon.spy(w, 'addEventListener');
 
     const cb = () => {};
 

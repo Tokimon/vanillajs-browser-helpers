@@ -1,4 +1,4 @@
-import { expect, describe, it, beforeEach, stub } from './assets/init-test';
+import { expect, describe, it, beforeEach, sinon } from './assets/init-test';
 
 import innerXML from '../innerXML';
 
@@ -32,7 +32,7 @@ describe('"innerXML"', () => {
     });
 
     it('When `innerHTML` is not present', () => {
-      const mock = stub(xmlElm, 'innerHTML').get(undefined);
+      const mock = sinon.stub(xmlElm, 'innerHTML').get(undefined);
 
       expect(innerXML(xmlElm)).to.equal(innerHTML);
 

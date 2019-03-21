@@ -1,4 +1,4 @@
-import { expect, helpers, describe, it, spy, stub } from './assets/init-test';
+import { expect, helpers, describe, it, sinon } from './assets/init-test';
 
 import once from '../once';
 
@@ -6,7 +6,7 @@ import once from '../once';
 
 describe('"once" package', () => {
   describe('Binding the event >', () => {
-    beforeEach(() => spy(document, 'addEventListener'));
+    beforeEach(() => sinon.spy(document, 'addEventListener'));
     afterEach(() => document.addEventListener.restore());
 
     it('Should return null, and not add event, when no event names were given', () => {
@@ -89,7 +89,7 @@ describe('"once" package', () => {
 
   describe('Triggers only once >', () => {
     it('Should trigger given event only once', () => {
-      const cb = spy();
+      const cb = sinon.spy();
       once(document, 'evt', cb);
 
       helpers.trigger('evt', document);
@@ -99,8 +99,8 @@ describe('"once" package', () => {
     });
 
     it('Should trigger given event only the first time the "when" option is fulfilleld', () => {
-      const cb = spy();
-      const condition = stub();
+      const cb = sinon.spy();
+      const condition = sinon.stub();
 
       condition.returns(false);
       condition.onCall(1).returns(true);
@@ -121,7 +121,7 @@ describe('"once" package', () => {
     });
 
     it('Should add multiple event handlers to an object that are triggered only once', () => {
-      const spy2 = spy();
+      const spy2 = sinon.spy();
 
       once(document, ['click', 'custom'], spy2);
 

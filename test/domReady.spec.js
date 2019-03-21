@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 
-import { expect, describe, it, spy, stub, helpers } from './assets/init-test';
+import { expect, describe, it, sinon, helpers } from './assets/init-test';
 
 import domReady, { docComplete } from '../domReady';
 
@@ -33,8 +33,8 @@ describe('"domReady"', () => {
   it('Should trigger the handler on the document ready event', async () => {
     await afterDomLoad();
 
-    const domreadyCb = spy();
-    const fakeReadyState = stub(document, 'readyState').get(() => 'loading');
+    const domreadyCb = sinon.spy();
+    const fakeReadyState = sinon.stub(document, 'readyState').get(() => 'loading');
 
     domReady(domreadyCb);
     fakeReadyState.restore();
@@ -45,7 +45,7 @@ describe('"domReady"', () => {
 
   it('Should trigger the handler if the method is bound after the DOM has finished loading', async () => {
     await afterDomLoad();
-    const cb = spy();
+    const cb = sinon.spy();
     domReady(cb);
     expect(cb).to.have.callCount(1);
   });

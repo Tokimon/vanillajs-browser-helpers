@@ -1,4 +1,4 @@
-import { expect, helpers, describe, it, spy } from './assets/init-test';
+import { expect, helpers, describe, it, sinon } from './assets/init-test';
 
 import off from '../off';
 
@@ -6,7 +6,7 @@ import off from '../off';
 
 describe('"off"', () => {
   describe('Default behaviour >', () => {
-    beforeEach(() => spy(document, 'removeEventListener'));
+    beforeEach(() => sinon.spy(document, 'removeEventListener'));
     afterEach(() => document.removeEventListener.restore());
 
     it('Should fallback to document, if the element is not a valid EventTarget', () => {
@@ -69,7 +69,7 @@ describe('"off"', () => {
 
   it('Should remove a given event handler from an element', () => {
     const b = document.body;
-    spy(b, 'removeEventListener');
+    sinon.spy(b, 'removeEventListener');
 
     const cb = () => {};
 
@@ -84,7 +84,7 @@ describe('"off"', () => {
   it('Should remove a given event handler from window', () => {
     const w = window;
 
-    spy(w, 'removeEventListener');
+    sinon.spy(w, 'removeEventListener');
 
     const cb = () => {};
 
