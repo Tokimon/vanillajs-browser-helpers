@@ -1,5 +1,52 @@
 import isDOMChildNode from './isDOMChildNode';
-import children from './children';
+
+
+
+/**
+ * Get all the siblings before a given element
+ * @function siblingsBefore
+ * @param {HTMLElement} elm - The HTMLElement to find the siblings of
+ * @return {Array} The siblings before the given element
+ */
+export function siblingsBefore(elm) {
+  const siblings = [];
+
+  if (isDOMChildNode(elm)) {
+    let sibling = elm.previousElementSibling;
+
+    while (sibling) {
+      siblings.push(sibling);
+      sibling = sibling.previousElementSibling;
+    }
+
+    siblings.reverse();
+  }
+
+  return siblings;
+}
+
+
+
+/**
+ * Get all the siblings after a given element
+ * @function siblingsAfter
+ * @param {HTMLElement} elm - The HTMLElement to find the siblings of
+ * @return {Array} The siblings after the given element
+ */
+export function siblingsAfter(elm) {
+  const siblings = [];
+
+  if (isDOMChildNode(elm)) {
+    let sibling = elm.nextElementSibling;
+
+    while (sibling) {
+      siblings.push(sibling);
+      sibling = sibling.nextElementSibling;
+    }
+  }
+
+  return siblings;
+}
 
 
 
@@ -10,30 +57,5 @@ import children from './children';
  * @return {HTMLElement[]} Collection of sibling elements
  */
 export default function siblings(elm) {
-  if(!isDOMChildNode(elm)) { return []; }
-  return children(elm.parentNode).filter((child) => child !== elm);
-}
-
-
-
-/**
- * Get the next sibling element of a DOM element
- * @function next
- * @param {HTMLElement} elm - The HTMLElement to find the sibling of
- * @return {HTMLElement|null} The next sibling element or null
- */
-export function next(elm) {
-  return isDOMChildNode(elm) ? elm.nextElementSibling : null;
-}
-
-
-
-/**
- * Get the previous sibling element of a DOM element
- * @function prev
- * @param {HTMLElement} elm - The HTMLElement to find the sibling of
- * @return {[type]} The previous sibling element or null
- */
-export function prev(elm) {
-  return isDOMChildNode(elm) ? elm.previousElementSibling : null;
+  return siblingsBefore(elm).concat(siblingsAfter(elm));
 }
