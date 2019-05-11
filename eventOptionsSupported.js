@@ -1,20 +1,31 @@
 let supported;
 
-export default function propsSupported() {
-  if(typeof supported !== 'undefined') {
+
+
+/**
+ * Detect if options are supported by the add-/removeEventListener methods
+ * @function eventOptionsSupported
+ * @param {Boolean} noCache - Bypasses previously cached result
+ * @return {Boolean} Are event binding options supported or not
+ */
+export default function eventOptionsSupported(noCache) {
+  if (typeof supported !== 'undefined' && noCache !== true) {
     return supported;
   }
 
+  supported = false;
+
   try {
-    supported = false;
     const noop = () => {};
     const opts = Object.defineProperty({}, 'passive', {
-      get() { supported = true; }
+      get() {
+        supported = true;
+        return supported;
+      }
     });
 
     window.addEventListener('test', noop, opts);
-    window.removeEventListener('test', noop, opts);
-  } catch(err) {
+  } catch (err) {
     supported = false;
   }
 
