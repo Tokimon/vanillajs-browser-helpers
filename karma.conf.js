@@ -3,8 +3,6 @@
 const nPath = require('path');
 const yargs = require('yargs');
 
-const webpackConf = require('./webpack.base.config');
-
 
 
 const args = yargs
@@ -26,10 +24,8 @@ if (Array.isArray(tests)) {
   tests = tests.length > 1 ? `@(${tests.join('|')})` : tests[0] || '*';
 }
 
-const testFiles = nPath.resolve(`test/${tests}.spec.js`);
+const testFiles = nPath.resolve(`specs/${tests}.spec.js`);
 const reporters = ['progress', 'coverage-istanbul'];
-
-const include = [`**/${tests}.js`];
 
 
 
@@ -49,14 +45,11 @@ module.exports = function(config) {
       { pattern: testFiles, watched: false }
     ],
 
-    preprocessors: { [testFiles]: ['webpack'] },
-
     plugins: [
       'karma-mocha',
       'karma-mocha-reporter',
       'karma-chrome-launcher',
       'karma-firefox-launcher',
-      'karma-webpack',
       'karma-coverage-istanbul-reporter'
     ],
 
@@ -64,12 +57,6 @@ module.exports = function(config) {
       level: 'log',
       format: '%b %T: %m',
       terminal: true
-    },
-
-    webpack: webpackConf(include),
-
-    webpackMiddleware: {
-      stats: 'errors-only'
     },
 
     reporters,
