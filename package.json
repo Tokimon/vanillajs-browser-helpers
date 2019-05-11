@@ -43,6 +43,7 @@
     "coveralls": "^3.0.4",
     "fs-extra": "^8.0.1",
     "globby": "^9.2.0",
+    "it-each": "^0.4.0",
     "jsdoc": "^3.6.2",
     "karma": "^4.1.0",
     "karma-chai": "^0.1.0",
