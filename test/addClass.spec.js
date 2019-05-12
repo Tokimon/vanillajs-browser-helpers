@@ -4,11 +4,11 @@ import addClass from '../addClass';
 
 
 
-const testID = 'TestNode';
+const testID = 'AddClassTest';
 
 
 
-describe('"addClass"', () => {
+describe('"addClass" >', () => {
   let testNode;
 
   before(() => {
@@ -44,7 +44,7 @@ describe('"addClass"', () => {
     expect(addClass(div)).to.equal(div);
   });
 
-  describe('- Multiple class names', () => {
+  describe('Multiple class names >', () => {
     it('Should add several CSS classes to a DOM element', () => {
       testNode.className = '';
 

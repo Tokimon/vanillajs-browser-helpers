@@ -4,19 +4,19 @@ import hidden from '../hidden';
 
 
 
-const testID = 'TestNode';
+const testID = 'HiddenTest';
 
 
 
-describe('"hidden"', () => {
+describe('"hidden" >', () => {
   before(() => helpers.html(`
-    <style id="Style">
-      #NoDisplay { display: none; }
-      #NotVisible { visibility: hidden; }
-      #NoSize { width: 0; height: 0; }
-    </style>
-
     <div id="${testID}">
+      <style id="Style">
+        #NoDisplay { display: none; }
+        #NotVisible { visibility: hidden; }
+        #NoSize { width: 0; height: 0; }
+      </style>
+
       <div id="Visible"></div>
       <div id="NoDisplay"><div id="ChildDisplay"></div></div>
       <div id="NotVisible"><div id="ChildVisibility"></div></div>

@@ -4,7 +4,7 @@ import isDOMDocument from '../isDOMDocument';
 
 
 
-describe('"isDOMDocument"', () => {
+describe('"isDOMDocument" >', () => {
   it('Should only return true for Document node elements', () => {
     expect(isDOMDocument(document)).to.equal(true);
 

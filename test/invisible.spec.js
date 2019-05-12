@@ -4,33 +4,33 @@ import invisible from '../invisible';
 
 
 
-const testID = 'TestNode';
+const testID = 'InvisibleTest';
 
 
 
-describe('"invisible"', () => {
+describe('"invisible" >', () => {
   before(() => helpers.html(`
-  <style id="Style">
-  #${testID} { display: none; }
-  #NotVisible { visibility: hidden; }
-  #Collapsed { height: 0; overflow: hidden; }
-  #Transparent { opacity: 0; }
-  div { height: 10px; }
-  </style>
-  <div id="${testID}"><div id="ChildDisplay"></div></div>
-  <div id="NotVisible"><div id="ChildVisibility"></div></div>
-  <div id="Collapsed"><div id="ChildCollapsed"></div></div>
-  <div id="Transparent"><div id="ChildTransparent"></div></div>
-  <div id="Visible"></div>
+    <div id="${testID}">
+      <style id="Style">
+        #NoDisplay { display: none; }
+        #NotVisible { visibility: hidden; }
+        #Collapsed { height: 0; overflow: hidden; }
+        #Transparent { opacity: 0; }
+        div { height: 10px; }
+      </style>
+
+      <div id="NoDisplay"><div id="ChildDisplay"></div></div>
+      <div id="NotVisible"><div id="ChildVisibility"></div></div>
+      <div id="Collapsed"><div id="ChildCollapsed"></div></div>
+      <div id="Transparent"><div id="ChildTransparent"></div></div>
+      <div id="Visible"></div>
+    </div>
   `));
 
-  after(() => {
-    [testID, 'Style', 'NotVisible', 'Visible', 'Collapsed', 'Transparent']
-      .forEach((id) => { helpers.remove(id); });
-  });
+  after(() => helpers.remove(testID));
 
   it('Should return true if DOM element is "display: none"', () => {
-    const node = helpers.id(testID);
+    const node = helpers.id('NoDisplay');
     expect(invisible(node)).to.equal(true);
   });
 

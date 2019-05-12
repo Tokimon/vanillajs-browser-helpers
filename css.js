@@ -1,4 +1,5 @@
 import isObject from 'vanillajs-helpers/isObject';
+import isNumber from 'vanillajs-helpers/isNumber';
 import isString from 'vanillajs-helpers/isString';
 import dashed from 'vanillajs-helpers/dashed';
 
@@ -22,10 +23,15 @@ export default function css(elm, style) {
   if (isObject(style)) {
     // Go through each style
     Object.keys(style).forEach((key) => {
-      // Set the style
-      const val = style[key].match(/^(.+)(?:\s+[!](important))?$/);
+      let propVal = style[key];
+      const cssKey = dashed(key);
 
-      if (val) {
+      if (isNumber(propVal)) { propVal += 'px'; }
+
+      if (!propVal) {
+        elm.style.removeProperty(cssKey);
+      } else if (isString(propVal)) {
+        const val = propVal.match(/^(.+)(?:\s+[!](important))?$/);
         elm.style.setProperty(dashed(key), val[1], val[2] || '');
       }
     });

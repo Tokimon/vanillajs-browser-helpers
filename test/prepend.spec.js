@@ -4,12 +4,12 @@ import prepend from '../prepend';
 
 
 
-const testID = 'AppendTest';
+const testID = 'PrependTest';
 const insertHTML = '<div class="inserted"></div>';
 
 
 
-describe('"prepend"', () => {
+describe('"prepend" >', () => {
   let testNode;
 
   before(() => {

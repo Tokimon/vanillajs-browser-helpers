@@ -4,7 +4,7 @@ import create from '../create';
 
 
 
-describe('"create"', () => {
+describe('"create" >', () => {
   it('Should default to a DIV element when no or non string element is given', () => {
     expect(create('')).to.be.instanceof(HTMLElement).and.to.match('div');
     expect(create(123)).to.be.instanceof(HTMLElement).and.to.match('div');
@@ -33,7 +33,7 @@ describe('"create"', () => {
     expect(create('.some-class.some_class')).to.be.instanceof(HTMLElement).and.to.match('div.some-class.some_class');
   });
 
-  describe('Should generate HTML element with given attributes', () => {
+  describe('Should generate HTML element with given attributes >', () => {
     it('Supports with or without quotes (single and double)', () => {
       expect(create('[class=class]')).to.be.instanceof(HTMLElement).and.to.match('div.class');
       expect(create('[class="class"]')).to.be.instanceof(HTMLElement).and.to.match('div.class');
@@ -117,5 +117,7 @@ describe('"create"', () => {
       .and.to.match('span#id.class[data-attr="value"]');
   });
 
-  it('Should should ignore illegal selectors');
+  it.skip('Should should ignore illegal selectors', () => {
+    throw new Error('Not implemented');
+  });
 });

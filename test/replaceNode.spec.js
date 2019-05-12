@@ -6,12 +6,16 @@ import replaceNode from '../replaceNode';
 
 
 
-describe('"replaceNode"', () => {
+const testID = 'ReplaceNodeTest';
+
+
+
+describe('"replaceNode" >', () => {
   let testNode;
 
   before(() => {
-    helpers.html('<div id="testNode"></div>');
-    testNode = helpers.id('testNode');
+    helpers.html(`<div id="${testID}"></div>`);
+    testNode = helpers.id(testID);
   });
 
   beforeEach(() => {
@@ -19,7 +23,7 @@ describe('"replaceNode"', () => {
   });
 
   after(() => {
-    helpers.remove('testNode');
+    helpers.remove(testID);
   });
 
   it('Should ignore non DOM child elements', () => {

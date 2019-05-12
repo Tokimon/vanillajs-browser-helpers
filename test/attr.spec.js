@@ -1,32 +1,30 @@
 /* eslint-disable no-unused-expressions */
 
-import { expect, helpers, describe, it, beforeEach, afterEach } from './assets/init-test';
+import { expect, helpers, describe, it, beforeEach, before, after } from './assets/init-test';
 
 import attr from '../attr';
 
 
 
-const testID = 'TestNode';
+const testID = 'AttrTest';
 
 
 
-describe('"attr"', () => {
+describe('"attr" >', () => {
   let testNode;
 
-  beforeEach(() => {
-    helpers.html(`
-      <div
-        id="${testID}"
-        title="title attribute"
-        custom="custom attribute"
-        data-attr="data attribute"
-      ></div>
-    `);
-
+  before(() => {
+    helpers.html(`<div id="${testID}"></div>`);
     testNode = helpers.id(testID);
   });
 
-  afterEach(() => helpers.remove(testID));
+  beforeEach(() => {
+    testNode.setAttribute('title', 'title attribute');
+    testNode.setAttribute('custom', 'custom attribute');
+    testNode.setAttribute('data-attr', 'data attribute');
+  });
+
+  after(() => helpers.remove(testID));
 
   it('Should get the value of an attribute on a DOM element', () => {
     expect(attr(testNode, 'title')).to.equal('title attribute');
@@ -61,7 +59,7 @@ describe('"attr"', () => {
   });
 
   it('Should remove the attribute from a DOM element if value is false', () => {
-    expect(attr(testNode, 'custom', false)).to.equal('new custom value');
+    expect(attr(testNode, 'custom', false)).to.equal('custom attribute');
     expect(testNode).to.not.have.attribute('custom');
   });
 

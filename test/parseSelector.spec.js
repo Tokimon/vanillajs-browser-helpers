@@ -4,7 +4,7 @@ import parseSelector from '../parseSelector';
 
 
 
-describe('"parseSelector"', () => {
+describe('"parseSelector" >', () => {
   it('Should parse the tag name', () => {
     expect(parseSelector('div')).to.eql({ tagName: 'div', attributes: {} });
     expect(parseSelector('span')).to.eql({ tagName: 'span', attributes: {} });
@@ -30,7 +30,7 @@ describe('"parseSelector"', () => {
     expect(parseSelector('.some-class.some_class')).to.eql({ tagName: 'div', attributes: { class: 'some-class some_class' } });
   });
 
-  describe('Should parse attributes', () => {
+  describe('Should parse attributes >', () => {
     it('Supports with or without quotes (single and double)', () => {
       expect(parseSelector('[class=class]')).to.eql({ tagName: 'div', attributes: { class: 'class' } });
       expect(parseSelector('[class="class"]')).to.eql({ tagName: 'div', attributes: { class: 'class' } });
@@ -109,5 +109,7 @@ describe('"parseSelector"', () => {
       });
   });
 
-  it('Should should ignore illegal selectors');
+  it.skip('Should should ignore illegal selectors', () => {
+    throw new Error('Not implemented');
+  });
 });

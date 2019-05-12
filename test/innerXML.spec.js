@@ -4,8 +4,8 @@ import innerXML from '../innerXML';
 
 
 
-describe('"innerXML"', () => {
-  describe('Returns the inner XML code of an XML element', () => {
+describe('"innerXML" >', () => {
+  describe('Returns the inner XML code of an XML element >', () => {
     let xmlElm;
 
     const innerHTML = `

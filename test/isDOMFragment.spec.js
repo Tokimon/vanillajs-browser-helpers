@@ -4,7 +4,7 @@ import isDOMFragment from '../isDOMFragment';
 
 
 
-describe('"isDOMFragment"', () => {
+describe('"isDOMFragment" >', () => {
   it('Should only return true for a Document fragment', () => {
     expect(isDOMFragment(document.createDocumentFragment())).to.equal(true);
   });

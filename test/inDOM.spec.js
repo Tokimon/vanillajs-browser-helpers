@@ -4,7 +4,7 @@ import inDOM from '../inDOM';
 
 
 
-describe('"inDOM"', () => {
+describe('"inDOM" >', () => {
   it('Should return true for DOM elements found in the DOM tree', () => {
     const p = helpers.create('p');
     p.style.cssText = `

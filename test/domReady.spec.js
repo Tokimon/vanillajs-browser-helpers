@@ -23,7 +23,7 @@ function afterDomLoad() {
 
 
 
-describe('"domReady"', () => {
+describe('"domReady" >', () => {
   it('Should not fail if no handler is given', () => {
     expect(domReady()).to.equal(undefined);
     expect(domReady(null)).to.equal(undefined);

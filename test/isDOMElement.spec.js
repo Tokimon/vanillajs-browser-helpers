@@ -4,7 +4,7 @@ import isDOMElement from '../isDOMElement';
 
 
 
-describe('"isDOMElement"', () => {
+describe('"isDOMElement" >', () => {
   it('Should only return true for DOM elements', () => {
     expect(isDOMElement(document.body)).to.equal(true);
     expect(isDOMElement(document.documentElement)).to.equal(true);

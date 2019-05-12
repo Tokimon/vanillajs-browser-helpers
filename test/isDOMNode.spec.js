@@ -4,7 +4,7 @@ import isDOMNode from '../isDOMNode';
 
 
 
-describe('"isDOMNode"', () => {
+describe('"isDOMNode" >', () => {
   it('Should only return true for a HTML nodes', () => {
     expect(isDOMNode(document.documentElement), 'HTML').to.equal(true);
     expect(isDOMNode(document.body), 'BODY').to.equal(true);

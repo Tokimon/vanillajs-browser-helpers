@@ -4,7 +4,7 @@ import toDOM from '../toDOM';
 
 
 
-describe('"toDOM"', () => {
+describe('"toDOM" >', () => {
   it('Should generate DOM elements from a HTML string', () => {
     const dom = toDOM(`
       <p class="item">Text content</p>

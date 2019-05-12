@@ -4,11 +4,11 @@ import removeClass from '../removeClass';
 
 
 
-const testID = 'TestNode';
+const testID = 'RemoveClassTest';
 
 
 
-describe('"removeClass"', () => {
+describe('"removeClass" >', () => {
   let testNode;
 
   before(() => {
@@ -37,7 +37,7 @@ describe('"removeClass"', () => {
     expect(removeClass(div)).to.equal(div);
   });
 
-  describe('- class names as Array', () => {
+  describe('class names as Array >', () => {
     it('Should remove several CSS classes from a DOM element', () => {
       testNode.className = 'removed erased class3';
 

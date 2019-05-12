@@ -4,12 +4,8 @@ import trigger from '../trigger';
 
 
 
-// TODO: add test for events on window
-
-
-
-describe('"Trigger"', () => {
-  it('Should fallback to document, if the element is not a DOM Node', () => {
+describe('"Trigger" >', () => {
+  it('Should fallback to document, if the element is not an event target', () => {
     const cb = sinon.spy();
     helpers.on(document, 'test', cb);
 
@@ -26,13 +22,13 @@ describe('"Trigger"', () => {
     helpers.off(document, 'test', cb);
   });
 
-  it('Should not trigger handler if event name is not a string or an array given', () => {
+  it('Should not trigger handler if event name is not a string or an array', () => {
     const cb = sinon.spy();
 
     helpers.on(document, 'test', cb);
 
-    trigger(document);
     trigger();
+    trigger(document);
     trigger(document, 123);
     trigger(document, null);
     trigger(document, {});
@@ -49,28 +45,30 @@ describe('"Trigger"', () => {
     const cb = sinon.spy();
     const b = document.body;
 
-    helpers.on(b, 'test', cb);
-    helpers.on(b, 'test_underscore', cb);
-    helpers.on(b, 'test-dash', cb);
-    helpers.on(b, 'test.dot', cb);
-    helpers.on(b, 'test:colon', cb);
+    ['test', 'test_underscore', 'test-dash', 'test-dash', 'test.dot', 'test:colon']
+      .forEach((evt) => {
+        helpers.on(b, evt, cb);
+        trigger(b, evt);
+        helpers.off(b, evt, cb);
+      });
 
-    trigger(b, 'test');
-    trigger(b, 'test_underscore');
-    trigger(b, 'test-dash');
-    trigger(b, 'test.dot');
-    trigger(b, 'test:colon');
-
-    expect(cb).to.have.callCount(5);
-
-    helpers.off(b, 'test', cb);
-    helpers.off(b, 'test_underscore', cb);
-    helpers.off(b, 'test-dash', cb);
-    helpers.off(b, 'test.dot', cb);
-    helpers.off(b, 'test:colon', cb);
+    expect(cb).to.have.callCount(6);
   });
 
-  it('Should trigger multiple event', () => {
+  it('Should trigger given event attached to window', () => {
+    const cb = sinon.spy();
+
+    ['test', 'test_underscore', 'test-dash', 'test-dash', 'test.dot', 'test:colon']
+      .forEach((evt) => {
+        helpers.on(window, evt, cb);
+        trigger(window, evt);
+        helpers.off(window, evt, cb);
+      });
+
+    expect(cb).to.have.callCount(6);
+  });
+
+  it('Should trigger multiple events', () => {
     const cb = sinon.spy();
     const b = document.body;
 
@@ -78,10 +76,7 @@ describe('"Trigger"', () => {
     helpers.on(b, 'test2', cb);
     helpers.on(b, 'test3', cb);
 
-    trigger(b, 'test test2 test3');
-    trigger(b, 'test, test2, test3');
     trigger(b, ['test', 'test2', 'test3']);
-    trigger(b, ['test test2', 'test3']);
 
     expect(cb).to.have.callCount(3);
 

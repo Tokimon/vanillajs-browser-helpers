@@ -6,8 +6,8 @@ import delegate, { delegateHandler } from '../delegate';
 
 
 
-describe('"delegate" package', () => {
-  describe('"delegateHandler"', () => {
+describe('"delegate" >', () => {
+  describe('"delegateHandler" >', () => {
     it('Should return a function when all arguemnts are present', () => {
       expect(delegateHandler('body', () => {})).to.be.a('function');
     });
@@ -41,7 +41,7 @@ describe('"delegate" package', () => {
     });
   });
 
-  describe('"delegate"', () => {
+  describe('"delegate" >', () => {
     it('Should not bind event if not all arguments are given', () => {
       expect(delegate(document, 'delegate', 'body')).to.equal(undefined);
       expect(delegate(document, 'delegate')).to.equal(undefined);

@@ -10,6 +10,6 @@ import pascalCase from 'vanillajs-helpers/pascalCase';
  * @return {String[]} Array of the various vendor vendorPrefixed versions of the string
  */
 export default function vendorPrefixed(str) {
-  str = pascalCase(str);
+  str = pascalCase(`${str}`);
   return [`webkit${str}`, `moz${str}`, `ms${str}`, `o${str}`];
 }

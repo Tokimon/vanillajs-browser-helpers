@@ -4,7 +4,7 @@ import viewport from '../viewport';
 
 
 
-describe('"viewport"', () => {
+describe('"viewport" >', () => {
   const { body, documentElement: html } = document;
   const bodyOrHtml = (elm) => elm === body || elm === html;
 

@@ -18,12 +18,12 @@ import size, {
 
 
 
-const testID = 'TestNode';
+const testID = 'SizeTest';
 const { MARGIN_BOX, OUTER, INNER, CONTENT, CONTENT_BOX } = sizeType;
 
 
 
-describe('"size"', () => {
+describe('"size" >', () => {
   let testNode, scrollBarSize;
 
   const vp = viewport();
@@ -50,7 +50,7 @@ describe('"size"', () => {
     helpers.remove(testID);
   });
 
-  describe('.elmSize', () => {
+  describe('.elmSize >', () => {
     it('incorrect type, should return undefined', () => {
       expect(elmSize(testNode)).to.deep.equal(undefined);
       expect(elmSize(testNode, null)).to.deep.equal(undefined);
@@ -93,7 +93,7 @@ describe('"size"', () => {
     });
   });
 
-  describe('.windowSize', () => {
+  describe('.windowSize >', () => {
     const spy = sinon.spy();
 
     before(() => { rewire$elmSize(spy); });
@@ -140,7 +140,7 @@ describe('"size"', () => {
     });
   });
 
-  describe('.size', () => {
+  describe('.size >', () => {
     it('Should return null when elm is neither window nor a DOM child node', () => {
       expect(size(document, INNER), 'Doc').to.equal(null);
       expect(size(document.documentElement), 'Body').to.equal(null);
@@ -177,7 +177,7 @@ describe('"size"', () => {
     });
   });
 
-  describe('Shortcut methods', () => {
+  describe('Shortcut methods >', () => {
     const spy = sinon.spy();
 
     before(() => { rewire$elmSize(spy); });

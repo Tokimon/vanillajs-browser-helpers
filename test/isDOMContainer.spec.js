@@ -4,7 +4,7 @@ import isDOMContainer from '../isDOMContainer';
 
 
 
-describe('"isDOMContainer"', () => {
+describe('"isDOMContainer" >', () => {
   it('Should only return true for DOM element or Document Fragment', () => {
     // True statements
     expect(isDOMContainer(document.documentElement)).to.equal(true);

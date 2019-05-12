@@ -4,7 +4,7 @@ import off from '../off';
 
 
 
-describe('"off"', () => {
+describe('"off" >', () => {
   describe('Default behaviour >', () => {
     beforeEach(() => sinon.spy(document, 'removeEventListener'));
     afterEach(() => document.removeEventListener.restore());

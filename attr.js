@@ -13,7 +13,7 @@ import isDOMElement from './isDOMElement';
 export default function attr(elm, attrName, value) {
   if (!isDOMElement(elm) || !attrName) { return; }
 
-  const oldVal = elm.getAttribute(attrName);
+  const currVal = elm.getAttribute(attrName);
 
   if (value === false) {
     elm.removeAttribute(attrName);
@@ -21,5 +21,5 @@ export default function attr(elm, attrName, value) {
     elm.setAttribute(attrName, value === true ? '' : value);
   }
 
-  return oldVal;
+  return currVal;
 }

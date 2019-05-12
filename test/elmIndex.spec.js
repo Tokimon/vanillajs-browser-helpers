@@ -4,17 +4,17 @@ import elmIndex from '../elmIndex';
 
 
 
-const testID = 'ElmIndex';
-const nodeID = 'SubElem';
+const testID = 'ElmIndexTest';
+const SubNodeID = 'SubNode';
 
 
 
-describe('"elmIndex"', () => {
-  before(() => helpers.html(`<div id="${testID}"><b></b><b id='${nodeID}'></b><b><b>/div>`));
+describe('"elmIndex" >', () => {
+  before(() => helpers.html(`<div id="${testID}"><b></b><b id='${SubNodeID}'></b><b><b>/div>`));
   after(() => helpers.remove(testID));
 
   it('Should return the index of a DOM element among its siblings', () => {
-    const node = helpers.id(nodeID);
+    const node = helpers.id(SubNodeID);
     const index = elmIndex(node);
     expect(index).to.equal(1);
     expect(helpers.id(testID).childNodes[index]).to.equal(node);

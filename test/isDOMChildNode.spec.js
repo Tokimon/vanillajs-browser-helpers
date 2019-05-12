@@ -4,16 +4,16 @@ import isDOMChildNode from '../isDOMChildNode';
 
 
 
-const testID = 'TestNode';
+const testID = 'IsDOMChildNodeTest';
 
 
 
-describe('"isDOMChildNode"', () => {
-  before(() => helpers.html(
-    `<div id="${testID}">
+describe('"isDOMChildNode" >', () => {
+  before(() => helpers.html(`
+    <div id="${testID}">
       <span></span>
-    </div>`
-  ));
+    </div>
+  `));
 
   after(() => helpers.remove(testID));
 

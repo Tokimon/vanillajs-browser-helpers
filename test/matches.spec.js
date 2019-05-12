@@ -4,11 +4,11 @@ import matches from '../matches';
 
 
 
-const testID = 'TestNode';
+const testID = 'MatchesTest';
 
 
 
-describe('"matches"', () => {
+describe('"matches" >', () => {
   before(() => helpers.html(`<div id="${testID}"><span class="class"><b></b></span></div>`));
   after(() => helpers.remove(testID));
 

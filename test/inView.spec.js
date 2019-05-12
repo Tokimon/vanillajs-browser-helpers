@@ -4,11 +4,11 @@ import inView from '../inView';
 
 
 
-const testID = 'TestNode';
+const testID = 'InViewTest';
 
 
 
-describe('"inView"', () => {
+describe('"inView" >', () => {
   let node;
 
   before(() => {
@@ -53,7 +53,7 @@ describe('"inView"', () => {
     expect(inView(node)).to.eql(result);
   });
 
-  describe('- Off screen indications', () => {
+  describe('Off screen indications >', () => {
     it('Should indicate that the element is off the viewport area to the left', () => {
       node.style.right = '100%';
       expect(inView(node)).to.have.property('left', true);
@@ -75,7 +75,7 @@ describe('"inView"', () => {
     });
   });
 
-  describe('- With a given threshold', () => {
+  describe('With a given threshold >', () => {
     it('Should ignore non-number threshold values', () => {
       node.style.right = 'calc(100% - 1px)';
       expect(inView(node)).to.have.property('left', false);
@@ -84,7 +84,7 @@ describe('"inView"', () => {
       expect(inView(node, 0)).to.have.property('left', false);
     });
 
-    describe('- With a positive value', () => {
+    describe('With a positive value >', () => {
       it('Should indicate that the element is off the viewport area to the left', () => {
         node.style.right = 'calc(100% - 10px)';
         expect(inView(node, 10)).to.have.property('left', true);
@@ -106,7 +106,7 @@ describe('"inView"', () => {
       });
     });
 
-    describe('- With a negative value', () => {
+    describe('With a negative value >', () => {
       it('Should indicate that the element is off the viewport area to the left', () => {
         node.style.right = 'calc(100% + 10px)';
         expect(inView(node, -10)).to.have.property('left', true);
