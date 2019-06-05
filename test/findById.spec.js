@@ -4,11 +4,11 @@ import findById from '../findById';
 
 
 
-const testID = 'TestNode';
+const testID = 'FindByIDTest';
 
 
 
-describe('"findById"', () => {
+describe('"findById" >', () => {
   before(() => helpers.html(`
     <div id="${testID}"></div>
     <div id="Duplicate" class="first"></div>
@@ -40,7 +40,7 @@ describe('"findById"', () => {
     expect(findById(99)).to.equal(null);
   });
 
-  describe('- Multi result', () => {
+  describe('Multi result >', () => {
     it('Should find DOM elements with a given ID from a list', () => {
       const nodes = findById([testID, 'Duplicate']);
       expect(nodes)

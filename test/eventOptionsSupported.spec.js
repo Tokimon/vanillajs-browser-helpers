@@ -4,7 +4,7 @@ import eventOptionsSupported from '../eventOptionsSupported';
 
 
 
-describe('"eventOptionsSupported"', () => {
+describe('"eventOptionsSupported" >', () => {
   it('Should memoize the result', () => {
     const spy = sinon.spy();
     const stub = sinon.stub(window, 'addEventListener').callsFake(spy);

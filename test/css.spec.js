@@ -4,16 +4,19 @@ import css from '../css';
 
 
 
-const testID = 'TestNode';
+const testID = 'CSSTest';
 
 
 
-describe('"css"', () => {
+describe('"css" >', () => {
   let testNode;
 
   before(() => {
     helpers.html(`
-      <style id="style">#${testID} { overflow: hidden; font-size: 15px; } #${testID}:after { content: 'after'; }</style>
+      <style id="style">
+        #${testID} { overflow: hidden; font-size: 15px; }
+        #${testID}:after { content: 'after'; }
+      </style>
       <div id="${testID}"></div>
     `);
 
@@ -29,7 +32,6 @@ describe('"css"', () => {
 
   it('Should read the current style of a DOM element', () => {
     const styling = css(testNode);
-    expect(styling).to.not.equal(null);
     expect(styling.overflow).to.equal('hidden');
   });
 
@@ -43,10 +45,28 @@ describe('"css"', () => {
     expect(css(testNode, 'not-a-css-prop')).to.equal(null);
   });
 
-  it('Should change the styling of a DOM element', () => {
-    const newstyling = css(testNode, { height: '45px' });
-    expect(newstyling).to.not.equal(null);
-    expect(newstyling.height).to.equal('45px');
+  it('Should add style property on a DOM element', () => {
+    css(testNode, { height: '45px' });
+    expect(testNode.style.height).to.equal('45px');
+  });
+
+  it('Should add `px` to property number values', () => {
+    css(testNode, { height: 45 });
+    expect(testNode.style.height).to.equal('45px');
+  });
+
+  it('Should remove non string property values', () => {
+    css(testNode, { height: { size: 20 }, opacity: true });
+    expect(testNode.style.cssText).to.equal('');
+  });
+
+  it('Should remove falsy property values', () => {
+    testNode.style.height = '15px';
+    testNode.style.lineHeight = '15px';
+    testNode.style.opacity = '0.5';
+
+    css(testNode, { height: null, lineHeight: '', opacity: false });
+    expect(testNode.style.cssText).to.equal('');
   });
 
   it('Should change the styling before returning the style', () => {
@@ -56,10 +76,9 @@ describe('"css"', () => {
   });
 
   it('Should accept dashed and camelCase property names', () => {
-    const newstyling = css(testNode, { 'line-height': '20px', fontSize: '20px' });
-    expect(newstyling).to.not.equal(null);
-    expect(newstyling.lineHeight).to.equal('20px');
-    expect(newstyling.fontSize).to.equal('20px');
+    css(testNode, { 'line-height': '20px', fontSize: '20px' });
+    expect(testNode.style.lineHeight).to.equal('20px');
+    expect(testNode.style.fontSize).to.equal('20px');
   });
 
   it('Should return null on non DOM elements', () => {

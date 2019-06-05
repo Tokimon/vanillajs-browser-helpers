@@ -4,11 +4,11 @@ import siblings, { prev, next } from '../siblings';
 
 
 
-const testID = 'SiblingsTestNode';
+const testID = 'SiblingsTest';
 
 
 
-describe('"siblings package"', () => {
+describe('"siblings package" >', () => {
   before(() => helpers.html(
     `<div id="${testID}">
       <span id="FirstChild">
@@ -23,7 +23,7 @@ describe('"siblings package"', () => {
 
   after(() => helpers.remove(testID));
 
-  describe('"siblings"', () => {
+  describe('"siblings" >', () => {
     it('Should return empty array on non child element values and only childs', () => {
       expect(siblings(null)).to.be.an('array').and.to.have.length(0);
       expect(siblings([])).to.be.an('array').and.to.have.length(0);
@@ -37,7 +37,7 @@ describe('"siblings package"', () => {
     });
   });
 
-  describe('"prev"', () => {
+  describe('"prev" >', () => {
     it('Should return null for non child element values and only childs', () => {
       expect(prev(null)).to.equal(null);
       expect(prev([])).to.equal(null);
@@ -55,7 +55,7 @@ describe('"siblings package"', () => {
     });
   });
 
-  describe('"next"', () => {
+  describe('"next" >', () => {
     it('Should return null for non child element values and only childs', () => {
       expect(next(null)).to.equal(null);
       expect(next([])).to.equal(null);

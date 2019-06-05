@@ -4,7 +4,7 @@ import selectorToHTML from '../selectorToHTML';
 
 
 
-describe('"selectorToHTML"', () => {
+describe('"selectorToHTML" >', () => {
   it('Should default to a DIV element when no or non string element is given', () => {
     expect(selectorToHTML('')).to.equal('<div></div>');
     expect(selectorToHTML(123)).to.equal('<div></div>');
@@ -33,7 +33,7 @@ describe('"selectorToHTML"', () => {
     expect(selectorToHTML('.some-class.some_class')).to.equal('<div class="some-class some_class"></div>');
   });
 
-  describe('Should generate HTML element with given attributes', () => {
+  describe('Should generate HTML element with given attributes >', () => {
     it('Supports with or without quotes (single and double)', () => {
       expect(selectorToHTML('[class=class]')).to.equal('<div class="class"></div>');
       expect(selectorToHTML('[class="class"]')).to.equal('<div class="class"></div>');
@@ -88,5 +88,7 @@ describe('"selectorToHTML"', () => {
     expect(selectorToHTML('span#id.class[data-attr="value"]')).to.match(/^<span( data-attr="value"| id="id"| class="class"){3}/);
   });
 
-  it('Should should ignore illegal selectors');
+  it.skip('Should should ignore illegal selectors', () => {
+    throw new Error('Not implemented');
+  });
 });

@@ -2,149 +2,147 @@ import { expect, describe, it, before, beforeEach, after, sinon } from './assets
 
 import find from '../find';
 
-describe('"Find" package', () => {
-  // let classSpy, idSpy, querySpy, tagnameSpy, sandbox;
 
-  describe('"find"', () => {
-    describe('With only selector defined', () => {
-      it('Uses `getElementsByTagName` when selector is a tag name ', () => {
-        const tagnameSpy = sinon.spy(document, 'getElementsByTagName');
 
-        find('div');
-        expect(tagnameSpy).to.be.calledOnceWith('div');
+describe('"Find" >', () => {
+  describe('With only selector defined >', () => {
+    it('Uses `getElementsByTagName` when selector is a tag name ', () => {
+      const tagnameSpy = sinon.spy(document, 'getElementsByTagName');
 
-        tagnameSpy.restore();
+      find('div');
+      expect(tagnameSpy).to.be.calledOnceWith('div');
+
+      tagnameSpy.restore();
+    });
+
+    it('Uses `getElementById` when selecor is an ID', () => {
+      const idSpy = sinon.spy(document, 'getElementById');
+
+      find('#MyId');
+      expect(idSpy).to.be.calledOnceWith('MyId');
+
+      idSpy.restore();
+    });
+
+    describe('Uses `getElementsByClassName` when selector is: >', () => {
+      let classSpy;
+
+      before(() => {
+        classSpy = sinon.spy(document, 'getElementsByClassName');
       });
 
-      it('Uses `getElementById` when selecor is an ID', () => {
-        const idSpy = sinon.spy(document, 'getElementById');
+      beforeEach(() => classSpy.resetHistory());
+      after(() => classSpy.restore());
 
-        find('#MyId');
-        expect(idSpy).to.be.calledOnceWith('MyId');
-
-        idSpy.restore();
+      it('Single class selector', () => {
+        find('.item');
+        expect(classSpy).to.be.calledOnceWith('item');
       });
 
-      describe('Uses `getElementsByClassName` when selector is:', () => {
-        let classSpy;
-
-        before(() => {
-          classSpy = sinon.spy(document, 'getElementsByClassName');
-        });
-
-        beforeEach(() => classSpy.resetHistory());
-        after(() => classSpy.restore());
-
-        it('Single class selector', () => {
-          find('.item');
-          expect(classSpy).to.be.calledOnceWith('item');
-        });
-
-        it('Multi class selector', () => {
-          find('.item.first');
-          expect(classSpy).to.be.calledOnceWith('item first');
-        });
-      });
-
-      describe('Uses `querySelectorAll` when selector:', () => {
-        let querySpy;
-
-        const testQuery = (query) => {
-          find(query);
-          expect(querySpy).to.be.calledOnceWith(query);
-          querySpy.resetHistory();
-        };
-
-        before(() => {
-          querySpy = sinon.spy(document, 'querySelectorAll');
-        });
-
-        after(() => querySpy.restore());
-
-        it('Contains ` ` (space)', () => testQuery('div p'));
-        it('Contains `>` (child selector)', () => testQuery('div > p'));
-        it('Contains `+` (next sibling selector)', () => testQuery('div + p'));
-        it('Contains `~` (all next sibling selector)', () => testQuery('div ~ p'));
-        it('Contains `:` (pseudo selector)', () => testQuery('div:first-child'));
-        it('Contains `[` (attribute selector)', () => testQuery('div[name="test"]'));
-        it('Contains `,` (multiple selectors)', () => testQuery('div, p'));
-        it('Mixed selector', () => {
-          testQuery('#MyId.item');
-          testQuery('div.item');
-          testQuery('.item#MyId');
-        });
+      it('Multi class selector', () => {
+        find('.item.first');
+        expect(classSpy).to.be.calledOnceWith('item first');
       });
     });
 
-    describe('With element and selector defined', () => {
-      const { body } = document;
+    describe('Uses `querySelectorAll` when selector: >', () => {
+      let querySpy;
 
-      it('Uses `getElementsByTagName` when selector is a tag name ', () => {
-        const tagnameSpy = sinon.spy(body, 'getElementsByTagName');
+      const testQuery = (query) => {
+        find(query);
+        expect(querySpy).to.be.calledOnceWith(query);
+        querySpy.resetHistory();
+      };
 
-        find(body, 'div');
-        expect(tagnameSpy).to.be.calledOnceWith('div');
-
-        tagnameSpy.restore();
+      before(() => {
+        querySpy = sinon.spy(document, 'querySelectorAll');
       });
 
-      it('Uses `getElementById` when selecor is an ID (does not use element)', () => {
-        const idSpy = sinon.spy(document, 'getElementById');
+      after(() => querySpy.restore());
 
-        find(body, '#MyId');
-        expect(idSpy).to.be.calledOnceWith('MyId');
+      it('Contains ` ` (space)', () => testQuery('div p'));
+      it('Contains `>` (child selector)', () => testQuery('div > p'));
+      it('Contains `+` (next sibling selector)', () => testQuery('div + p'));
+      it('Contains `~` (all next sibling selector)', () => testQuery('div ~ p'));
+      it('Contains `:` (pseudo selector)', () => testQuery('div:first-child'));
+      it('Contains `[` (attribute selector)', () => testQuery('div[name="test"]'));
+      it('Contains `,` (multiple selectors)', () => testQuery('div, p'));
+      it('Mixed selector', () => {
+        testQuery('#MyId.item');
+        testQuery('div.item');
+        testQuery('.item#MyId');
+      });
+    });
+  });
 
-        idSpy.restore();
+  describe('With element and selector defined >', () => {
+    const { body } = document;
+
+    it('Uses `getElementsByTagName` when selector is a tag name ', () => {
+      const tagnameSpy = sinon.spy(body, 'getElementsByTagName');
+
+      find(body, 'div');
+      expect(tagnameSpy).to.be.calledOnceWith('div');
+
+      tagnameSpy.restore();
+    });
+
+    it('Uses `getElementById` when selecor is an ID (does not use element)', () => {
+      const idSpy = sinon.spy(document, 'getElementById');
+
+      find(body, '#MyId');
+      expect(idSpy).to.be.calledOnceWith('MyId');
+
+      idSpy.restore();
+    });
+
+    describe('Uses `getElementsByClassName` when selector is: >', () => {
+      let classSpy;
+
+      before(() => {
+        classSpy = sinon.spy(body, 'getElementsByClassName');
       });
 
-      describe('Uses `getElementsByClassName` when selector is:', () => {
-        let classSpy;
+      beforeEach(() => classSpy.resetHistory());
+      after(() => classSpy.restore());
 
-        before(() => {
-          classSpy = sinon.spy(body, 'getElementsByClassName');
-        });
-
-        beforeEach(() => classSpy.resetHistory());
-        after(() => classSpy.restore());
-
-        it('Single class selector', () => {
-          find(body, '.item');
-          expect(classSpy).to.be.calledOnceWith('item');
-        });
-
-        it('Multi class selector', () => {
-          find(body, '.item.first');
-          expect(classSpy).to.be.calledOnceWith('item first');
-        });
+      it('Single class selector', () => {
+        find(body, '.item');
+        expect(classSpy).to.be.calledOnceWith('item');
       });
 
-      describe('Uses `querySelectorAll` when selector:', () => {
-        let querySpy;
+      it('Multi class selector', () => {
+        find(body, '.item.first');
+        expect(classSpy).to.be.calledOnceWith('item first');
+      });
+    });
 
-        const testQuery = (query) => {
-          find(body, query);
-          expect(querySpy).to.be.calledOnceWith(query);
-          querySpy.resetHistory();
-        };
+    describe('Uses `querySelectorAll` when selector: >', () => {
+      let querySpy;
 
-        before(() => {
-          querySpy = sinon.spy(body, 'querySelectorAll');
-        });
+      const testQuery = (query) => {
+        find(body, query);
+        expect(querySpy).to.be.calledOnceWith(query);
+        querySpy.resetHistory();
+      };
 
-        after(() => querySpy.restore());
+      before(() => {
+        querySpy = sinon.spy(body, 'querySelectorAll');
+      });
 
-        it('Contains ` ` (space)', () => testQuery('div p'));
-        it('Contains `>` (child selector)', () => testQuery('div > p'));
-        it('Contains `+` (next sibling selector)', () => testQuery('div + p'));
-        it('Contains `~` (all next sibling selector)', () => testQuery('div ~ p'));
-        it('Contains `:` (pseudo selector)', () => testQuery('div:first-child'));
-        it('Contains `[` (attribute selector)', () => testQuery('div[name="test"]'));
-        it('Contains `,` (multiple selectors)', () => testQuery('div, p'));
-        it('Mixed selector', () => {
-          testQuery('#MyId.item');
-          testQuery('div.item');
-          testQuery('.item#MyId');
-        });
+      after(() => querySpy.restore());
+
+      it('Contains ` ` (space)', () => testQuery('div p'));
+      it('Contains `>` (child selector)', () => testQuery('div > p'));
+      it('Contains `+` (next sibling selector)', () => testQuery('div + p'));
+      it('Contains `~` (all next sibling selector)', () => testQuery('div ~ p'));
+      it('Contains `:` (pseudo selector)', () => testQuery('div:first-child'));
+      it('Contains `[` (attribute selector)', () => testQuery('div[name="test"]'));
+      it('Contains `,` (multiple selectors)', () => testQuery('div, p'));
+      it('Mixed selector', () => {
+        testQuery('#MyId.item');
+        testQuery('div.item');
+        testQuery('.item#MyId');
       });
     });
   });

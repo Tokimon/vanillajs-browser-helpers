@@ -4,7 +4,7 @@ import isWindow from '../isWindow';
 
 
 
-describe('"isWindow"', () => {
+describe('"isWindow" >', () => {
   it('Should return true for window elements', () => {
     expect(isWindow(window)).to.equal(true);
 

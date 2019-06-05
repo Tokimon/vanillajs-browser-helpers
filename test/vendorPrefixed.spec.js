@@ -14,7 +14,7 @@ function expectArrayInput(arr, input) {
 
 
 
-describe('"vendorPrefixed"', () => {
+describe('"vendorPrefixed" >', () => {
   it('Should prefix a word with vendor prefixes', () => {
     expectArrayInput(vendorPrefixed('vendorPrefixed'), 'VendorPrefixed');
   });
@@ -26,6 +26,6 @@ describe('"vendorPrefixed"', () => {
   it('Should always return array with prefixes', () => {
     expectArrayInput(vendorPrefixed(9), '9');
     expectArrayInput(vendorPrefixed(null), 'Null');
-    expectArrayInput(vendorPrefixed(), '');
+    expectArrayInput(vendorPrefixed(), 'Undefined');
   });
 });

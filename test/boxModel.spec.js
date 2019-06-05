@@ -6,12 +6,12 @@ import boxModel from '../boxModel';
 
 
 
-const testID = 'Test_' + Date.now();
-const styleID = 'Style_' + Date.now();
+const testID = 'BoxModelTest_' + Date.now();
+const styleID = 'BoxModelStyle_' + Date.now();
 
 
 
-describe('"boxModel"', () => {
+describe('"boxModel" >', () => {
   let testNode;
 
   before(() => {

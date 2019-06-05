@@ -4,7 +4,7 @@ import isDOMRoot from '../isDOMRoot';
 
 
 
-describe('"isDOMRoot"', () => {
+describe('"isDOMRoot" >', () => {
   it('Should only return true for the `documentElement`', () => {
     const iframe = helpers.create('iframe');
     iframe.src = 'about:blank';

@@ -4,11 +4,11 @@ import hasClass, { hasAnyClass } from '../hasClass';
 
 
 
-const testID = 'TestNode';
+const testID = 'HasClassTest';
 
 
 
-describe('"hasClass" package', () => {
+describe('"hasClass" >', () => {
   let testNode;
 
   before(() => {
@@ -20,7 +20,7 @@ describe('"hasClass" package', () => {
 
   after(() => helpers.remove(testID));
 
-  describe('"hasClass"', () => {
+  describe('"hasClass" >', () => {
     it('Should detect if a DOM element has a given class name', () => {
       expect(hasClass(testNode, 'class1')).to.equal(true);
       expect(hasClass(testNode, 'class3')).to.equal(false);
@@ -38,7 +38,7 @@ describe('"hasClass" package', () => {
       expect(hasClass()).to.equal(false);
     });
 
-    describe('- class names as Array', () => {
+    describe('class names as Array >', () => {
       it('Should detect if a DOM element all of the given class names', () => {
         expect(hasClass(testNode, ['class1', 'class2'])).to.equal(true);
         expect(hasClass(testNode, ['class1', 'class3'])).to.equal(false);
@@ -53,7 +53,7 @@ describe('"hasClass" package', () => {
     });
   });
 
-  describe('"hasAnyClass"', () => {
+  describe('"hasAnyClass" >', () => {
     it('Should detect if a DOM element has a given class name', () => {
       expect(hasAnyClass(testNode, 'class1')).to.equal(true);
       expect(hasAnyClass(testNode, 'class3')).to.equal(false);
@@ -71,7 +71,7 @@ describe('"hasClass" package', () => {
       expect(hasClass()).to.equal(false);
     });
 
-    describe('- class names as Array', () => {
+    describe('class names as Array >', () => {
       it('Should detect if a DOM element any of the given class names', () => {
         expect(hasAnyClass(testNode, ['class1', 'class2'], true)).to.equal(true);
         expect(hasAnyClass(testNode, ['class1', 'class3'], true)).to.equal(true);

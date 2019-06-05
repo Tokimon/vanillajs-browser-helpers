@@ -4,11 +4,11 @@ import findByTagName from '../findByTagName';
 
 
 
-const testID = 'tagNameTest';
+const testID = 'FindByTagNameTest';
 
 
 
-describe('"findByTagName"', () => {
+describe('"findByTagName" >', () => {
   before(() => helpers.html(`
     <div id="${testID}">
       <div></div>
@@ -46,7 +46,7 @@ describe('"findByTagName"', () => {
       .and.to.have.length(0);
   });
 
-  describe('- With multiple queries', () => {
+  describe('With multiple queries >', () => {
     it('Should find a unique DOM element collection from a list of tag names', () => {
       const nodes = findByTagName(['div', 'span']);
       expect(nodes)
@@ -66,7 +66,7 @@ describe('"findByTagName"', () => {
     });
   });
 
-  describe('- With defined context', () => {
+  describe('With defined context >', () => {
     it('Should find DOM elements matching given tag name from a given DOM element context', () => {
       const nodes = findByTagName(helpers.id(testID), 'div');
       expect(nodes)

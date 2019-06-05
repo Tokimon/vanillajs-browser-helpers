@@ -4,7 +4,7 @@ import isEventTarget from '../isEventTarget';
 
 
 
-describe('"isDOMChildNode"', () => {
+describe('"isDOMChildNode" >', () => {
   it('Should return false for non objects', () => {
     expect(isEventTarget()).to.equal(false, 'Undefined');
     expect(isEventTarget(null)).to.equal(false, 'Null');

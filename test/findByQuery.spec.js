@@ -4,7 +4,7 @@ import findByQuery from '../findByQuery';
 
 
 
-describe('"findByQuery"', () => {
+describe('"findByQuery" >', () => {
   before(() => helpers.html(`
     <div id='Item1' class="item"></div>
     <div id='Item2' class="item second">
@@ -15,7 +15,7 @@ describe('"findByQuery"', () => {
 
   after(() => ['Item1', 'Item2'].forEach((id) => helpers.remove(id)));
 
-  describe('- find ALL', () => {
+  describe('find ALL >', () => {
     it('Should always return an Array', () => {
       expect(findByQuery()).to.be.an('array');
       expect(findByQuery(null)).to.be.an('array');
@@ -61,7 +61,7 @@ describe('"findByQuery"', () => {
       expect(() => findByQuery(':badquery')).to.throw(Error);
     });
 
-    describe('- With multiple queries', () => {
+    describe('With multiple queries >', () => {
       it('Should find a unique DOM element collection from a list of CSS seletors', () => {
         const nodes = findByQuery(['.item', '.item.child']);
         expect(nodes)
@@ -72,7 +72,7 @@ describe('"findByQuery"', () => {
       });
     });
 
-    describe('- With defined elm', () => {
+    describe('With defined elm >', () => {
       it('Should find DOM elements starting from the given elm', () => {
         const nodes = findByQuery(helpers.id('Item2'), ['.item.child', '.second-child']);
         expect(nodes)
@@ -91,7 +91,7 @@ describe('"findByQuery"', () => {
     });
   });
 
-  describe('- find FIRST', () => {
+  describe('find FIRST >', () => {
     it('Should find DOM elements from a given CSS selector', () => {
       let node = findByQuery('#Item2.item', true);
       expect(node).to.not.equal(null);
@@ -110,7 +110,7 @@ describe('"findByQuery"', () => {
       expect(() => findByQuery(':badquery', true)).to.throw(Error);
     });
 
-    describe('- With multiple queries', () => {
+    describe('With multiple queries >', () => {
       it('Should find a unique DOM element collection from a list of CSS seletors', () => {
         let node = findByQuery('.item, .item.child', true);
         expect(node).to.not.equal(null);
@@ -122,7 +122,7 @@ describe('"findByQuery"', () => {
       });
     });
 
-    describe('- With defined elm', () => {
+    describe('With defined elm >', () => {
       it('Should find DOM elements starting from the given elm', () => {
         const node = findByQuery(['.item.child', '.second-child'], helpers.id('Item2'), true);
         expect(node).to.not.equal(null);

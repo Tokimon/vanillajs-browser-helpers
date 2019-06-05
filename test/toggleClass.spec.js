@@ -4,11 +4,11 @@ import toggleClass from '../toggleClass';
 
 
 
-const testID = 'TestNode';
+const testID = 'ToggleClassTest';
 
 
 
-describe('"toggleClass"', () => {
+describe('"toggleClass" >', () => {
   let testNode;
 
   before(() => {
@@ -58,7 +58,7 @@ describe('"toggleClass"', () => {
     expect(toggleClass(div)).to.equal(div);
   });
 
-  describe('- class names as Array', () => {
+  describe('class names as Array >', () => {
     it('Should toggle given class names on a DOM element', () => {
       testNode.className = 'toggled';
 

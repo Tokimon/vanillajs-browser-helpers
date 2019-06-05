@@ -9,7 +9,7 @@ const insertHTML = '<div class="inserted"></div>';
 
 
 
-describe('"append"', () => {
+describe('"append" >', () => {
   let testNode;
 
   before(() => {

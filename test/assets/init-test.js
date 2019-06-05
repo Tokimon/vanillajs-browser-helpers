@@ -1,5 +1,3 @@
-/* global  describe, it, before, beforeEach, after, afterEach */
-
 import { expect, use } from 'chai';
 import chaiDom from 'chai-dom';
 import sinonChai from 'sinon-chai';
@@ -40,7 +38,7 @@ export const helpers = {
 
   query(query, elm) { return (elm || document).querySelectorAll(query); },
 
-  remove(id, elm) { try { (elm || document.body).removeChild(id); } catch (ex) { /* Fail silently */ } },
+  remove(id, elm) { try { (elm || document.body).removeChild(document.getElementById(id)); } catch (ex) { /* Fail silently */ } },
 
   create(tagName) { return document.createElement(tagName); },
 

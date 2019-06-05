@@ -4,7 +4,7 @@ import once from '../once';
 
 
 
-describe('"once" package', () => {
+describe('"once" package >', () => {
   describe('Binding the event >', () => {
     beforeEach(() => sinon.spy(document, 'addEventListener'));
     afterEach(() => document.addEventListener.restore());

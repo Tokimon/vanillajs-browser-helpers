@@ -4,7 +4,7 @@ import findByClass from '../findByClass';
 
 
 
-describe('"findByClass"', () => {
+describe('"findByClass" >', () => {
   before(() => helpers.html(`
     <div id='Item1' class="item"></div>
     <div id='Item2' class="item second">
@@ -50,7 +50,7 @@ describe('"findByClass"', () => {
       .and.to.have.length(0);
   });
 
-  describe('- With multiple queries', () => {
+  describe('With multiple queries >', () => {
     it('Should find a unique DOM element collection from a list of classnames', () => {
       const nodes = findByClass(['item', 'item child']);
       expect(nodes)
@@ -70,7 +70,7 @@ describe('"findByClass"', () => {
     });
   });
 
-  describe('- With defined elm', () => {
+  describe('With defined elm >', () => {
     it('Should find DOM elements matching given classnames from a given DOM element elm', () => {
       const nodes = findByClass(helpers.id('Item2'), ['item child', 'second-child']);
       expect(nodes)

@@ -4,11 +4,11 @@ import children from '../children';
 
 
 
-const testID = 'TestNode';
+const testID = 'ChildrenTest';
 
 
 
-describe('"children"', () => {
+describe('"children" >', () => {
   before(() => helpers.html(`
     <div id="${testID}">
       <span><b></b></span>

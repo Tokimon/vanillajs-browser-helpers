@@ -6,7 +6,7 @@ import removeNode from '../removeNode';
 
 
 
-const testID = 'testNode';
+const testID = 'RemoveNodeTest';
 
 const appendTestNode = () => {
   removeTestNode();
@@ -18,7 +18,7 @@ const removeTestNode = () => helpers.remove('testNode');
 
 
 
-describe('"removeNode"', () => {
+describe('"removeNode" >', () => {
   after(removeTestNode);
 
   it('Should ignore non DOM child elements', () => {

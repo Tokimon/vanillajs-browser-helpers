@@ -4,7 +4,7 @@ import isBlob from '../isBlob';
 
 
 
-describe('"isBlob"', () => {
+describe('"isBlob" >', () => {
   it('Should return true for Blob objects', () => {
     expect(isBlob(new Blob())).to.equal(true);
   });

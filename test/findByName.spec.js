@@ -4,11 +4,11 @@ import findByName from '../findByName';
 
 
 
-const testID = 'TestNode';
+const testID = 'FindByNameTest';
 
 
 
-describe('"findByName"', () => {
+describe('"findByName" >', () => {
   before(() => helpers.html(`
     <form id="${testID}">
       <meta name="meta">
@@ -56,7 +56,7 @@ describe('"findByName"', () => {
       .and.to.have.length(0);
   });
 
-  describe('- Multi result', () => {
+  describe('Multi result >', () => {
     it('Should find DOM elements with a name attribute from a list', () => {
       const nodes = findByName(['meta', 'inputs']);
       expect(nodes)
