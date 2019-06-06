@@ -2,17 +2,11 @@ const { resolve, basename } = require('path');
 const glob = require('globby');
 
 module.exports = (env) => {
-  const entry = glob.sync('./*.js')
+  const entry = glob.sync('./!(webpack|karma)*.js')
     .reduce((map, file) => {
-      if (!/(webpack|karma)/.test(file)) {
-        const fileName = basename(file, '.js');
-        map[fileName] = './' + file;
-      }
-
+      map[basename(file, '.js')] = './' + file;
       return map;
     }, {});
-
-  console.log({entry});
 
   const conf = {
     entry,
@@ -39,8 +33,6 @@ module.exports = (env) => {
       ]
     }
   };
-
-  // console.log({conf});
 
   return conf;
 };
