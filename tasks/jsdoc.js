@@ -2,7 +2,7 @@
 
 const nPath = require('path');
 const cp = require('child_process');
-const fs = require('fs-promise');
+const fs = require('fs-extra');
 const glob = require('globby');
 
 fs.remove(nPath.resolve('jsdoc'))
