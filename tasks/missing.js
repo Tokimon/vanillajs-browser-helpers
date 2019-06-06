@@ -1,19 +1,14 @@
 /* eslint-disable no-console */
 
 const path = require('path');
-const glob = require('glob-promise');
+const glob = require('globby');
 
-const files = glob('./!(karma)*.js')
-  .then(
-    (files) => files
-      .filter((f) => !/webpack\.\w+\.config\.js/.test(f))
-      .map((f) => path.basename(f, '.js'))
-  );
+const getBasename = (ext) => (files) => files.map((f) => path.basename(f, ext));
 
-const tests = glob('./test/*.spec.js')
-  .then((files) => files.map((f) => path.basename(f, '.spec.js')));
+const files = glob('./!(karma|webpack)*.js').then(getBasename('.js'));
+const tests = glob('./test/*.spec.js').then(getBasename('.spec.js'));
 
 Promise.all([files, tests])
   .then((res) => res[0].filter((f) => res[1].indexOf(f) === -1))
-  .then((files) => files.length ? files.forEach((f) => console.log(f)) : console.log('No files'))
+  .then((files) => files.length ? files.forEach((f) => console.log(f)) : console.log('No files is missing a test file'))
   .catch((err) => console.error(err));
