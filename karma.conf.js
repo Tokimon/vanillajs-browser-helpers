@@ -48,7 +48,6 @@ module.exports = function(config) {
     plugins: [
       'karma-mocha',
       'karma-mocha-reporter',
-      'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-coverage-istanbul-reporter'
     ],
@@ -63,7 +62,7 @@ module.exports = function(config) {
     colors: true,
     logLevel: config.LOG_INFO,
 
-    browsers: ['ChromeHeadless', 'FirefoxHeadless'],
+    browsers: ['FirefoxHeadless'],
 
     coverageIstanbulReporter: {
       reports: ['text', 'text-summary', 'lcovonly'],

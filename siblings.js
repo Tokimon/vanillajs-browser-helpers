@@ -10,7 +10,7 @@ import children from './children';
  * @return {HTMLElement[]} Collection of sibling elements
  */
 export default function siblings(elm) {
-  if(!isDOMChildNode(elm)) { return []; }
+  if (!isDOMChildNode(elm)) { return []; }
   return children(elm.parentNode).filter((child) => child !== elm);
 }
 
@@ -32,7 +32,7 @@ export function next(elm) {
  * Get the previous sibling element of a DOM element
  * @function prev
  * @param {HTMLElement} elm - The HTMLElement to find the sibling of
- * @return {[type]} The previous sibling element or null
+ * @return {HTMLElement|null} The previous sibling element
  */
 export function prev(elm) {
   return isDOMChildNode(elm) ? elm.previousElementSibling : null;

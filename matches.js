@@ -18,7 +18,7 @@ const _match = Element.matches ||
  * Determines whether or not a DOM element matches a given CSS query selector
  *
  * @function matches
- * @param {DOM element} elm - DOM element to test
+ * @param {HTMLElement} elm - DOM element to test
  * @param {String} selector - CSS selector {elm} should match
  * @return {Boolean} Whether or not {elm} matched the selector
  */
