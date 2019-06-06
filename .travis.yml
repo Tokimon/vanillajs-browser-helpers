@@ -7,12 +7,7 @@ install:
 env:
   - MOZ_HEADLESS=1
 addons:
-  chrome: stable
   firefox: latest
-before_script:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 2
 script:
   - npm run build:spec
   - npm test -- -sc
