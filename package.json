@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "prepublishOnly": "npm run build",
-    "test": "karma start",
+    "test": "node ./tasks/karma.js",
     "build": "webpack --config ./webpack/webpack.es5.config.js",
     "jsdoc": "node ./tasks/jsdoc.js",
     "missing": "node ./tasks/missing.js",
