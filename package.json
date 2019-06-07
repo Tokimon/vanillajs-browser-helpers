@@ -7,9 +7,9 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "test": "karma start",
-    "build": "webpack --config webpack.es5.config.js",
-    "build:spec": "webpack --config webpack.spec.config.js",
+    "build": "webpack --config ./webpack/webpack.es5.config.js",
     "jsdoc": "node ./tasks/jsdoc.js",
+    "missing": "node ./tasks/missing.js",
     "coveralls": "cat ./coverage/lcov/lcov.info | node node_modules/.bin/coveralls",
     "coveralls:win": "type ./coverage/lcov/lcov.info | node node_modules/.bin/coveralls"
   },

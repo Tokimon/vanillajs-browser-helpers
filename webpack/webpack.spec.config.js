@@ -1,7 +1,17 @@
-const { resolve } = require('path');
+const { basename, resolve } = require('path');
+const glob = require('globby');
 
-module.exports = (include) => {
+module.exports = (files) => {
+  const { entry, include } = glob.sync(`./test/${files}.spec.js`)
+    .reduce((map, file) => {
+      const name = basename(file, '.spec.js');
+      map.entry[name] = file;
+      map.include.push(`**/${name}.js`);
+      return map;
+    }, { entry: {}, include: [] });
+
   return {
+    entry,
     mode: 'development',
     stats: 'errors-only',
     output: {

@@ -9,6 +9,5 @@ env:
 addons:
   firefox: latest
 script:
-  - npm run build:spec
-  - npm test -- -sc
+  - npm test
 after_success: npm run coveralls
