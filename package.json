@@ -6,10 +6,10 @@
   "license": "MIT",
   "scripts": {
     "prepublishOnly": "npm run build",
-    "test": "karma start",
-    "build": "webpack --config webpack.es5.config.js",
-    "build:spec": "webpack --config webpack.spec.config.js",
+    "test": "node ./tasks/karma.js",
+    "build": "webpack --config ./webpack/webpack.es5.config.js",
     "jsdoc": "node ./tasks/jsdoc.js",
+    "missing": "node ./tasks/missing.js",
     "coveralls": "cat ./coverage/lcov/lcov.info | node node_modules/.bin/coveralls",
     "coveralls:win": "type ./coverage/lcov/lcov.info | node node_modules/.bin/coveralls"
   },
@@ -43,6 +43,7 @@
     "coveralls": "^3.0.4",
     "fs-extra": "^8.0.1",
     "globby": "^9.2.0",
+    "it-each": "^0.4.0",
     "jsdoc": "^3.6.2",
     "karma": "^4.1.0",
     "karma-chai": "^0.1.0",

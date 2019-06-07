@@ -3,6 +3,7 @@ import chaiDom from 'chai-dom';
 import sinonChai from 'sinon-chai';
 import chaiArrays from 'chai-arrays';
 import sinon from 'sinon';
+import itEach from 'it-each';
 
 
 // --- Chai setup ---
@@ -12,6 +13,7 @@ use(chaiArrays);
 export { expect };
 
 // --- Mocha exports ---
+itEach();
 const { describe, it, before, beforeEach, after, afterEach } = window;
 export { describe, it, before, beforeEach, after, afterEach };
 
