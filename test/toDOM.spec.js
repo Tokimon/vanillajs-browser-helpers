@@ -20,6 +20,7 @@ describe('"toDOM" >', () => {
       '<frameset />'
     ],
     '%s should be returned as is',
+    ['element'],
     (val) => { expect(toDOM(val)).to.equal(val); }
   );
 
@@ -128,6 +129,7 @@ describe('"toDOM" >', () => {
       '<wbr />'
     ],
     'Tag "%s" should be converted to a dom element',
+    ['element'],
     (tag) => {
       const tagName = tag.slice(1, tag.length - 3).toUpperCase();
       expect(toDOM(tag)[0].tagName).to.equal(tagName);
