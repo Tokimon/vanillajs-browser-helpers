@@ -40,7 +40,10 @@ export const helpers = {
 
   query(query, elm) { return (elm || document).querySelectorAll(query); },
 
-  remove(id, elm) { try { (elm || document.body).removeChild(document.getElementById(id)); } catch (ex) { /* Fail silently */ } },
+  remove(id, elm) {
+    const child = id instanceof Element ? id : document.getElementById(id);
+    child && (elm || document.body).removeChild(child);
+  },
 
   create(tagName) { return document.createElement(tagName); },
 
