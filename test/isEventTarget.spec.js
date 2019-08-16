@@ -1,30 +1,43 @@
 import { expect, describe, it } from './assets/init-test';
 
-import isEventTarget from '../isEventTarget';
+import isEventTarget, { eventTargetCheck } from '../isEventTarget';
 
 
 
-describe('"isDOMChildNode" >', () => {
-  it('Should return false for non objects', () => {
-    expect(isEventTarget()).to.equal(false, 'Undefined');
-    expect(isEventTarget(null)).to.equal(false, 'Null');
+class Custom extends EventTarget {}
+
+const tests = (eventTargetCheck) => {
+  it.each(
+    [undefined, null, {}, [], '', 123, true],
+    'Should return "false" for %s',
+    ['element'],
+    (obj) => { expect(eventTargetCheck(obj)).to.equal(false); }
+  );
+
+  it.each(
+    [
+      document.createElement('div'),
+      document.createTextNode('text'),
+      document.createComment('comment'),
+      new XMLHttpRequest(),
+      new Custom()
+    ],
+    'Should return "false" for %s',
+    ['element'],
+    (obj) => { expect(eventTargetCheck(obj)).to.equal(true); }
+  );
+};
+
+describe('"isEventTarget" >', () => {
+  it('Default export is a function', () => {
+    expect(typeof isEventTarget).to.equal('function');
   });
 
-  it('Should return false for invalid event targets', () => {
-    expect(isEventTarget({})).to.equal(false, 'Plain Object');
-    expect(isEventTarget([])).to.equal(false, 'Array');
-    expect(isEventTarget('')).to.equal(false, 'String');
-    expect(isEventTarget(12)).to.equal(false, 'Number');
-    expect(isEventTarget(true)).to.equal(false, 'Boolean');
+  describe('With EventTarget support', () => {
+    tests(eventTargetCheck(true));
   });
 
-  it('Should return true for valid event targets', () => {
-    class Custom extends EventTarget {}
-
-    expect(isEventTarget(document.createElement('div'))).to.equal(true, 'HTML Element');
-    expect(isEventTarget(document.createTextNode('text'))).to.equal(true, 'Text Node');
-    expect(isEventTarget(document.createComment('comment'))).to.equal(true, 'Comment');
-    expect(isEventTarget(new XMLHttpRequest())).to.equal(true, 'XML Http Request');
-    expect(isEventTarget(new Custom())).to.equal(true, 'Custom Event Target');
+  describe('With no EventTarget support', () => {
+    tests(eventTargetCheck(false));
   });
 });
