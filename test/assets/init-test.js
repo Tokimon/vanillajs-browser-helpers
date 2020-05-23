@@ -13,7 +13,7 @@ use(chaiArrays);
 export { expect };
 
 // --- Mocha exports ---
-itEach();
+itEach({ testPerIteration: true });
 const { describe, it, before, beforeEach, after, afterEach } = window;
 export { describe, it, before, beforeEach, after, afterEach };
 

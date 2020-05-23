@@ -28,16 +28,17 @@ export default function on(elm, eventNames, handler, options) {
   }
 
   if (!isEventTarget(elm)) { elm = document; }
-  if (isString(eventNames)) { eventNames = [eventNames]; }
+  if (!isFunction(handler)) { return elm; }
 
-  if (isFunction(handler) && isArray(eventNames)) {
-    if (!eventOptionsSupported()) {
-      options = !!(isObject(options) ? options.capture : options);
-    }
-
-    eventNames.forEach((evt) => isString(evt) && _on(elm, evt, handler, options));
+  if (!eventOptionsSupported()) {
+    options = isObject(options) && !!options.capture;
   }
 
+  if (isString(eventNames)) {
+    _on(elm, eventNames, handler, options);
+  } else if (isArray(eventNames)) {
+    eventNames.forEach((evt) => on(elm, evt, handler, options));
+  }
 
   return elm;
 }
