@@ -6,10 +6,11 @@
   "license": "MIT",
   "scripts": {
     "prepublishOnly": "npm run build",
-    "test": "node ./tasks/karma.js",
-    "build": "webpack --config ./webpack/webpack.es5.config.js",
-    "jsdoc": "node ./tasks/jsdoc.js",
-    "missing": "node ./tasks/missing.js",
+    "postpublish": "npm run clean",
+    "test": "",
+    "build": "./bin/build.sh",
+    "clean": "./bin/clean.sh",
+    "missing": "./bin/missing.sh",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "coveralls:win": "type ./coverage/lcov.info | node node_modules/.bin/coveralls"
   },
