@@ -4,7 +4,7 @@ import isString from 'vanillajs-helpers/isString';
 
 /**
  * Find elements by given CSS selector
- * 
+ *
  * @param queries - CSS selector to find elements by
  * @param first - Return only the first found element
  * @return List of found DOM elements
@@ -16,7 +16,7 @@ import isString from 'vanillajs-helpers/isString';
 
 /**
  * Find elements by given CSS selector from a given element
- * 
+ *
  * @param elm - The DOM element to start the search from
  * @param queries - CSS selector to find elements by
  * @param first - Return only the first found element

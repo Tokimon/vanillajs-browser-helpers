@@ -34,7 +34,7 @@ function off(
  * @param eventNames - Event names to bind the handler to
  * @param handler - Handler to bind to the event
  * @param options - Options to pass to the 'removeEventListener'
- * @return 
+ * @return
  */
 function off(
   eventNames: string | string[],
@@ -57,11 +57,11 @@ function off(
     elm = document;
   }
 
-  const opts: boolean | EventListenerOptions | undefined = 
-    eventOptionsSupported()
+  const opts: boolean | EventListenerOptions | undefined
+    = eventOptionsSupported()
       ? options
       : !!(options && options.capture);
-  
+
   if (!Array.isArray(eventNames)) {
     eventNames = [eventNames as string];
   }
@@ -79,5 +79,4 @@ function off(
 }
 
 export default off;
-
 

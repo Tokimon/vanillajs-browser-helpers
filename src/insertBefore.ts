@@ -6,12 +6,12 @@ import ensureHTML from './ensureHTML';
 
 /**
  * Inserts DOM element or plain HTML before a given DOM element
- * 
+ *
  * @param elm - The DOM element to insert elements before
  * @param insertElm - DOM element or HTML (or selector) to insert
  * @return The inserted element
  */
-export default function insertBefore(elm: Element, insertElm: string | Element) {
+export default function insertBefore(elm: Element, insertElm: string | Element): Element | null {
   if (isString(insertElm)) {
     elm.insertAdjacentHTML('beforebegin', ensureHTML(insertElm));
   } else {

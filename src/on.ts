@@ -57,8 +57,8 @@ function on(
     elm = document;
   }
 
-  const opts: boolean | AddEventListenerOptions | undefined = 
-    eventOptionsSupported()
+  const opts: boolean | AddEventListenerOptions | undefined
+    = eventOptionsSupported()
       ? options
       : !!(options && options.capture);
 

@@ -8,12 +8,12 @@ import inDOM from './inDOM';
  * - Collapsed
  * - display: none
  * - visibility: hidden.
- * 
+ *
  * @param elm - DOM element to test
  * @return Is the element technically hidden or not
  */
-export default function hidden(elm: HTMLElement) {
-  return !inDOM(elm) ||
-    (!elm.offsetHeight && !elm.offsetWidth) ||
-    getComputedStyle(elm).visibility === 'hidden';
+export default function hidden(elm: HTMLElement): boolean {
+  return !inDOM(elm)
+    || (!elm.offsetHeight && !elm.offsetWidth)
+    || getComputedStyle(elm).visibility === 'hidden';
 }

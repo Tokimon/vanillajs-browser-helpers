@@ -4,7 +4,7 @@ const manualInnerXml = (XMLNode: Element) => {
   return Array
     .from(XMLNode.childNodes, (child) => serializer.serializeToString(child))
     .join('');
-}
+};
 
 /**
  * Gets the inner XML structure as a string from a XML element
@@ -12,17 +12,17 @@ const manualInnerXml = (XMLNode: Element) => {
  *
  * @param XMLNode - The XML node to grab the inner XML structure from
  * @return The inner XML structure
- * 
+ *
  * @example
- * 
+ *
  * ```ts
  * // String is already HTML so it is returned as is
  * innerXML(<svg><g><path /></g></svg>);
  * // -> '<g><path /></g>'
  * ```
  */
-export default function innerXML(XMLElement: Element) {
-    return XMLElement.innerHTML !== undefined
-      ? XMLElement.innerHTML
-      : manualInnerXml(XMLElement);
+export default function innerXML(XMLElement: Element): string {
+  return XMLElement.innerHTML !== undefined
+    ? XMLElement.innerHTML
+    : manualInnerXml(XMLElement);
 }

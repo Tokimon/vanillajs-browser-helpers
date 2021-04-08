@@ -13,18 +13,18 @@ interface BoxModelMapping {
 
 
 
-const num = (n: string) => parseInt(n, 10)
+const num = (n: string) => parseInt(n, 10);
 
 
 
 /**
  * Parses the box model numbers of an given Element (margin, padding and border widths)
- * 
+ *
  * @param elm - The element to parse numbers from
  * @returns The mapping of the box model
- * 
+ *
  * @example
- * 
+ *
  * ```ts
  * boxModel(someDiv);
  * ```

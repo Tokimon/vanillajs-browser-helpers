@@ -27,10 +27,10 @@ const addAttribute = (att: string, val: string | undefined, attributes: Attribut
   if (!Array.isArray(currAtt)) {
     currAtt = [currAtt] as string[];
   }
-  
+
   currAtt.push(val as string);
   attributes[att] = currAtt.filter((a) => !!a);
-}
+};
 
 
 const parseAttribute = (selector: string, attributes: AttributeMapping) => {
@@ -45,13 +45,13 @@ const parseAttribute = (selector: string, attributes: AttributeMapping) => {
   return selector.includes('[')
     ? selector.replace(attrExp, replaceFn)
     : selector;
-}
+};
 
 
 
 /**
  * Parses a selector string into a structured object
- * 
+ *
  * @param selector - The CSS selector to parse
  * @return The attribute parsing mapping
  */

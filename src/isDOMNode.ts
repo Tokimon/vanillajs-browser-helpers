@@ -4,7 +4,7 @@
  * @param obj - The object to check
  * @return Is it a DOM node or not
  */
-export default function isDOMNode(obj: any): obj is Element | Text | Comment {
+export default function isDOMNode(obj: unknown): obj is Element | Text | Comment {
   const type = (obj || {}).nodeType;
   return type === Node.ELEMENT_NODE
     || type === Node.TEXT_NODE

@@ -11,7 +11,7 @@ const byCn = (elm: Document | Element) => (cn: string) => elm.getElementsByClass
 /**
  * Finds DOM elements with a given class name.
  * Separate multiple selectors by comma. Separate multiple class names by space.
- * 
+ *
  * @param classNames - Class name(s) to find elements by
  * @return List of found DOM elements
  */
@@ -22,7 +22,7 @@ function findByClass(
 /**
  * Finds DOM elements with a given class name from a given element.
  * Separate multiple selectors by comma. Separate multiple class names by space.
- * 
+ *
  * @param elm - The DOM element to start the search from
  * @param classNames - Class name(s) to find elements by
  * @return List of found DOM elements
@@ -45,7 +45,7 @@ function findByClass(
   return uniqueElementList(
     classNames as string | string[],
     byCn(elm)
-  )
+  );
 }
 
 export default findByClass;

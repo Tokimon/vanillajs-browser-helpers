@@ -24,7 +24,7 @@ const _match = ElmProto.matches || ElmProto.webkitMatchesSelector || fallback;
  * @param selector - CSS selector {elm} should match
  * @return Whether or not {elm} matched the selector
  */
-export default function matches(elm: Element, selector = '') {
+export default function matches(elm: Element, selector = ''): boolean {
   if (!inDOM(elm)) { return false; }
   return _match.call(elm, selector);
 }

@@ -9,12 +9,12 @@ const voidTags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'k
 /**
  * Converts a given CSS selector into HTML
  * (No this is not an Emmet substitute, so it is limited to only one element)
- * 
+ *
  * @param selector - The CSS selector to convert
  * @return The parsed HTML
- * 
+ *
  * @example
- * 
+ *
  * ```ts
  * selectorToHTML('#id.class-name');
  * // -> '<div id="id" class="class-name" />'
@@ -24,8 +24,8 @@ export default function selectorToHTML(selector: string): string {
   const { tagName, attributes } = parseSelector(selector);
 
   const atts = Object.keys(attributes)
-      .map((att) => attributes[att] ? `${att}="${attributes[att]}"` : att)
-      .join(' ');
+    .map((att) => attributes[att] ? `${att}="${attributes[att]}"` : att)
+    .join(' ');
 
   const end = voidTags.includes(tagName) ? ' /' : `></${tagName}`;
 

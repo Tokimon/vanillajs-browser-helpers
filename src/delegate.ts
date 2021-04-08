@@ -1,7 +1,10 @@
+import type { VoidFunction } from './shared/types';
+
 import isEventTarget from './isEventTarget';
 import on from './on';
 import off from './off';
 import matches from './matches';
+
 
 
 interface DelegateEvent extends Event {
@@ -13,13 +16,13 @@ interface DelegateEvent extends Event {
 /**
  * Creates a function that triggers the given handler if the current event target
  * matches the given delegation selector
- * 
+ *
  * @param delegation - CSS Selector that matches the element to delegate the event to
  * @param handler - Handler to trigger if delegation selector match
  * @return The delegate event handler
- * 
+ *
  * @example
- * 
+ *
  * ```ts
  * const handler = delegateHandler('.my-element', (e: Event) => {});
  * document.addEventHandler('click', handler);
@@ -31,7 +34,7 @@ export function delegateHandler(
 ): EventListener {
   return (e: Event) => {
     let target = e.target as HTMLElement;
-      
+
     while (!matches(target, delegation)) {
       const parent = target.parentElement;
       if (parent) { target = parent; }
@@ -54,13 +57,13 @@ export function delegateHandler(
  * @param delegation - CSS Selector that matches the element to delegate the event to
  * @param handler - Handler to bind to the event
  * @return A function that removes the event delegation handler again
- * 
+ *
  * @example
- * 
+ *
  * ```ts
  * // Bind to a single event
  * const removeDelegate = delegate('click', '.my-element', (e: Event) => {});
- * 
+ *
  * // Bind to multiple events
  * const removeDelegates = delegate(['click', 'mouseenter'], '.my-element', (e: Event) => {});
  * ```
@@ -70,7 +73,7 @@ function delegate(
   delegation: string,
   handler: EventListenerOrEventListenerObject,
   options?: EventListenerOptions
-): Function;
+): VoidFunction;
 
 /**
  * Bind a delegated event handler for one or more event names to a DOM element.
@@ -80,13 +83,13 @@ function delegate(
  * @param delegation - CSS Selector that matches the element to delegate the event to
  * @param handler - Handler to bind to the event
  * @return A function that removes the event delegation handler again
- * 
+ *
  * @example
- * 
+ *
  * ```ts
  * // Bind to a single event
  * const removeDelegate = delegate(element, 'click', '.my-element', (e: Event) => {});
- * 
+ *
  * // Bind to multiple events
  * const removeDelegates = delegate(element, ['click', 'mouseenter'], '.my-element', (e: Event) => {});
  * ```
@@ -97,7 +100,7 @@ function delegate(
   delegation: string,
   handler: EventListenerOrEventListenerObject,
   options?: EventListenerOptions
-): Function;
+): VoidFunction;
 
 
 
@@ -107,7 +110,7 @@ function delegate(
   delegation: string | EventListenerOrEventListenerObject,
   handler?: EventListenerOrEventListenerObject | EventListenerOptions,
   options?: EventListenerOptions
-): Function {
+): VoidFunction {
   if (!isEventTarget(target)) {
     options = handler as EventListenerOptions | undefined;
     handler = delegation as EventListenerOrEventListenerObject;
@@ -122,7 +125,7 @@ function delegate(
   );
 
   on(target, eventNames, delHandler, options);
-  
+
   return () => off(target as EventTarget, eventNames, delHandler);
 }
 

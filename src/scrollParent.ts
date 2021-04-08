@@ -5,11 +5,11 @@ import viewport from './viewport';
 
 /**
  * Get the parent element that has scrolling
- * 
+ *
  * @param elm - The element whose scroll parent is determined
  * @return The scroll parent or the viewport
  */
-export default function scrollParent(elm: Element) {
+export default function scrollParent(elm: Element): HTMLElement {
   const vp = viewport(elm);
 
   if (!isDOMChildNode(elm) || elm === vp) {
@@ -23,14 +23,14 @@ export default function scrollParent(elm: Element) {
   }
 
   const noStaticParent = elmPosition === 'absolute';
-  let parent: Element | null = elm.parentElement;
+  let parent: HTMLElement | null = elm.parentElement;
 
-  while (parent && parent !== body) {
+  while (parent && parent !== document.body) {
     const { position, overflow, overflowX, overflowY } = getComputedStyle(parent);
 
     if (
-      !(noStaticParent && position === 'static') &&
-      /(auto|scroll)/.test(overflow + overflowY + overflowX)
+      !(noStaticParent && position === 'static')
+      && /(auto|scroll)/.test(overflow + overflowY + overflowX)
     ) {
       return parent;
     }

@@ -85,13 +85,13 @@ export function windowSize(type: SizeType): Size {
  * @param elm - The DOM element (or window) to find the size of
  * @param type - What type of size has to be computed. See `sizeType` for further details
  * @return Object describing width and height of the element
- * 
+ *
  * @example
- * 
+ *
  * ```ts
  * // Get the outer size the window
  * size();
- * 
+ *
  * // Get a specific size model of window
  * size(SizeType.MARGIN_BOX);
  * ```
@@ -104,13 +104,13 @@ function size(type?: SizeType): Size
  * @param elm - The DOM element (or window) to find the size of
  * @param type - What type of size has to be computed. See `sizeType` for further details
  * @return Object describing width and height of the element
- * 
+ *
  * @example
- * 
+ *
  * ```ts
  * // Get the outer size af given element
  * size(someElement);
- * 
+ *
  * // Get a specific size model of a given element
  * size(someElement, SizeType.MARGIN_BOX);
  * ```
@@ -128,7 +128,7 @@ function size(elm?: HTMLElement | Window | SizeType, type?: SizeType): Size {
 
   return isWindow(elm)
     ? windowSize(type)
-    : elmSize(elm as HTMLElement, type)
+    : elmSize(elm as HTMLElement, type);
 }
 
 export default size;
@@ -141,7 +141,7 @@ export default size;
  * @param elm - The DOM element (or window) to find the size of
  * @return Object describing width and height of the element
  */
-export const marginBoxSize = (elm: HTMLElement | Window) => size(elm, SizeType.MARGIN_BOX);
+export const marginBoxSize = (elm: HTMLElement | Window): Size => size(elm, SizeType.MARGIN_BOX);
 
 
 
@@ -151,17 +151,17 @@ export const marginBoxSize = (elm: HTMLElement | Window) => size(elm, SizeType.M
  * @param elm - The DOM element (or window) to find the size of
  * @return Object describing width and height of the element
  */
-export const outerSize = (elm: HTMLElement | Window) => size(elm, SizeType.OUTER);
+export const outerSize = (elm: HTMLElement | Window): Size => size(elm, SizeType.OUTER);
 
 
 
 /**
  * Find the size of a DOM element or window excluding borders and margins
- * 
+ *
  * @param elm - The DOM element (or window) to find the size of
  * @return Object describing width and height of the element
  */
-export const innerSize = (elm: HTMLElement | Window) => size(elm, SizeType.INNER);
+export const innerSize = (elm: HTMLElement | Window): Size => size(elm, SizeType.INNER);
 
 
 
@@ -171,7 +171,7 @@ export const innerSize = (elm: HTMLElement | Window) => size(elm, SizeType.INNER
  * @param elm - The DOM element (or window) to find the size of
  * @return Object describing width and height of the element
  */
-export const contentSize = (elm: HTMLElement | Window) => size(elm, SizeType.CONTENT);
+export const contentSize = (elm: HTMLElement | Window): Size => size(elm, SizeType.CONTENT);
 
 
 
@@ -181,4 +181,4 @@ export const contentSize = (elm: HTMLElement | Window) => size(elm, SizeType.CON
  * @param elm - The DOM element (or window) to find the size of
  * @return Object describing width and height of the element
  */
-export const contentBoxSize = (elm: HTMLElement | Window) => size(elm, SizeType.CONTENT_BOX);
+export const contentBoxSize = (elm: HTMLElement | Window): Size => size(elm, SizeType.CONTENT_BOX);

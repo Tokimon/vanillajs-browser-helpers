@@ -10,7 +10,7 @@ const byTag = (elm: Document | Element) => (tag: string) => elm.getElementsByTag
 
 /**
  * Find elements by given tag name
- * 
+ *
  * @param elm - The DOM element to start the search from
  * @param tagNames - Tag name to find the elements by
  * @return List of found DOM elements
@@ -21,7 +21,7 @@ function findByTagName(
 
 /**
  * Find elements by given tag name
- * 
+ *
  * @param elm - The DOM element to start the search from
  * @param tagNames - Tag name to find the elements by
  * @return List of found DOM elements

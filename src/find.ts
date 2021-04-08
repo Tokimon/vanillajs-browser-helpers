@@ -11,7 +11,7 @@ import findByQuery from './findByQuery';
  * Find elements by a given selector. The selector will be lightly analysed to determine
  * the appropriate `findByXX` function. This should be faster than just [running querySelector(All)
  * to find elements](https://jsperf.com/queryselector-vs-selective-find/1)
- * 
+ *
  * @param selector - The selector to use
  * @return List of found DOM elements
  */
@@ -21,7 +21,7 @@ import findByQuery from './findByQuery';
  * Find elements by a given selector from a given element. The selector will be lightly analysed to determine
  * the appropriate `findByXX` function. This should be faster than just [running querySelector(All)
  * to find elements](https://jsperf.com/queryselector-vs-selective-find/1)
- * 
+ *
  * @param elm - The DOM element to start the search from
  * @param selector - The selector to use
  * @return List of found DOM elements

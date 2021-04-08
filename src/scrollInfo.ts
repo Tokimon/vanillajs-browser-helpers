@@ -16,7 +16,7 @@ interface ScrollInfo {
 
 /**
  * Gather the current scrolling information of a DOM/Window element
- * 
+ *
  * @param elm - The element to find the scrolling position from
  * @return The scroll information
  */

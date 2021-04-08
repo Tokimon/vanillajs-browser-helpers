@@ -6,7 +6,7 @@ const MSSave = 'msSaveBlob' in navigator;
 
 
 
-export function fileSavingSupported() {
+export function fileSavingSupported(): boolean {
   return 'Blob' in window && (MSSave || 'download' in HTMLAnchorElement.prototype);
 }
 
@@ -15,7 +15,7 @@ export function fileSavingSupported() {
 /**
  * Download a given content as a file.
  * (if the browser doesn't support file downloads, this method does nothing)
- * 
+ *
  * @param content - The content to download
  * @param name - The name to give the downloaded file
  * @param type - The type affiliated with the file

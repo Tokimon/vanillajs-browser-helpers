@@ -1,3 +1,5 @@
+import type { VoidFunction } from './shared/types';
+
 import isEventTarget from './isEventTarget';
 import eventOptionsSupported from './eventOptionsSupported';
 import on from './on';
@@ -29,14 +31,14 @@ const manuelOnce = (
   };
 
   return offHandler;
-}
+};
 
 const bind = (
   elm: EventTarget,
   eventNames: string | string[],
   handler: EventListenerOrEventListenerObject,
   options?: OnceEventListenerOptions
-): Function => {
+): VoidFunction => {
   const noOptions = !eventOptionsSupported();
   const { when, ...eventOptions } = options || {};
   eventOptions.once = !when;
@@ -48,7 +50,7 @@ const bind = (
   on(elm, eventNames, eventHandler, eventOptions);
 
   return () => off(elm, eventNames, eventHandler, eventOptions);
-}
+};
 
 
 
@@ -67,7 +69,7 @@ function once(
   eventNames: string | string[],
   handler: EventListenerOrEventListenerObject,
   options?: OnceEventListenerOptions
-): Function;
+): VoidFunction;
 
 /**
  * Bind a single fire event handler for one or more event names on `document`.
@@ -82,7 +84,7 @@ function once(
   eventNames: string | string[],
   handler: EventListenerOrEventListenerObject,
   options?: OnceEventListenerOptions
-): Function;
+): VoidFunction;
 
 
 
@@ -91,7 +93,7 @@ function once(
   eventNames: string | string[] | EventListenerOrEventListenerObject,
   handler?: EventListenerOrEventListenerObject | OnceEventListenerOptions,
   options?: OnceEventListenerOptions
-): Function {
+): VoidFunction {
   if (!isEventTarget(elm)) {
     options = handler as OnceEventListenerOptions;
     handler = eventNames as EventListenerOrEventListenerObject;
@@ -104,7 +106,7 @@ function once(
     eventNames as string | string[],
     handler as EventListenerOrEventListenerObject,
     options
-  )
+  );
 }
 
 export default once;

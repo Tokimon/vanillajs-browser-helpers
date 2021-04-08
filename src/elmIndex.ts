@@ -5,12 +5,12 @@ import isDOMChildNode from './isDOMChildNode';
 
 /**
  * Find the index of a DOM element amongst its siblings
- * 
+ *
  * @param elm - DOM element to find the index of
  * @return The index of `elm`
- * 
+ *
  * @example
- * 
+ *
  * ```ts
  * elmIndex(someDiv);
  * ```

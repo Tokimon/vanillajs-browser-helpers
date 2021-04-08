@@ -1,4 +1,4 @@
-import isDOMDocument from "./isDOMDocument";
+import isDOMDocument from './isDOMDocument';
 
 
 
@@ -8,7 +8,7 @@ import isDOMDocument from "./isDOMDocument";
  * @param obj - The object to check
  * @return Is it the root node of the DOM or not
  */
-export default function isDOMRoot(obj: any): obj is HTMLElement {
+export default function isDOMRoot(obj: unknown): obj is HTMLElement {
   if (!obj) { return false; }
 
   const doc = obj.ownerDocument;

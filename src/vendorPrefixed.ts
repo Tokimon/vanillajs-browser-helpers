@@ -13,7 +13,7 @@ interface VendorPrefixing {
 
 /**
  * Add vendor prefixes to a string
- * 
+ *
  * @param str - String to add vendor prefixes to
  * @return Array of the various vendor vendorPrefixed versions of the string
  */

@@ -20,7 +20,7 @@ const _trigger = (
   eventNames.forEach(
     (evt: string) => elm.dispatchEvent(customEvent(evt, data))
   );
-}
+};
 
 
 
@@ -46,7 +46,7 @@ function trigger(
  * @return The 'elm' (or document)
  */
 function trigger(
-  eventNames: string | string[] ,
+  eventNames: string | string[],
   data?: Record<string, unknown>
 ): EventTarget
 
