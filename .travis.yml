@@ -1,13 +1,12 @@
 language: node_js
-dist: trusty
 node_js:
-  - '10'
+  - '15'
 install:
   - npm install
-env:
-  - MOZ_HEADLESS=1
-addons:
-  firefox: latest
 script:
-  - npm test
-after_success: npm run coveralls
+  - npm run build
+  - npm run clean
+  - npm run lint
+  - npm run test:coverage
+after_success:
+  - npm run coveralls
