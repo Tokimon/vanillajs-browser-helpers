@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "outDir": ".",
+    "module": "es2015",
+    "target": "es5",
+    "lib": ["es5", "es6", "dom"],
+    "moduleResolution": "node",
+    "declaration": true,
+    "noImplicitAny": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "sourceMap": false,
+    "allowJs": false,
+    "strictNullChecks": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true
+  },
+
+  "include": [
+    "./src/*.ts"
+  ],
+
+  "exclude": [
+    "node_modules"
+  ]
+}
