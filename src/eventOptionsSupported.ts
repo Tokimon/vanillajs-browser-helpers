@@ -9,9 +9,11 @@ let supported: boolean;
  * @return Are event binding options supported or not
  */
 export default function eventOptionsSupported(recheck?: boolean): boolean {
-  if (typeof supported !== 'undefined' && recheck !== true) {
+  if (supported != null && !recheck) {
     return supported;
   }
+
+  supported = false;
 
   try {
     const opts = Object.defineProperty({}, 'passive', {
@@ -21,11 +23,10 @@ export default function eventOptionsSupported(recheck?: boolean): boolean {
       }
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    window.addEventListener('test', () => {}, opts);
-  } catch {
-    supported = false;
-  }
+    const noop = () => undefined;
+    document.addEventListener('verify-support', noop, opts);
+    document.removeEventListener('verify-support', noop, opts);
+  } catch {}
 
   return supported;
 }

@@ -1,12 +1,9 @@
 /**
- * Is the given object a Element, Text or Comment Node in the DOM
+ * Is the given object a DOM Node
  *
  * @param obj - The object to check
  * @return Is it a DOM node or not
  */
-export default function isDOMNode(obj: unknown): obj is Element | Text | Comment {
-  const type = (obj || {}).nodeType;
-  return type === Node.ELEMENT_NODE
-    || type === Node.TEXT_NODE
-    || type === Node.COMMENT_NODE;
+export default function isDOMNode(node: unknown): node is Node {
+  return !!node && typeof (node as Node).nodeType !== 'undefined';
 }

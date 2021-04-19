@@ -2,8 +2,8 @@ import parseSelector from '../parseSelector';
 
 
 
-describe('"parseSelector" >', () => {
-  it('Should default "tagName" to a DIV empty string is given', () => {
+describe('"parseSelector"', () => {
+  it('Defaults "tagName" to a DIV when empty string is given', () => {
     expect(parseSelector('').tagName).toBe('div');
   });
 
@@ -14,26 +14,26 @@ describe('"parseSelector" >', () => {
     'input',
     'br',
     'img'
-  ])('Generates HTML element: "%s"', (tag) => {
+  ])('Parses HTML element: "%s"', (tag) => {
     expect(parseSelector(tag).tagName).toBe(tag);
   });
 
   describe('Parsing ID', () => {
-    it('Generates HTML element with a given ID', () => {
+    it('Single given ID', () => {
       expect(parseSelector('#id').attributes.id).toBe('id');
     });
 
-    it('Takes only the first given ID', () => {
+    it('Takes only the first of multiple given IDs', () => {
       expect(parseSelector('#id#id2').attributes.id).toBe('id');
     });
   });
 
   describe('Parsing class name', () => {
-    it('Generate HTML element with a given class name', () => {
+    it('Single class name', () => {
       expect(parseSelector('.my-class').attributes.class).toBe('my-class');
     });
 
-    it('Generate a HTML element with multiple given class names', () => {
+    it('Multiple class names', () => {
       const { attributes } = parseSelector('.dash-class.underscore_class');
       expect(attributes.class).toBe('dash-class underscore_class');
     });
@@ -60,32 +60,30 @@ describe('"parseSelector" >', () => {
       expect(parseSelector('[custom]').attributes.custom).toBe('');
     });
 
-    describe('Accepts any kind of value', () => {
-      it.each([
-        ['object', '{ test: true }'],
-        ['string', 'some string'],
-        ['number', 12],
-        ['boolean', true]
-      ]);
-
-      const { attributes } = parseSelector('[data-attr="some-kind of phrase"]');
-      expect(attributes['data-attr']).toBe('some-kind of phrase');
-    });
-
     it('Combines multiple expressions of same name', () => {
       const { attributes } = parseSelector('[data-attr="value 1"][data-attr="value 2"]');
       expect(attributes['data-attr']).toBe('value 1 value 2');
     });
 
-    describe('Autoescapes quotes', () => {
-      it('Single quotes are not escaped', () => {
+    describe('Correctly parses quotes in quotes', () => {
+      it('Single quotes inside single quotes', () => {
+        const { attributes } = parseSelector('[data-attr=\'should accept \'this\'\']');
+        expect(attributes['data-attr']).toBe("should accept 'this'");
+      });
+
+      it('Single quotes inside double quotes', () => {
         const { attributes } = parseSelector('[data-attr="should accept \'this\'"]');
         expect(attributes['data-attr']).toBe("should accept 'this'");
       });
 
-      it('Double quotes are transformed to &quot;', () => {
+      it('Double quotes inside double quotes', () => {
         const { attributes } = parseSelector('[data-attr="should accept "this""]');
-        expect(attributes['data-attr']).toBe('should accept &quot;this&quot;');
+        expect(attributes['data-attr']).toBe('should accept "this"');
+      });
+
+      it('Double quotes inside single quotes', () => {
+        const { attributes } = parseSelector('[data-attr=\'should accept "this"\']');
+        expect(attributes['data-attr']).toBe('should accept "this"');
       });
     });
 
@@ -107,7 +105,7 @@ describe('"parseSelector" >', () => {
       });
     });
 
-    it('Parses custom attributes', () => {
+    describe('Parses custom attributes', () => {
       it.each([
         ['CamelCase', 'myAttribute'],
         ['With number', 'my2ndAttribute'],
@@ -138,6 +136,27 @@ describe('"parseSelector" >', () => {
         id: 'id',
         class: 'class',
         'data-attr': 'value'
+      }
+    });
+  });
+
+  it('Does not parse url attribute as class name', () => {
+    const result = parseSelector('span[src="url.com"].class');
+    expect(result).toEqual({
+      tagName: 'span',
+      attributes: {
+        class: 'class',
+        src: 'url.com'
+      }
+    });
+  });
+
+  it('Does not parse url attribute hashes as ID', () => {
+    const result = parseSelector('span[src="url.com#not-id"]');
+    expect(result).toEqual({
+      tagName: 'span',
+      attributes: {
+        src: 'url.com#not-id'
       }
     });
   });

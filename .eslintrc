@@ -50,7 +50,7 @@
     ],
     "curly": [2, "all"],
     "import/first": 0,
-    "quotes": [2, "single"],
+    "quotes": [2, "single", { "avoidEscape": true }],
     "operator-linebreak": [2, "before"]
   }
 }

@@ -12,6 +12,8 @@ import ensureHTML from './ensureHTML';
  * @return The inserted child element
  */
 export default function append(elm: Element, insertElm: string | Node): Element | null {
+  if (!elm) { return null; }
+
   if (isString(insertElm)) {
     elm.insertAdjacentHTML('beforeend', ensureHTML(insertElm));
   } else {

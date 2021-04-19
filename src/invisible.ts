@@ -9,12 +9,12 @@ import hidden from './hidden';
 export default function invisible(elm: HTMLElement): boolean {
   let checkElm: HTMLElement | null = elm;
 
-  while (checkElm) {
+  while (checkElm && checkElm.tagName !== 'BODY') {
     if (
       hidden(checkElm)
-      || !elm.offsetHeight
-      || !elm.offsetWidth
-      || !Number(getComputedStyle(elm).opacity)
+      || !checkElm.offsetHeight
+      || !checkElm.offsetWidth
+      || !Number(getComputedStyle(checkElm).opacity)
     ) {
       return true;
     }

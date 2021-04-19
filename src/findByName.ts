@@ -1,4 +1,4 @@
-import uniqueElementList from './uniqueElementList';
+import findUniqueNodeCollection from './findUniqueNodeCollection';
 
 
 
@@ -13,5 +13,5 @@ const byName = (name: string) => document.getElementsByName(name);
  * @return List of found DOM elements
  */
 export default function findByName(names: string | string[]): Element[] {
-  return uniqueElementList(names, byName);
+  return findUniqueNodeCollection(names, byName);
 }

@@ -13,12 +13,12 @@ export function fileSavingSupported(): boolean {
 
 
 /**
- * Download a given content as a file.
+ * Creates a file with given content and triggers download.
  * (if the browser doesn't support file downloads, this method does nothing)
  *
- * @param content - The content to download
+ * @param content - The content of the file
  * @param name - The name to give the downloaded file
- * @param type - The type affiliated with the file
+ * @param type - The content type of the file
  */
 export default function saveFile(
   content: Blob | string,

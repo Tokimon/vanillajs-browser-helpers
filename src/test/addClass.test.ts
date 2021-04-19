@@ -8,8 +8,8 @@ const testID = generateId('AddClass');
 
 
 
-describe('"addClass" >', () => {
-  let testNode;
+describe('"addClass"', () => {
+  let testNode: HTMLElement;
 
   beforeAll(() => {
     insertHtml(`<div id="${testID}"></div>`);
@@ -39,7 +39,7 @@ describe('"addClass" >', () => {
     expect(addClass(div, 'inserted')).toBe(div);
   });
 
-  describe('Multiple class names >', () => {
+  describe('Multiple class names', () => {
     it('Adds several CSS classes to a DOM element', () => {
       testNode.className = '';
 

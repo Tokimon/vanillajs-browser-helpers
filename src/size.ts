@@ -1,3 +1,5 @@
+import type { GeneralWindow } from './shared/types';
+
 import boxModel from './boxModel';
 import isWindow from './isWindow';
 import viewport from './viewport';
@@ -20,13 +22,13 @@ export const enum SizeType {
   INNER = 'inner',
   /** Size of the content (scrollable area minus padding) */
   CONTENT_BOX = 'content-box',
-  /** Size excluding borders, margins and paddin */
+  /** Size excluding borders, margins and padding */
   CONTENT = 'content'
 }
 
 
 
-export function elmSize(elm: HTMLElement, type: SizeType): Size {
+export function elmSize(elm: HTMLElement, type?: SizeType): Size {
   const {
     offsetWidth,
     offsetHeight,
@@ -60,27 +62,28 @@ export function elmSize(elm: HTMLElement, type: SizeType): Size {
     };
   }
 
+  // Default: CONTENT
   const { scrollWidth, scrollHeight } = elm;
   const { padding } = boxModel(elm);
 
   return {
-    width: scrollWidth - padding.left,
-    height: scrollHeight - padding.top
+    width: scrollWidth - (padding.left + padding.right),
+    height: scrollHeight - (padding.top + padding.bottom)
   };
 }
 
 
 
-export function windowSize(type: SizeType): Size {
+export function windowSize(win: GeneralWindow = window, type: SizeType = SizeType.OUTER): Size {
   return type === SizeType.OUTER
-    ? { width: window.outerWidth, height: window.outerHeight }
-    : elmSize(viewport(), type);
+    ? { width: win.outerWidth, height: win.outerHeight }
+    : elmSize(viewport(win) as HTMLElement, type);
 }
 
 
 
 /**
- * Find the size of a DOM element or the current Window.
+ * Find the size of the current Window.
  *
  * @param elm - The DOM element (or window) to find the size of
  * @param type - What type of size has to be computed. See `sizeType` for further details
@@ -99,7 +102,7 @@ export function windowSize(type: SizeType): Size {
 function size(type?: SizeType): Size
 
 /**
- * Find the size of a DOM element or the current Window.
+ * Find the size of a DOM element or a Window instance.
  *
  * @param elm - The DOM element (or window) to find the size of
  * @param type - What type of size has to be computed. See `sizeType` for further details
@@ -115,9 +118,9 @@ function size(type?: SizeType): Size
  * size(someElement, SizeType.MARGIN_BOX);
  * ```
  */
-function size(elm: HTMLElement | Window, type?: SizeType): Size;
+function size(elm: HTMLElement | GeneralWindow, type?: SizeType): Size;
 
-function size(elm?: HTMLElement | Window | SizeType, type?: SizeType): Size {
+function size(elm?: HTMLElement | GeneralWindow | SizeType, type?: SizeType): Size {
   if (typeof elm === 'number') {
     type = elm;
     elm = window;
@@ -127,7 +130,7 @@ function size(elm?: HTMLElement | Window | SizeType, type?: SizeType): Size {
   elm = elm || window;
 
   return isWindow(elm)
-    ? windowSize(type)
+    ? windowSize(elm, type)
     : elmSize(elm as HTMLElement, type);
 }
 
@@ -141,7 +144,7 @@ export default size;
  * @param elm - The DOM element (or window) to find the size of
  * @return Object describing width and height of the element
  */
-export const marginBoxSize = (elm: HTMLElement | Window): Size => size(elm, SizeType.MARGIN_BOX);
+export const marginBoxSize = (elm: HTMLElement | GeneralWindow): Size => size(elm, SizeType.MARGIN_BOX);
 
 
 
@@ -151,7 +154,7 @@ export const marginBoxSize = (elm: HTMLElement | Window): Size => size(elm, Size
  * @param elm - The DOM element (or window) to find the size of
  * @return Object describing width and height of the element
  */
-export const outerSize = (elm: HTMLElement | Window): Size => size(elm, SizeType.OUTER);
+export const outerSize = (elm: HTMLElement | GeneralWindow): Size => size(elm, SizeType.OUTER);
 
 
 
@@ -161,7 +164,7 @@ export const outerSize = (elm: HTMLElement | Window): Size => size(elm, SizeType
  * @param elm - The DOM element (or window) to find the size of
  * @return Object describing width and height of the element
  */
-export const innerSize = (elm: HTMLElement | Window): Size => size(elm, SizeType.INNER);
+export const innerSize = (elm: HTMLElement | GeneralWindow): Size => size(elm, SizeType.INNER);
 
 
 
@@ -171,7 +174,7 @@ export const innerSize = (elm: HTMLElement | Window): Size => size(elm, SizeType
  * @param elm - The DOM element (or window) to find the size of
  * @return Object describing width and height of the element
  */
-export const contentSize = (elm: HTMLElement | Window): Size => size(elm, SizeType.CONTENT);
+export const contentSize = (elm: HTMLElement | GeneralWindow): Size => size(elm, SizeType.CONTENT);
 
 
 
@@ -181,4 +184,4 @@ export const contentSize = (elm: HTMLElement | Window): Size => size(elm, SizeTy
  * @param elm - The DOM element (or window) to find the size of
  * @return Object describing width and height of the element
  */
-export const contentBoxSize = (elm: HTMLElement | Window): Size => size(elm, SizeType.CONTENT_BOX);
+export const contentBoxSize = (elm: HTMLElement | GeneralWindow): Size => size(elm, SizeType.CONTENT_BOX);

@@ -1,8 +1,7 @@
 import isString from 'vanillajs-helpers/isString';
 
-import isDOMNode from './isDOMNode';
 import isDOMChildNode from './isDOMChildNode';
-import insertAfter from './insertAfter';
+import create from './create';
 
 
 
@@ -13,13 +12,14 @@ import insertAfter from './insertAfter';
  * @param replacement - DOM element or plain HTML string to replace {elm}
  * @return The value given in `elm`
  */
-export default function replaceNode(elm: Element, replacement?: Element | string): void {
+export default function replaceNode(elm: Node, replacement?: Node | string): Node | void {
   if (!isDOMChildNode(elm)) { return; }
+  if (!replacement) { return elm.remove(); }
 
-  if (isDOMNode(replacement)) {
-    return elm.replaceWith(replacement, elm);
+  if (isString(replacement)) {
+    replacement = create(replacement);
   }
 
-  isString(replacement) && insertAfter(elm, replacement);
-  elm.remove();
+  elm.replaceWith(replacement);
+  return elm;
 }

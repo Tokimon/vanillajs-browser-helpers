@@ -3,15 +3,6 @@ import eventOptionsSupported from './eventOptionsSupported';
 
 
 
-const _off = (
-  elm: EventTarget,
-  evt: string,
-  handler: EventListenerOrEventListenerObject,
-  options?: EventListenerOptions | boolean
-) => elm.removeEventListener(evt, handler, options);
-
-
-
 /**
  * Bind an event handler for one or more event names on a given DOM element.
  *
@@ -57,18 +48,16 @@ function off(
     elm = document;
   }
 
-  const opts: boolean | EventListenerOptions | undefined
-    = eventOptionsSupported()
-      ? options
-      : !!(options && options.capture);
+  const opts: boolean | EventListenerOptions | undefined = eventOptionsSupported()
+    ? options
+    : !!(options && options.capture);
 
   if (!Array.isArray(eventNames)) {
     eventNames = [eventNames as string];
   }
 
   eventNames.forEach(
-    (evt) => _off(
-      elm as EventTarget,
+    (evt) => (elm as EventTarget).removeEventListener(
       evt,
       handler as EventListenerOrEventListenerObject,
       opts

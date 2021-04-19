@@ -1,6 +1,6 @@
 import isString from 'vanillajs-helpers/isString';
 
-import uniqueElementList from './uniqueElementList';
+import findUniqueNodeCollection from './findUniqueNodeCollection';
 
 
 
@@ -41,7 +41,7 @@ function findByTagName(
     [elm, tagNames] = [document, elm];
   }
 
-  return uniqueElementList(
+  return findUniqueNodeCollection(
     tagNames as string | string[],
     byTag(elm)
   );

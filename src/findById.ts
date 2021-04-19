@@ -12,7 +12,17 @@ const byId = (id: string) => document.getElementById(id);
  * @param ids - ID to find the element by
  * @return The found element
  */
-export default function findById(ids: string | string[]): HTMLElement | HTMLElement[] | null {
+ function findById(ids: string): HTMLElement | null
+
+/**
+ * Find a DOM elements from a list of IDs
+ *
+ * @param ids - ID to find the element by
+ * @return The found elements
+ */
+function findById(ids: string[]): HTMLElement[]
+
+function findById(ids: string | string[]): HTMLElement | HTMLElement[] | null {
   if (isString(ids)) { return byId(ids); }
 
   return ids.reduce((nodes, id) => {
@@ -21,3 +31,5 @@ export default function findById(ids: string | string[]): HTMLElement | HTMLElem
     return nodes;
   }, [] as HTMLElement[]);
 }
+
+export default findById;

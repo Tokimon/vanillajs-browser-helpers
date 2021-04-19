@@ -2,24 +2,10 @@ import isEventTarget from './isEventTarget';
 
 
 
-const customEvent = (name: string, data?: Record<string, unknown>) => {
+const customEvent = (name: string, data?: unknown) => {
   const options = { bubbles: true } as CustomEventInit;
   if (typeof data !== 'undefined') { options.detail = data; }
   return new CustomEvent(name, options);
-};
-
-const _trigger = (
-  elm: EventTarget,
-  eventNames: string | string[],
-  data?: Record<string, unknown>
-) => {
-  if (!Array.isArray(eventNames)) {
-    eventNames = [eventNames];
-  }
-
-  eventNames.forEach(
-    (evt: string) => elm.dispatchEvent(customEvent(evt, data))
-  );
 };
 
 
@@ -35,7 +21,7 @@ const _trigger = (
 function trigger(
   elm: EventTarget,
   eventNames: string | string[],
-  data?: Record<string, unknown>
+  data?: unknown
 ): EventTarget
 
 /**
@@ -47,23 +33,29 @@ function trigger(
  */
 function trigger(
   eventNames: string | string[],
-  data?: Record<string, unknown>
+  data?: unknown
 ): EventTarget
 
 
 
 function trigger(
   elm: EventTarget | string | string[],
-  eventNames?: string | string[] | Record<string, unknown>,
-  data?: Record<string, unknown>
+  eventNames?: string | string[] | unknown,
+  data?: unknown
 ): EventTarget {
   if (!isEventTarget(elm)) {
-    data = eventNames as Record<string, unknown>;
+    data = eventNames as unknown;
     eventNames = elm;
     elm = document;
   }
 
-  _trigger(elm, eventNames as string | string[], data);
+  if (!Array.isArray(eventNames)) {
+    eventNames = [eventNames];
+  }
+
+  (eventNames as string[]).forEach(
+    (evt: string) => (elm as EventTarget).dispatchEvent(customEvent(evt, data))
+  );
   return elm;
 }
 

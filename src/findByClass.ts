@@ -1,6 +1,6 @@
 import isString from 'vanillajs-helpers/isString';
 
-import uniqueElementList from './uniqueElementList';
+import findUniqueNodeCollection from './findUniqueNodeCollection';
 
 
 
@@ -42,7 +42,7 @@ function findByClass(
     [elm, classNames] = [document, elm];
   }
 
-  return uniqueElementList(
+  return findUniqueNodeCollection(
     classNames as string | string[],
     byCn(elm)
   );

@@ -16,9 +16,7 @@ function hasClass(
   any?: boolean
 ): boolean {
   const checkFn = any ? 'some' : 'every';
-  const cns = isString(classNames)
-    ? [classNames]
-    : classNames as string[];
+  const cns = isString(classNames) ? [classNames] : classNames;
 
   return cns[checkFn]((cn) => elm.classList.contains(cn));
 }

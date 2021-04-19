@@ -9,8 +9,8 @@ const insertHTML = '<div class="inserted"></div>';
 
 
 
-describe('"append" >', () => {
-  let testNode;
+describe('"append"', () => {
+  let testNode: HTMLElement;
 
   beforeAll(() => {
     insertHtml(`<div id="${testID}"></div>`);
@@ -23,12 +23,12 @@ describe('"append" >', () => {
 
   it('Returns null when DOM element to append to is not a container element', () => {
     // This test is in honor of FireFox where document.parentNode is 'HTMLDocument' (nodeType 9)
-    expect(append(document.parentNode as Element, insertHTML)).toEqual(null);
+    expect(append(document.parentNode as Element, insertHTML)).toBe(null);
   });
 
   it('Appends plain HTML to a DOM element', () => {
     append(testNode, insertHTML);
-    expect(testNode.lastChild.className).toEqual('inserted');
+    expect((testNode.lastChild as Element).className).toBe('inserted');
   });
 
   it('Appends DOM element to a DOM element', () => {
@@ -36,7 +36,7 @@ describe('"append" >', () => {
     div.className = 'inserted';
 
     append(testNode, div);
-    expect(testNode.lastChild.className).toEqual('inserted');
+    expect((testNode.lastChild as Element).className).toBe('inserted');
   });
 
   it('Appends to DOM elements not in the DOM', () => {
@@ -45,7 +45,7 @@ describe('"append" >', () => {
     append(div, insertHTML);
 
     expect(div.lastChild).not.toBeFalsy();
-    expect((div.lastChild as Element).className).toEqual('inserted');
+    expect((div.lastChild as Element).className).toBe('inserted');
   });
 
   it('Moves element from one DOM element to another', () => {
@@ -56,8 +56,8 @@ describe('"append" >', () => {
 
     append(insertContainer, moved);
 
-    expect(testNode.lastChild).toEqual(insertContainer);
-    expect((insertContainer.lastChild as Element).className).toEqual('moved');
+    expect(testNode.lastChild).toBe(insertContainer);
+    expect((insertContainer.lastChild as Element).className).toBe('moved');
   });
 
   it('Return the inserted DOM element', () => {
@@ -69,6 +69,6 @@ describe('"append" >', () => {
     const html = '<div class="html"></div>';
 
     const elm = append(testNode, html) as Element;
-    expect(elm.className).toEqual('html');
+    expect(elm.className).toBe('html');
   });
 });

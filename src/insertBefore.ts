@@ -1,6 +1,8 @@
 import isString from 'vanillajs-helpers/isString';
 
 import ensureHTML from './ensureHTML';
+import inDOM from './inDOM';
+import isDOMElement from './isDOMElement';
 
 
 
@@ -12,11 +14,13 @@ import ensureHTML from './ensureHTML';
  * @return The inserted element
  */
 export default function insertBefore(elm: Element, insertElm: string | Element): Element | null {
+  if (!inDOM(elm) || isDOMElement(elm, 'html')) { return null; }
+
   if (isString(insertElm)) {
-    elm.insertAdjacentHTML('beforebegin', ensureHTML(insertElm));
+    (elm as Element).insertAdjacentHTML('beforebegin', ensureHTML(insertElm));
   } else {
-    elm.insertAdjacentElement('beforebegin', insertElm);
+    (elm as Element).insertAdjacentElement('beforebegin', insertElm);
   }
 
-  return elm.previousElementSibling;
+  return (elm as Element).previousElementSibling;
 }

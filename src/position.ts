@@ -1,6 +1,8 @@
+import type { GeneralWindow } from './shared/types';
+
 import isWindow from './isWindow';
 import isDOMElement from './isDOMElement';
-import isDOMDocument from './isDOMDocument';
+import isDocument from './isDocument';
 import scrollInfo from './scrollInfo';
 import size from './size';
 
@@ -22,11 +24,11 @@ interface PositionData extends Position {
 
 
 
-const getWindowPosition = (): Position => {
-  const top = window.screenLeft || window.screenX || 0;
-  const left = window.screenY || window.screenTop || 0;
-  const right = window.screen.availWidth - left - window.outerWidth;
-  const bottom = window.screen.availHeight - top - window.outerHeight;
+const getWindowPosition = (win: GeneralWindow): Position => {
+  const top = win.screenLeft || win.screenX || 0;
+  const left = win.screenY || win.screenTop || 0;
+  const right = win.screen.availWidth - left - win.outerWidth;
+  const bottom = win.screen.availHeight - top - win.outerHeight;
 
   return { top, left, right, bottom };
 };
@@ -86,18 +88,18 @@ const getElementPosition = (elm: HTMLElement): PositionData => {
  * position(someElement);
  * ```
  */
-export default function position(elm?: HTMLElement | Window | Document): Position | PositionData {
+export default function position(elm?: HTMLElement | GeneralWindow | Document): Position | PositionData {
   let currElm: typeof elm | null = elm;
 
   // Fallback to document if the element is one of the root elements
   if (isDOMElement(currElm, ['html', 'body'])) { currElm = currElm.ownerDocument; }
   // Fallback to window if the element is Document
-  if (isDOMDocument(currElm)) { currElm = currElm.defaultView; }
+  if (isDocument(currElm)) { currElm = currElm.defaultView; }
 
   // If we have no element, fall back to window
   currElm = currElm || window;
 
   return isWindow(currElm)
-    ? getWindowPosition()
+    ? getWindowPosition(currElm)
     : getElementPosition(currElm as HTMLElement);
 }

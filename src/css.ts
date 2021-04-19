@@ -1,31 +1,46 @@
-import isNumber from 'vanillajs-helpers/isNumber';
+import type { CSSStyleKey, CSSStyleProperties } from './shared/types';
+
 import isString from 'vanillajs-helpers/isString';
-import camelCase from 'vanillajs-helpers/camelCase';
-
-import type { CSSStyleKey } from './shared/types';
+import kebabCase from 'vanillajs-helpers/kebabCase';
 
 
 
-type CSSStylePropertyMap = Record<CSSStyleKey, string | number | null>
+const applyValue = (
+  elm: HTMLElement,
+  property: CSSStyleKey,
+  value: string | number | null,
+  important: boolean
+) => {
+  const val = value != null ? String(value) : '';
 
+  if (important) {
+    const imp = important ? 'important' : undefined;
+    elm.style.setProperty(kebabCase(property), val, imp);
+  } else {
+    elm.style[property] = val;
+  }
 
+  // This part here is for when the value is a number,
+  // but the property can't accept just a numeric value,
+  // so "px" has to be added
+  if (!Number.isNaN(Number(val)) && elm.style[property] !== val) {
+    applyValue(elm, property, value + 'px', important);
+  }
+};
 
 const setValue = (
   elm: HTMLElement,
-  property: string,
+  property: CSSStyleKey,
   value: string | number | null
 ): void => {
-  let important;
+  let important = false;
 
-  if (isNumber(value)) {
-    const units = property !== 'lineHeight' ? 'px' : '';
-    value = value + units;
-  } else if (value && value.includes('!')) {
-    const m = value.match(/^(.+)(?:\s+[!](important))?$/);
-    if (m) { [value, important] = m; }
+  if (isString(value) && value.includes('!important')) {
+    value = value.split(' ')[0];
+    important = true;
   }
 
-  elm.style.setProperty(property, value, important);
+  applyValue(elm, property, value, important);
 };
 
 /**
@@ -34,7 +49,7 @@ const setValue = (
  */
 const handleSingleValue = (
   elm: HTMLElement,
-  property: string,
+  property: CSSStyleKey,
   value?: string | number | null
 ) => {
   if (value !== undefined) {
@@ -43,12 +58,12 @@ const handleSingleValue = (
 
   // Get all computed styles as that gives a more correct value
   const val = window.getComputedStyle(elm)
-    .getPropertyValue(camelCase(property));
+    .getPropertyValue(kebabCase(property));
 
-  if (!val) { return null; }
-  if (val.includes('px')) { return parseInt(val, 10); }
+  if (val.includes('px')) { return parseFloat(val); }
 
-  return !Number.isNaN(val) ? Number(val) : val;
+  const numeric = Number(val);
+  return !Number.isNaN(numeric) ? numeric : val;
 };
 
 /**
@@ -56,10 +71,14 @@ const handleSingleValue = (
  */
 const handleMultipleValues = (
   elm: HTMLElement,
-  propertyMap: CSSStylePropertyMap
+  properties?: CSSStyleProperties
 ): CSSStyleDeclaration => {
-  (Object.keys(propertyMap) as CSSStyleKey[])
-    .forEach((key) => setValue(elm, camelCase(key), propertyMap[key]));
+  if (properties) {
+    (Object.entries(properties) as [CSSStyleKey, typeof properties[CSSStyleKey]][])
+      .forEach(([key, value]) => {
+        value && setValue(elm, key, value);
+      });
+  }
 
   return window.getComputedStyle(elm);
 };
@@ -76,7 +95,7 @@ const handleMultipleValues = (
  * @param style - Styling to set on the element
  * @return All styling on the element
  */
-function css(elm: HTMLElement, style: CSSStylePropertyMap): CSSStyleDeclaration;
+function css(elm: HTMLElement, style?: CSSStyleProperties): CSSStyleDeclaration;
 
 /**
  * Get or set an inline style property on a DOM element.
@@ -91,11 +110,11 @@ function css(elm: HTMLElement, style: CSSStylePropertyMap): CSSStyleDeclaration;
  * @param value - The new value
  * @return The value of the property
  */
-function css(elm: HTMLElement, property: string, value?: string | number): string | number | null;
+function css(elm: HTMLElement, property: CSSStyleKey, value?: string | number): string | number | null;
 
 function css(
   elm: HTMLElement,
-  property: string | CSSStylePropertyMap,
+  property?: CSSStyleKey | CSSStyleProperties,
   value?: string | number | null
 ): CSSStyleDeclaration | string | number | null {
   return isString(property)

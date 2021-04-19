@@ -8,7 +8,7 @@ const testID = generateId('Children');
 
 
 
-describe('"children" >', () => {
+describe('"children"', () => {
   beforeAll(() => insertHtml(`
     <div id="${testID}">
       <span><b></b></span>

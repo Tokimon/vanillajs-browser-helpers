@@ -3,7 +3,7 @@ import isString from 'vanillajs-helpers/isString';
 
 
 /**
- * Find elements by given CSS selector
+ * Find an element by given CSS selector
  *
  * @param queries - CSS selector to find elements by
  * @param first - Return only the first found element
@@ -11,11 +11,38 @@ import isString from 'vanillajs-helpers/isString';
  */
  function findByQuery(
   queries: string | string[],
-  first?: boolean
-): Element | Element[] | null
+  first: true
+): Element | null
+
 
 /**
- * Find elements by given CSS selector from a given element
+ * Find an element by a given CSS selector from within a given element
+ *
+ * @param elm - The DOM element to start the search from
+ * @param queries - CSS selector to find elements by
+ * @param first - Return only the first found element
+ * @return List of found DOM elements
+ */
+ function findByQuery(
+  elm: Document | Element,
+  queries: string | string[],
+  first: true
+): Element | null
+
+/**
+ * Find all elements matching a given CSS selector
+ *
+ * @param queries - CSS selector to find elements by
+ * @param first - Return only the first found element
+ * @return List of found DOM elements
+ */
+ function findByQuery(
+  queries: string | string[],
+  first?: false
+): Element[]
+
+/**
+ * Find all elements matching a given CSS selector from within a given element
  *
  * @param elm - The DOM element to start the search from
  * @param queries - CSS selector to find elements by
@@ -25,8 +52,8 @@ import isString from 'vanillajs-helpers/isString';
 function findByQuery(
   elm: Document | Element,
   queries: string | string[],
-  first?: boolean
-): Element | Element[] | null
+  first?: false
+): Element[]
 
 
 

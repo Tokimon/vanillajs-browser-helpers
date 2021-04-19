@@ -23,11 +23,12 @@ const voidTags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'k
 export default function selectorToHTML(selector: string): string {
   const { tagName, attributes } = parseSelector(selector);
 
-  const atts = Object.keys(attributes)
-    .map((att) => attributes[att] ? `${att}="${attributes[att]}"` : att)
-    .join(' ');
+  const atts = Object.entries(attributes)
+    .map(([att, value]) => ` ${att}${value ? `="${value}"` : ''}`)
+    .join('');
+
 
   const end = voidTags.includes(tagName) ? ' /' : `></${tagName}`;
 
-  return `<${tagName} ${atts}${end}>`;
+  return `<${tagName}${atts}${end}>`;
 }

@@ -1,9 +1,9 @@
 import pascalCase from 'vanillajs-helpers/pascalCase';
-import dashed from 'vanillajs-helpers/dashed';
+import kebabCase from 'vanillajs-helpers/kebabCase';
 
 
 
-interface VendorPrefixing {
+export interface VendorPrefixing {
   prefix: 'webkit' | 'moz' | 'ms' | 'o'
   js: string;
   css: string;
@@ -19,12 +19,12 @@ interface VendorPrefixing {
  */
 export default function vendorPrefixed(str: string): VendorPrefixing[] {
   const pascalStr = pascalCase(`${str}`);
-  const dashedStr = dashed(str);
+  const kebabCaseStr = kebabCase(str);
 
   return [
-    { prefix: 'webkit', js: `webkit${pascalStr}`, css: `-webkit-${dashedStr}` },
-    { prefix: 'moz', js: `moz${pascalStr}`, css: `-moz-${dashedStr}` },
-    { prefix: 'ms', js: `ms${pascalStr}`, css: `-ms-${dashedStr}` },
-    { prefix: 'o', js: `o${pascalStr}`, css: `-o-${dashedStr}` }
+    { prefix: 'webkit', js: `webkit${pascalStr}`, css: `-webkit-${kebabCaseStr}` },
+    { prefix: 'moz', js: `moz${pascalStr}`, css: `-moz-${kebabCaseStr}` },
+    { prefix: 'ms', js: `ms${pascalStr}`, css: `-ms-${kebabCaseStr}` },
+    { prefix: 'o', js: `o${pascalStr}`, css: `-o-${kebabCaseStr}` }
   ];
 }

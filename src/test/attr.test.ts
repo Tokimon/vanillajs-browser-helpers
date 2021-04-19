@@ -8,13 +8,13 @@ const testID = generateId('Attr');
 
 
 
-describe('"attr" >', () => {
-  let testNode;
+describe('"attr"', () => {
+  let testNode: HTMLElement;
 
   const attrs = {
-    normal: ['title', 'title attribute'],
-    custom: ['custom', 'custom attribute'],
-    data: ['data-attr', 'data attribute']
+    normal: ['title', 'title attribute'] as const,
+    custom: ['custom', 'custom attribute'] as const,
+    data: ['data-attr', 'data attribute'] as const
   };
 
   beforeAll(() => {
@@ -35,7 +35,7 @@ describe('"attr" >', () => {
     ['custom', ...attrs.custom],
     ['data', ...attrs.data]
   ])('Retrieves the value of a "%s" attribute on a DOM element', (_, key, value) => {
-    expect(attr(testNode, key)).toEqual(value);
+    expect(attr(testNode, key)).toBe(value);
   });
 
   describe.each([
@@ -62,13 +62,14 @@ describe('"attr" >', () => {
     });
 
     it('Removes the attribute from a DOM element when value is false', () => {
-      testNode.setAttribute('toremove', 'To Remove');
+      const initialValue = 'To Remove';
+      testNode.setAttribute('toremove', initialValue);
 
-      expect(testNode.getAttribute('toremove')).toBe('To Remove');
+      expect(testNode.getAttribute('toremove')).toBe(initialValue);
 
       const oldValue = attr(testNode, 'toremove', false);
 
-      expect(oldValue).toEqual('custom attribute');
+      expect(oldValue).toBe(initialValue);
       expect(testNode.getAttribute('toremove')).toBeNull();
     });
   });

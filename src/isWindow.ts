@@ -1,4 +1,4 @@
-import objectType from 'vanillajs-helpers/objectType';
+import type { GeneralWindow } from './shared/types';
 
 
 
@@ -8,6 +8,6 @@ import objectType from 'vanillajs-helpers/objectType';
  * @param obj - The object to check
  * @return Is it a Window object or not
  */
-export default function isWindow(obj: unknown): obj is Window {
-  return !!obj && (!!obj.self || objectType(obj) === 'window');
+export default function isWindow(obj: unknown): obj is GeneralWindow {
+  return !!obj && typeof (obj as GeneralWindow).self !== 'undefined';
 }

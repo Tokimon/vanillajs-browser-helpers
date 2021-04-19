@@ -1,12 +1,6 @@
-import isDOMDocument from './isDOMDocument';
-import isWindow from './isWindow';
+import type { GeneralWindow } from './shared/types';
 
-
-
-const scrollingElementFallback = (doc: Document) =>
-  doc.compatMode === 'BackCompat'
-    ? doc.body
-    : doc.documentElement;
+import getCurrentDocument from './getCurrentDocument';
 
 
 
@@ -29,16 +23,7 @@ const scrollingElementFallback = (doc: Document) =>
  * viewport(someElementInSomeDocument);
  * ```
  */
-export default function viewport(elm?: Element | Document | Window): HTMLElement {
-  if (isWindow(elm)) {
-    elm = elm.document;
-  }
-
-  if (!isDOMDocument(elm)) {
-    elm = elm
-      ? elm.ownerDocument
-      : document;
-  }
-
-  return elm.scrollingElement as HTMLElement || scrollingElementFallback(elm);
+export default function viewport(elm?: Element | Document | GeneralWindow): Element | HTMLElement | null {
+  const doc = getCurrentDocument(elm || document);
+  return doc && (doc.scrollingElement || doc.documentElement);
 }

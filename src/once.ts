@@ -9,8 +9,8 @@ import off from './off';
 
 type WhenFunction = (e: Event) => boolean;
 
-interface OnceEventListenerOptions extends AddEventListenerOptions {
-  /** A function to determine if the event should trigger */
+export interface OnceEventListenerOptions extends AddEventListenerOptions {
+  /** A function that returns a boolean to determine when the event should trigger */
   when?: WhenFunction
 }
 

@@ -1,6 +1,8 @@
 import isString from 'vanillajs-helpers/isString';
 
 import ensureHTML from './ensureHTML';
+import inDOM from './inDOM';
+import isDOMRoot from './isDOMRoot';
 
 
 
@@ -12,6 +14,8 @@ import ensureHTML from './ensureHTML';
  * @return The inserted element
  */
 export default function insertAfter(elm: Element, insertElm: string | Element): Element | null {
+  if (!inDOM(elm) || isDOMRoot(elm)) { return null; }
+
   if (isString(insertElm)) {
     elm.insertAdjacentHTML('afterend', ensureHTML(insertElm));
   } else {
