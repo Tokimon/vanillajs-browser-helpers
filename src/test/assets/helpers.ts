@@ -4,14 +4,14 @@ import { GeneralWindow } from '../../shared/types';
 
 export const generateId = (baseId: string): string => baseId + '__' + Date.now().toString(36);
 
-export const byId = (id: string, doc = document): HTMLElement => doc.getElementById(id) as HTMLElement;
+export const byId = (id: string, doc: Document = document): HTMLElement => doc.getElementById(id) as HTMLElement;
 
 export const getOne = (
   query: string,
   elm: Element | Document = document
 ): Element => elm.querySelector(query) as Element;
 
-export const removeElement = (child: string | Element | HTMLElement | null): void => {
+export const removeElement = (child: string | Element | HTMLElement | null, doc: Document = document): void => {
   if (typeof child === 'string') {
     child = byId(child, doc);
   }
