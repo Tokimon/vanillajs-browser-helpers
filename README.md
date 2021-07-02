@@ -3,11 +3,6 @@
 [![Build Status](https://github.com/Tokimon/vanillajs-browser-helpers/actions/workflows/validation.yml/badge.svg)](https://github.com/Tokimon/vanillajs-browser-helpers/actions/workflows/validation.yml)
 [![Coverage Status](https://coveralls.io/repos/github/Tokimon/vanillajs-browser-helpers/badge.svg?branch=master)](https://coveralls.io/github/Tokimon/vanillajs-browser-helpers?branch=master)
 [![install size](https://packagephobia.now.sh/badge?p=vanillajs-browser-helpers)](https://packagephobia.now.sh/result?p=vanillajs-browser-helpers)
-<br>
-[![bitHound Overall Score](https://www.bithound.io/github/Tokimon/vanillajs-browser-helpers/badges/score.svg)](https://www.bithound.io/github/Tokimon/vanillajs-browser-helpers)
-[![bitHound Code](https://www.bithound.io/github/Tokimon/vanillajs-browser-helpers/badges/code.svg)](https://www.bithound.io/github/Tokimon/vanillajs-browser-helpers)
-[![bitHound Dependencies](https://www.bithound.io/github/Tokimon/vanillajs-browser-helpers/badges/dependencies.svg)](https://www.bithound.io/github/Tokimon/vanillajs-browser-helpers/master/dependencies/npm)
-[![bitHound Dev Dependencies](https://www.bithound.io/github/Tokimon/vanillajs-browser-helpers/badges/devDependencies.svg)](https://www.bithound.io/github/Tokimon/vanillajs-browser-helpers/master/dependencies/npm)
 
 This is a collection of simple, no dependency, vanilla JS snippets with the aim
 of making it easier to work with vanilla JS.
