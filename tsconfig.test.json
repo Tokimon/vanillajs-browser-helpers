@@ -1,9 +1,10 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "CommonJS",
     "target": "ESNext",
     "outDir": "./_tests",
-    "declaration": false
+    "declaration": false,
+    "esModuleInterop": true,
+    "sourceMap": true
   }
 }
