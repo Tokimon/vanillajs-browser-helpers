@@ -1,7 +1,8 @@
 # Vanilla JS Browser helpers
 
-[![Build Status](https://travis-ci.org/Tokimon/vanillajs-browser-helpers.svg?branch=master)](https://travis-ci.org/Tokimon/vanillajs-browser-helpers)
+[![Build Status](https://github.com/Tokimon/vanillajs-browser-helpers/actions/workflows/validation.yml/badge.svg)](https://github.com/Tokimon/vanillajs-browser-helpers/actions/workflows/validation.yml)
 [![Coverage Status](https://coveralls.io/repos/github/Tokimon/vanillajs-browser-helpers/badge.svg?branch=master)](https://coveralls.io/github/Tokimon/vanillajs-browser-helpers?branch=master)
+[![install size](https://packagephobia.now.sh/badge?p=vanillajs-browser-helpers)](https://packagephobia.now.sh/result?p=vanillajs-browser-helpers)
 <br>
 [![bitHound Overall Score](https://www.bithound.io/github/Tokimon/vanillajs-browser-helpers/badges/score.svg)](https://www.bithound.io/github/Tokimon/vanillajs-browser-helpers)
 [![bitHound Code](https://www.bithound.io/github/Tokimon/vanillajs-browser-helpers/badges/code.svg)](https://www.bithound.io/github/Tokimon/vanillajs-browser-helpers)
