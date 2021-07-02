@@ -1,6 +1,6 @@
 {
   "name": "vanillajs-browser-helpers",
-  "version": "1.1.8",
+  "version": "2.0.0",
   "description": "Collection of convenience code snippets (helpers) that aims to make it a little easier to work with vanilla JS in the browser",
   "author": "Toke Voltelen",
   "license": "MIT",
