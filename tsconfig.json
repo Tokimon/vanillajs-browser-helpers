@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "outDir": ".",
+    "module": "CommonJS",
+    "target": "es5",
+    "lib": ["dom", "es5", "es6", "es2015", "es2016", "es2017", "es2018", "es2019", "es2020"],
+    "moduleResolution": "node",
+    "declaration": true,
+    "noImplicitAny": true,
+    "removeComments": false,
+    "sourceMap": false,
+    "allowJs": false,
+    "checkJs": false,
+    "strictNullChecks": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "downlevelIteration": true
+  },
+
+  "include": [
+    "./src/*.ts"
+  ],
+
+  "exclude": [
+    "node_modules"
+  ]
+}

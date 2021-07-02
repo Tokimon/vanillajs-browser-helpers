@@ -61,7 +61,7 @@ Method | Description
 [invisible](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/invisible) | Detect if a DOM element is invisible or not
 [isDOMChildNode](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/isDOMChildNode) | Detect if a DOM element is a child node of another DOM element
 [isDOMContainer](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/isDOMContainer) | Detect if a DOM node is a can contain child nodes
-[isDOMDocument](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/isDOMDocument) | Detect if a DOM node is the document node
+[isDocument](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/isDocument) | Detect if a DOM node is the document node
 [isDOMElement](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/isDOMElement) | Detect if a DOM node is a DOM element
 [isDOMFragment](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/isDOMFragment) | Detect if an object is a document fragment
 [isDOMNode](https://github.com/Tokimon/vanillajs-browser-helpers/wiki/isDOMNode) | Detect if a DOM node is actually a DOM node

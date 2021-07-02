@@ -1,27 +1,56 @@
 {
-  "env": {
-    "browser": true,
-    "es6": true,
-    "mocha": true,
-    "node": true
-  },
-  "extends": ["eslint:recommended", "standard"],
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "ecmaVersion": 2019,
     "sourceType": "module",
-    "allowImportExportEverywhere": false,
+    "allowImportExportEverywhere": true,
     "codeFrame": false
   },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true,
+    "jest/globals": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "standard",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "jest"
+  ],
   "rules": {
     "semi": [2, "always"],
-    "semi-spacing": [2, { "before": false, "after": true }],
-    "space-before-function-paren": [2, {
+    "semi-spacing": [
+      2,
+      {
+        "before": false,
+        "after": true
+      }
+    ],
+    "space-before-function-paren": [
+      2,
+      {
         "anonymous": "never",
         "named": "never",
         "asyncArrow": "always"
-    }],
+      }
+    ],
+    "generator-star-spacing": [2, "before"],
     "no-console": 1,
-    "no-multiple-empty-lines": [2, { "max": 3, "maxBOF": 0, "maxEOF": 1 }],
+    "no-multiple-empty-lines": [
+      2,
+      {
+        "max": 3,
+        "maxBOF": 0,
+        "maxEOF": 1
+      }
+    ],
     "curly": [2, "all"],
+    "import/first": 0,
+    "quotes": [2, "single", { "avoidEscape": true }],
+    "operator-linebreak": [2, "before"]
   }
 }

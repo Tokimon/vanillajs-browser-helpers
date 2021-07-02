@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "outDir": "./_tests",
+    "declaration": false,
+    "esModuleInterop": true,
+    "sourceMap": true
+  }
+}
