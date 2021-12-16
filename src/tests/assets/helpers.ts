@@ -45,13 +45,14 @@ export const triggerEvent = (
 
 export const bind = (
   elm: EventTarget,
-  evt: string, handler: EventHandlerNonNull
+  evt: string,
+  handler: EventListener
 ): void =>
   elm.addEventListener(evt, handler);
 
 export const unbind = (
   elm: EventTarget,
   evt: string,
-  handler: EventHandlerNonNull
+  handler: EventListener
 ): void =>
   elm.removeEventListener(evt, handler);
