@@ -45,3 +45,4 @@ specs
 es5
 jsdoc
 .saucelabs.json
+src/index.ts
