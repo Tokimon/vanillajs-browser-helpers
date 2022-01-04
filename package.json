@@ -54,6 +54,6 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "vanillajs-helpers": "^3.1.2"
+    "vanillajs-helpers": "^3.1.3"
   }
 }
