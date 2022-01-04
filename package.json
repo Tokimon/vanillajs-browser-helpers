@@ -1,6 +1,6 @@
 {
   "name": "vanillajs-browser-helpers",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Collection of convenience code snippets (helpers) that aims to make it a little easier to work with vanilla JS in the browser",
   "author": "Toke Voltelen",
   "license": "MIT",
@@ -38,22 +38,22 @@
   },
   "homepage": "https://github.com/Tokimon/vanillajs-browser-helpers#readme",
   "devDependencies": {
-    "@types/jest": "^27.0.3",
-    "@typescript-eslint/eslint-plugin": "^5.7.0",
-    "@typescript-eslint/parser": "^5.7.0",
+    "@types/jest": "^27.4.0",
+    "@typescript-eslint/eslint-plugin": "^5.9.0",
+    "@typescript-eslint/parser": "^5.9.0",
     "coveralls": "^3.1.1",
-    "eslint": "^8.4.1",
+    "eslint": "^8.6.0",
     "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-jest": "^25.3.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jest": "^25.3.4",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.2.0",
+    "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-standard": "^5.0.0",
     "jest": "^27.4.5",
-    "ts-jest": "^27.1.1",
+    "ts-jest": "^27.1.2",
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "vanillajs-helpers": "^3.1.2"
+    "vanillajs-helpers": "^3.1.3"
   }
 }
