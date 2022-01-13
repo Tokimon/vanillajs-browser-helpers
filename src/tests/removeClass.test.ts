@@ -4,7 +4,7 @@ import removeClass from '../removeClass';
 
 
 
-const testID = generateId('AddClass');
+const testID = generateId('RemoveClass');
 
 
 
