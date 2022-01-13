@@ -1,3 +1,5 @@
+#!/bin/bash
+
 missing=0
 
 for file in ./src/*.ts; do

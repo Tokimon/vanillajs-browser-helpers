@@ -1,15 +1,13 @@
-import type { VoidFunction } from './shared/types';
-
 import isEventTarget from './isEventTarget';
-import on from './on';
-import off from './off';
 import matches from './matches';
+import off from './off';
+import on from './on';
 
 
 
-interface DelegateEvent extends Event {
-  delegateTarget: HTMLElement;
-}
+export type DelegateEvent = Event & { delegateTarget: HTMLElement };
+export type DelegateEventHandler = (e: DelegateEvent) => boolean | undefined;
+export type DelegateRemoveFunction = () => ReturnType<typeof off>;
 
 
 
@@ -30,12 +28,8 @@ interface DelegateEvent extends Event {
  */
 export function delegateHandler(
   selector: string,
-  handler: EventListenerOrEventListenerObject
+  handler: DelegateEventHandler
 ): EventListener {
-  const cb = 'handleEvent' in handler
-    ? handler.handleEvent
-    : handler;
-
   return (e: Event) => {
     let target = e.target as HTMLElement;
 
@@ -48,7 +42,7 @@ export function delegateHandler(
     const evt = e as DelegateEvent;
     evt.delegateTarget = target;
 
-    return cb.call(target, evt);
+    return handler.call(target, evt);
   };
 }
 
@@ -74,9 +68,9 @@ export function delegateHandler(
 function delegate(
   eventNames: string | string[],
   selector: string,
-  handler: EventListenerOrEventListenerObject,
+  handler: DelegateEventHandler,
   options?: EventListenerOptions
-): VoidFunction;
+): DelegateRemoveFunction;
 
 /**
  * Bind a delegated event handler for one or more event names to a DOM element.
@@ -101,22 +95,22 @@ function delegate(
   target: EventTarget,
   eventNames: string | string[],
   selector: string,
-  handler: EventListenerOrEventListenerObject,
+  handler: DelegateEventHandler,
   options?: EventListenerOptions
-): VoidFunction;
+): DelegateRemoveFunction;
 
 
 
 function delegate(
   target: EventTarget | string | string[],
   eventNames: string | string[],
-  selector: string | EventListenerOrEventListenerObject,
-  handler?: EventListenerOrEventListenerObject | EventListenerOptions,
+  selector: string | DelegateEventHandler,
+  handler?: DelegateEventHandler | EventListenerOptions,
   options?: EventListenerOptions
-): VoidFunction {
+): DelegateRemoveFunction {
   if (!isEventTarget(target)) {
     options = handler as EventListenerOptions | undefined;
-    handler = selector as EventListenerOrEventListenerObject;
+    handler = selector as DelegateEventHandler;
     selector = eventNames as string;
     eventNames = target;
     target = document;
@@ -124,7 +118,7 @@ function delegate(
 
   const delHandler = delegateHandler(
     selector as string,
-    handler as EventListenerOrEventListenerObject
+    handler as DelegateEventHandler
   );
 
   on(target, eventNames, delHandler, options);

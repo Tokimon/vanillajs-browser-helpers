@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 print_done() {
   echo -e '\e[1;32mdone\e[0m'
