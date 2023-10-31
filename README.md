@@ -1,8 +1,11 @@
-# Vanilla JS Browser helpers
+<img src="./warning.png" width="40" />
+<img src="./warning.png" width="40" />
+<img src="./warning.png" width="40" />
+<h1>
+  This package has been moved to <a href="https://www.npmjs.com/package/@jsfns/web">@jsfns/web</a> and is no longer maintained in this repository.
+</h1>
 
-[![Build Status](https://github.com/Tokimon/vanillajs-browser-helpers/actions/workflows/validation.yml/badge.svg)](https://github.com/Tokimon/vanillajs-browser-helpers/actions/workflows/validation.yml)
-[![Coverage Status](https://coveralls.io/repos/github/Tokimon/vanillajs-browser-helpers/badge.svg?branch=master)](https://coveralls.io/github/Tokimon/vanillajs-browser-helpers?branch=master)
-[![install size](https://packagephobia.now.sh/badge?p=vanillajs-browser-helpers)](https://packagephobia.now.sh/result?p=vanillajs-browser-helpers)
+# Vanilla JS Browser helpers
 
 This is a collection of simple, no dependency, vanilla JS snippets with the aim
 of making it easier to work with vanilla JS.

@@ -2,6 +2,7 @@
   "name": "vanillajs-browser-helpers",
   "version": "2.0.2",
   "description": "Collection of convenience code snippets (helpers) that aims to make it a little easier to work with vanilla JS in the browser",
+  "deprecated": "This package is no longer maintained. Please use @jsfns/web instead.",
   "author": "Toke Voltelen",
   "license": "MIT",
   "browser": "./index.js",
